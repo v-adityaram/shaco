@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "slug": "s2-poison-message",
+    "title": "Order flow degraded — order-orchestrator",
+    "incidentNumber": "INC0098462",
+    "duplicateIncidents": ["INC0098463", "INC0098464"],
+    "faultOneLine": "Poison message on order.enriched blocking the consumer"
+  },
+  "diagnosis": {
+    "incident_summary": "Order flow has been degraded since 11:16 UTC when a malformed line in partner batch PB-4471 poisoned the order.enriched offset, crash-looping order-orchestrator on a fixed 3-minute interval with the consumer never advancing past offset 4,481,209.",
+    "timeline": [
+      { "event_id": "e-1093", "ts": "2026-09-18T11:14:00+00:00", "source": "ELK", "component": "order-intake", "description": "Partner B2B batch PB-4471 accepted: 380 lines, 1 malformed (negative line quantity, SKU MRD-88213 qty=-4)", "is_first_symptom": true },
+      { "event_id": "e-1130", "ts": "2026-09-18T11:16:00+00:00", "source": "ELK", "component": "order-orchestrator", "description": "Deserialisation exception consuming order.enriched offset 4481209: negative quantity not allowed for field 'lineQty' (value=-4)" },
+      { "event_id": "e-1136", "ts": "2026-09-18T11:16:05+00:00", "source": "ELK", "component": "order-orchestrator", "description": "pod ord-orch-svc-b91c restart 1: consumer re-attempted offset 4481209 after deserialisation failure" },
+      { "event_id": "e-1205", "ts": "2026-09-18T11:20:00+00:00", "source": "Kafka", "component": "order-enriched", "description": "consumer offset on order.enriched frozen at 4,481,209 — has not advanced since the poisoned message was first attempted" },
+      { "event_id": "e-1191", "ts": "2026-09-18T11:19:05+00:00", "source": "ELK", "component": "order-orchestrator", "description": "pod ord-orch-svc-b91c restart 2: consumer re-attempted offset 4481209 after deserialisation failure" },
+      { "event_id": "e-1245", "ts": "2026-09-18T11:22:05+00:00", "source": "ELK", "component": "order-orchestrator", "description": "pod ord-orch-svc-b91c restart 3: consumer re-attempted offset 4481209 after deserialisation failure" },
+      { "event_id": "e-1303", "ts": "2026-09-18T11:25:05+00:00", "source": "ELK", "component": "order-orchestrator", "description": "pod ord-orch-svc-b91c restart 4: consumer re-attempted offset 4481209 after deserialisation failure" },
+      { "event_id": "e-1390", "ts": "2026-09-18T11:30:00+00:00", "source": "Apigee", "component": "apigee-edge", "description": "502 on /v2/orders, count=199, p99=4187ms" },
+      { "event_id": "e-1448", "ts": "2026-09-18T11:33:00+00:00", "source": "ServiceNow", "component": "Order Platform", "description": "INC0098462: Order flow degraded — order-orchestrator" }
+    ],
+    "hypotheses": [
+      {
+        "rank": 1,
+        "cause": "Poison message on order.enriched: order-orchestrator's consumer is stuck retrying a single malformed offset",
+        "confidence": "High",
+        "supports": [
+          { "event_id": "e-1130", "why": "Deserialisation exception names the exact offset (4481209) and the exact malformed field (negative lineQty=-4) — a deterministic, reproducible failure, not a resource condition." },
+          { "event_id": "e-1136", "why": "Every restart re-attempts the same offset 4481209 — the consumer is not making progress, it is retrying." },
+          { "event_id": "e-1191", "why": "Restarts land at 11:19:05, exactly 3 minutes after the previous one — a metronomic interval is a restart-policy artefact, not organic load-driven crashing." },
+          { "event_id": "e-1245", "why": "Third restart, same offset, same 3-minute spacing — confirms the pattern is not decaying or changing shape." },
+          { "event_id": "e-1205", "why": "The committed offset on order.enriched has not moved since 11:16 despite four restarts — direct, checkable proof the consumer is blocked on one record." }
+        ],
+        "contradicts": [
+          { "event_id": "e-0006", "why": "The order.enriched.DLQ topic sits at depth zero throughout, which on its face could be read as 'nothing was ever rejected, so maybe this isn't a poisoned record' — though the more complete read is that no DLQ policy is configured on this topic at all, so a zero DLQ depth is not informative either way." }
+        ],
+        "what_would_change_this": "If the consumer offset were advancing (even slowly) between restarts, or if restarts had irregular timing, that would point away from a single stuck record and back toward a resource or load-driven cause."
+      },
+      {
+        "rank": 2,
+        "cause": "Memory pressure on order-orchestrator causing OOM restarts",
+        "confidence": "Low",
+        "supports": [
+          { "event_id": "e-1136", "why": "Repeated pod restarts are superficially consistent with an OOM crash loop, which is the pattern seen in a comparable incident (S1) on a different service." }
+        ],
+        "contradicts": [
+          { "event_id": "e-1204", "why": "Heap (46.6%) and CPU (27.5%) on order-orchestrator are both within normal baseline range at the same timestamp as an active restart — resource exhaustion is not present." }
+        ],
+        "what_would_change_this": "A climbing heap or CPU trend in the minutes leading up to each restart would support this instead of a deterministic offset failure."
+      }
+    ],
+    "ruled_out": [
+      { "candidate": "Settlement batch job retry noise (settle-batch-job-f2e8, 10:49)", "reason": "Different service (nightly-settlement-batch), no shared correlation ID, resolved on its own well before the real incident window." },
+      { "candidate": "Settlement batch queue depth warning (settle-batch-job-bdc9, 11:24)", "reason": "Same unrelated nightly-settlement-batch job, coincidentally timed inside the incident window but with no correlation to order-orchestrator." }
+    ],
+    "checks": [
+      {
+        "order": 1,
+        "action": "Query the committed consumer offset for order-enriched-cg on order.enriched",
+        "command": "kafka-consumer-groups --bootstrap-server kafka:9092 --describe --group order-enriched-cg --topic order.enriched",
+        "if_result_a": "Offset static at 4481209 across repeated queries — supports hypothesis 1 (poison message)",
+        "if_result_b": "Offset advancing, even slowly — supports hypothesis 2 (resource pressure) instead",
+        "effort": "low"
+      },
+      {
+        "order": 2,
+        "action": "Pull heap and CPU metrics for order-orchestrator across the last 4 restarts",
+        "command": "Grafana: container.memory.usage.pct + cpu.usage{service=\"order-orchestrator\"} from 11:14 to 11:26",
+        "if_result_a": "Heap/CPU flat at baseline through every restart — rules out hypothesis 2",
+        "if_result_b": "Heap or CPU climbing before each restart — supports hypothesis 2",
+        "effort": "low"
+      },
+      {
+        "order": 3,
+        "action": "Fetch and manually deserialise the record at offset 4481209",
+        "command": "kafka-console-consumer --bootstrap-server kafka:9092 --topic order.enriched --partition 0 --offset 4481209 --max-messages 1",
+        "if_result_a": "Record contains the malformed negative-quantity line from PB-4471 — confirms the exact payload and enables a targeted skip/patch",
+        "if_result_b": "Record deserialises cleanly — reopens the investigation entirely",
+        "effort": "medium"
+      }
+    ],
+    "blast_radius": {
+      "channels": ["Web checkout", "Mobile app", "Store POS", "Partner B2B feed"],
+      "orders_stuck": 1016,
+      "downstream_degraded": ["apigee-edge /v2/orders", "fulfilment-dispatch (starved of enriched orders)", "inventory-reservation (no new reservation requests arriving)"],
+      "partner_feed_impacted": true
+    },
+    "recovery": {
+      "proposal": "Manually skip the poisoned record at order.enriched offset 4,481,209 (commit the consumer past it without processing), route a copy of the raw record to a newly-configured DLQ for later reprocessing, then resume the order-enriched-cg consumer group.",
+      "risk": "The order carried by the skipped record (from partner batch PB-4471) will not be enriched automatically and needs manual reconciliation; if other malformed lines exist later in the same batch, the consumer could poison again on the next one.",
+      "rollback": "If the skip causes unexpected downstream errors, pause the consumer group again and restore from the last known-good offset checkpoint (4,481,209) before the skip was committed.",
+      "requires_approval": true
+    },
+    "post_incident_note": "INC0098462 — root cause: malformed line in partner B2B batch PB-4471 (negative lineQty on SKU MRD-88213) caused a deserialisation exception that crash-looped order-orchestrator on a fixed 3-minute restart interval, with the order.enriched consumer offset frozen at 4,481,209 from 11:16 onward. Mitigated via manual offset skip + new DLQ routing once approved. Follow-up: add schema validation at the partner feed ingestion boundary so malformed lines are rejected before reaching order.enriched, and configure a DLQ policy on this topic so future poison messages don't require a manual skip."
+  },
+  "lateEvidence": {
+    "diff": {
+      "changed_summary": "A partner feed schema audit confirms the malformed line was a return-credit line mis-mapped by the partner's own export process, not a Meridian-side defect — this doesn't change which system is at fault for the outage, but it changes the follow-up: the fix belongs in partner onboarding validation, not Meridian's deserialiser.",
+      "rank_before": [
+        { "cause": "Poison message on order.enriched: order-orchestrator's consumer is stuck retrying a single malformed offset", "rank": 1 },
+        { "cause": "Memory pressure on order-orchestrator causing OOM restarts", "rank": 2 }
+      ],
+      "rank_after": [
+        { "cause": "Poison message on order.enriched: order-orchestrator's consumer is stuck retrying a single malformed offset", "rank": 1 },
+        { "cause": "Memory pressure on order-orchestrator causing OOM restarts", "rank": 2 }
+      ],
+      "what_changed": [
+        "The partner's export audit traces lineQty=-4 to a return-credit line their system mis-mapped as a regular order line — the malformed data originates upstream of Meridian entirely, confirming this was never a Meridian-side defect.",
+        "This reclassifies the recovery follow-up from 'fix our deserialiser' to 'add partner-side export validation plus a defensive schema check at ingestion' — the immediate diagnosis and recovery proposal are unchanged."
+      ]
+    },
+    "diagnosisAfterOverrides": {
+      "incident_summary": "Order flow was degraded from 11:16 UTC by a poisoned order.enriched offset; a partner feed audit has since confirmed the malformed line originated from a mis-mapped return-credit record on the partner's side, not a Meridian defect.",
+      "hypothesisPatches": {
+        "1": {
+          "what_would_change_this": "Nothing outstanding on root cause. Open item: confirm with the partner whether other return-credit lines in historical batches were similarly mis-mapped, to size the reconciliation backlog."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "meta": {
+    "slug": "s5-oracle-saturation",
+    "title": "Order flow degraded — Oracle OMS connection pool exhausted",
+    "incidentNumber": "INC0098520",
+    "duplicateIncidents": ["INC0098521", "INC0098522", "INC0098523", "INC0098524", "INC0098525"],
+    "faultOneLine": "Oracle OMS connection pool exhaustion from a slowed month-end job"
+  },
+  "diagnosis": {
+    "incident_summary": "Every service that touches Oracle OMS degraded simultaneously from 22:08 UTC when the routine month-end job fin-monthend-extract exhausted the connection pool, running far longer than its 14-month baseline; 35 ELK rules fired across six services.",
+    "timeline": [
+      { "event_id": "e-0001", "ts": "2026-09-14T22:00:00+00:00", "source": "DevOps", "component": "oracle-oms", "description": "CHG0044108 (standard): rebuilt index IDX_ORD_STATUS on the ORDERS table to address an unrelated slow dashboard query — routine, four days before the incident", "is_first_symptom": true },
+      { "event_id": "e-2161", "ts": "2026-09-18T22:00:00+00:00", "source": "ELK", "component": "oracle-oms", "description": "fin-monthend-extract run #171 started (routine, monthly schedule, 14-month history with no incident)" },
+      { "event_id": "e-2451", "ts": "2026-09-18T22:08:00+00:00", "source": "ELK", "component": "oracle-oms", "description": "Oracle OMS connection pool at 100% (180/180), wait queue growing" },
+      { "event_id": "e-2487", "ts": "2026-09-18T22:09:00+00:00", "source": "ELK", "component": "order-intake", "description": "slow query against Oracle OMS: 3221ms (baseline <150ms)" },
+      { "event_id": "e-2591", "ts": "2026-09-18T22:11:00+00:00", "source": "Kafka", "component": "order-intake", "description": "lag on order.created climbing (2,469) as order-intake backs up waiting on Oracle OMS" },
+      { "event_id": "e-2631", "ts": "2026-09-18T22:12:00+00:00", "source": "Apigee", "component": "apigee-edge", "description": "503 on /v2/orders, count=136, p99=6433ms" },
+      { "event_id": "e-2714", "ts": "2026-09-18T22:14:00+00:00", "source": "ServiceNow", "component": "Inventory & Fulfilment", "description": "INC0098520: Order flow degraded — raised by oracle-pool-saturation" }
+    ],
+    "hypotheses": [
+      {
+        "rank": 1,
+        "cause": "fin-monthend-extract's queries slowed after the IDX_ORD_STATUS index rebuild on 2026-09-14, so tonight's run held its 180 connections open far longer than usual, exhausting the Oracle OMS pool and degrading every service that depends on it",
+        "confidence": "High",
+        "supports": [
+          { "event_id": "e-0001", "why": "An index rebuild on the ORDERS table four days prior is exactly the kind of change that alters a query plan without anyone connecting it to a job that runs once a month — nobody would think to check a four-day-old 'routine' change against tonight's job." },
+          { "event_id": "e-2161", "why": "The job itself is unchanged and routine — 14-month history with no incident — which means something in its environment, not the job's code, is the variable." },
+          { "event_id": "e-2451", "why": "The pool hits 100% (180/180) eight minutes after the job starts — consistent with the job holding connections open longer than before rather than opening more of them." },
+          { "event_id": "e-2487", "why": "order-intake's query latency against Oracle OMS jumps over 20x baseline at the same time the pool saturates — a shared-resource symptom, not a bug in order-intake itself." }
+        ],
+        "contradicts": [
+          { "event_id": "e-2161", "why": "The job's own log line reports itself as routine with a 14-month clean history — read in isolation, that is the strongest possible argument that 'the job' is not the variable that changed, which is exactly why the real cause has to be sought in the environment around it rather than the job itself." }
+        ],
+        "what_would_change_this": "If tonight's run's query plan and duration matched the historical baseline (per the index rebuild being unrelated), that would rule this out and point back at the job or a genuine unrelated OMS-side issue."
+      },
+      {
+        "rank": 2,
+        "cause": "fin-monthend-extract is simply too heavy for the current OMS capacity and this was going to happen eventually regardless of any index change",
+        "confidence": "Low",
+        "supports": [
+          { "event_id": "e-2451", "why": "180 connections is a large pool footprint for a single job, which is superficially consistent with 'the job is just heavy'." }
+        ],
+        "contradicts": [
+          { "event_id": "e-2161", "why": "14 months of identical, incident-free runs on the same schedule and the same connection ceiling directly contradicts 'too heavy' as a standing property of the job — something changed recently, the job itself did not." }
+        ],
+        "what_would_change_this": "If historical runs showed a gradual upward trend in duration or peak connections over recent months (rather than a step change coinciding with the index rebuild), that would support the job simply having outgrown its capacity."
+      }
+    ],
+    "ruled_out": [
+      { "candidate": "Settlement batch job retry noise (21:35)", "reason": "Different service (nightly-settlement-batch), no shared correlation ID, well before the pool saturation began." },
+      { "candidate": "Settlement batch queue depth warning (22:10)", "reason": "Same unrelated nightly-settlement-batch job; overlaps the incident window only by coincidence." },
+      { "candidate": "order-intake, payment-adapter and fulfilment-dispatch as independent root causes", "reason": "All three show slow-query symptoms at the same second the shared Oracle OMS pool saturates — same downstream symptom on every OMS-dependent service points at the shared resource, not three unrelated bugs." }
+    ],
+    "checks": [
+      {
+        "order": 1,
+        "action": "Compare tonight's fin-monthend-extract run duration and peak connections against its 14-month history",
+        "command": "SELECT run_id, duration_min, peak_connections FROM job_run_history WHERE job='fin-monthend-extract' ORDER BY run_id DESC LIMIT 15;",
+        "if_result_a": "Tonight (71 min, 180 conns) is a clear outlier vs. the ~42 min / ~118 conn average — supports hypothesis 1",
+        "if_result_b": "Tonight is in line with recent history — points away from an environmental change",
+        "effort": "low"
+      },
+      {
+        "order": 2,
+        "action": "Pull the query execution plan for fin-monthend-extract's primary SELECT, before and after 2026-09-14",
+        "command": "EXPLAIN PLAN FOR <fin-monthend-extract primary query>; compare cost against the pre-rebuild plan in AWR/Statspack history",
+        "if_result_a": "Plan now uses a full index scan on IDX_ORD_STATUS at materially higher cost — confirms the mechanism precisely",
+        "if_result_b": "Plan unchanged — the index rebuild is not the trigger, reopen the investigation",
+        "effort": "medium"
+      },
+      {
+        "order": 3,
+        "action": "Check Oracle OMS pool wait-queue depth and connection hold time distribution during the incident",
+        "command": "SELECT * FROM v$session WHERE program LIKE '%monthend-extract%' AND status='ACTIVE';",
+        "if_result_a": "A small number of sessions holding connections far longer than the historical average — supports hypothesis 1",
+        "if_result_b": "Many short-lived sessions instead — supports a different, volume-based explanation",
+        "effort": "low"
+      }
+    ],
+    "blast_radius": {
+      "channels": ["Web checkout", "Mobile app", "Store POS", "Partner B2B feed"],
+      "orders_stuck": 6037,
+      "downstream_degraded": ["order-intake", "payment-adapter", "fulfilment-dispatch", "apigee-edge (nine endpoints)", "azure-apim (pricing)"],
+      "partner_feed_impacted": true
+    },
+    "recovery": {
+      "proposal": "Kill fin-monthend-extract's active session(s) to release the held connections immediately, restoring pool headroom for live traffic; reschedule the job to resume from its last checkpoint during a lower-traffic window once the query plan is fixed.",
+      "risk": "Killing the job mid-run may leave its extract output partially written and require a full re-run from scratch rather than a resume, depending on whether it is checkpointed.",
+      "rollback": "If killing the session does not relieve pool pressure (e.g. connections are held by something else too), re-run the pool-saturation diagnosis rather than re-starting the job blind.",
+      "requires_approval": true
+    },
+    "post_incident_note": "INC0098520 (+5 duplicates) — root cause: fin-monthend-extract's primary query plan degraded after the 2026-09-14 IDX_ORD_STATUS index rebuild, causing tonight's run to hold its 180-connection pool footprint for 71 minutes instead of the ~42-minute historical average, exhausting Oracle OMS's connection pool and degrading every dependent service simultaneously. Mitigated by killing the job's session(s) once approved. Follow-up: add a query-plan regression check to the index-rebuild runbook so a change to a table used by scheduled batch jobs gets validated against those jobs before being called 'unrelated', and consider a dedicated connection pool or read replica for batch workloads so they cannot starve live traffic again."
+  },
+  "lateEvidence": {
+    "diff": {
+      "changed_summary": "The execution-plan comparison confirms the exact mechanism: fin-monthend-extract's primary query now does a full index scan on IDX_ORD_STATUS at 41,200 cost versus a 1,800-cost range scan before 2026-09-14 — a 23x jump that fully explains the 68% longer connection hold time, closing the last open question against hypothesis 1.",
+      "rank_before": [
+        { "cause": "fin-monthend-extract's queries slowed after the IDX_ORD_STATUS index rebuild on 2026-09-14, so tonight's run held its 180 connections open far longer than usual, exhausting the Oracle OMS pool and degrading every service that depends on it", "rank": 1 },
+        { "cause": "fin-monthend-extract is simply too heavy for the current OMS capacity and this was going to happen eventually regardless of any index change", "rank": 2 }
+      ],
+      "rank_after": [
+        { "cause": "fin-monthend-extract's queries slowed after the IDX_ORD_STATUS index rebuild on 2026-09-14, so tonight's run held its 180 connections open far longer than usual, exhausting the Oracle OMS pool and degrading every service that depends on it", "rank": 1 },
+        { "cause": "fin-monthend-extract is simply too heavy for the current OMS capacity and this was going to happen eventually regardless of any index change", "rank": 2 }
+      ],
+      "what_changed": [
+        "The query plan diff is the single most decisive piece of evidence in the whole investigation: a 23x cost jump on the exact query fin-monthend-extract runs, dated precisely to the index rebuild, leaves no real alternative explanation standing.",
+        "Hypothesis 2 (job simply too heavy) is now fully closed — there is a specific, dated, measurable environmental change that explains tonight's outlier duration, not a gradual capacity ceiling."
+      ]
+    },
+    "diagnosisAfterOverrides": {
+      "incident_summary": "Every Oracle-OMS-dependent service degraded from 22:08 UTC after fin-monthend-extract's query plan regressed 23x following the 2026-09-14 IDX_ORD_STATUS index rebuild, exhausting the connection pool.",
+      "hypothesisPatches": {
+        "1": {
+          "what_would_change_this": "Nothing outstanding on root cause. Open item: decide whether to revert the index rebuild, add a covering index for fin-monthend-extract's query, or move batch workloads to a read replica."
+        }
+      }
+    }
+  }
+}

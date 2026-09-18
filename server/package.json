@@ -1,0 +1,14 @@
+{
+  "name": "incident-ai-server",
+  "version": "1.0.0",
+  "description": "Thin local server holding the Anthropic API key for the one live-toggle scenario. Every other path in the demo uses pre-computed cached responses.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

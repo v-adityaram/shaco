@@ -1,0 +1,2923 @@
+[
+  {
+    "ts": "2026-09-18T22:14:25+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-bc2d",
+    "message": "session cache hit ratio 0.95",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:25+00:00",
+    "source": "ServiceNow",
+    "ruleId": "INC0098525",
+    "component": "Order Platform",
+    "message": "Order flow degraded -- raised by kafka-lag-critical",
+    "severity": "P1",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:20+00:00",
+    "source": "ServiceNow",
+    "ruleId": "INC0098524",
+    "component": "Order Platform",
+    "message": "Order flow degraded -- raised by gateway-5xx-spike",
+    "severity": "P1",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 1,295 (partition 0, offset 7105044)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 2,917 (partition 0, offset 6905061)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 3,282 (partition 0, offset 3305054)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:15+00:00",
+    "source": "ServiceNow",
+    "ruleId": "INC0098523",
+    "component": "Infra & DBA",
+    "message": "Order flow degraded -- raised by slow-query-fulfilment-dispatch",
+    "severity": "P1",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:14+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-c39f",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:13+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-ef4f",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:10+00:00",
+    "source": "ServiceNow",
+    "ruleId": "INC0098522",
+    "component": "Infra & DBA",
+    "message": "Order flow degraded -- raised by slow-query-payment-adapter",
+    "severity": "P1",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:05+00:00",
+    "source": "ServiceNow",
+    "ruleId": "INC0098521",
+    "component": "Infra & DBA",
+    "message": "Order flow degraded -- raised by slow-query-order-intake",
+    "severity": "P1",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/orders",
+    "message": "503 rate, count=85 p99=4133ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/orders/{id}/confirm",
+    "message": "503 rate, count=87 p99=8966ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/checkout",
+    "message": "503 rate, count=31 p99=6200ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/inventory/status",
+    "message": "503 rate, count=79 p99=7535ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/orders/{id}/status",
+    "message": "503 rate, count=104 p99=8745ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/pricing/quote",
+    "message": "503 rate, count=32 p99=4363ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/inventory/reserve",
+    "message": "503 rate, count=73 p99=6746ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/payment/authorize",
+    "message": "503 rate, count=105 p99=5937ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/fulfilment/dispatch",
+    "message": "503 rate, count=124 p99=4530ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:14:00+00:00",
+    "source": "ServiceNow",
+    "ruleId": "INC0098520",
+    "component": "Infra & DBA",
+    "message": "Order flow degraded -- raised by oracle-pool-saturation",
+    "severity": "P1",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:57+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-c404",
+    "message": "batch processed 43 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:56+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-d7bb",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:53+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-754b",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:52+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-1a58",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:45+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-b726",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:44+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-c155",
+    "message": "batch processed 96 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:32+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-a97b",
+    "message": "batch processed 209 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 3,485 (partition 0, offset 9055035)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:23+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-8a20",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 1,052 (partition 0, offset 7105037)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 2,539 (partition 0, offset 6905048)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 2,646 (partition 0, offset 3305038)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:13+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-ee92",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:10+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-fd34",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:10+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-da25",
+    "message": "session cache hit ratio 0.97",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:08+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-0fd9",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:06+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-5958",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:06+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-64ac",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/orders",
+    "message": "503 rate, count=110 p99=8080ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/orders/{id}/confirm",
+    "message": "503 rate, count=34 p99=7650ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/checkout",
+    "message": "503 rate, count=61 p99=7848ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/inventory/status",
+    "message": "503 rate, count=60 p99=7240ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/orders/{id}/status",
+    "message": "503 rate, count=112 p99=7622ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/pricing/quote",
+    "message": "503 rate, count=83 p99=8399ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/inventory/reserve",
+    "message": "503 rate, count=35 p99=5981ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/payment/authorize",
+    "message": "503 rate, count=41 p99=7558ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:13:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/fulfilment/dispatch",
+    "message": "503 rate, count=136 p99=8988ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:46+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-8e2c",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:43+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-5ebc",
+    "message": "GC minor collection, pause 31ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 876 (partition 0, offset 9055020)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:25+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-6e9f",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:21+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-cc0b",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:17+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-9c0b",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:17+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-52e8",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:17+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-18c9",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:15+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-0bdb",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 1,359 (partition 0, offset 7105023)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 2,244 (partition 0, offset 6905023)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 2,731 (partition 0, offset 3305026)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:01+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-8394",
+    "message": "batch processed 193 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/orders",
+    "message": "503 rate, count=136 p99=6433ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/orders/{id}/confirm",
+    "message": "503 rate, count=112 p99=5585ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/checkout",
+    "message": "503 rate, count=113 p99=5754ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/inventory/status",
+    "message": "503 rate, count=85 p99=4382ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:00+00:00",
+    "source": "Apigee",
+    "ruleId": "APG-5XX-012",
+    "component": "/v2/orders/{id}/status",
+    "message": "503 rate, count=111 p99=4319ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/pricing/quote",
+    "message": "503 rate, count=80 p99=5266ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/inventory/reserve",
+    "message": "503 rate, count=30 p99=5692ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/payment/authorize",
+    "message": "503 rate, count=93 p99=7382ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:12:00+00:00",
+    "source": "APIM",
+    "ruleId": "AZ-GW-0091",
+    "component": "/internal/fulfilment/dispatch",
+    "message": "503 rate, count=37 p99=5060ms",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:58+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-6872",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:42+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-ddee",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:41+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-5748",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:40+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-6c76",
+    "message": "session cache hit ratio 0.90",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:34+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-b620",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:32+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-3f15",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:32+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-e729",
+    "message": "batch processed 156 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 2,753 (partition 0, offset 9055012)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:27+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-ef64",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:18+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-5277",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 807 (partition 0, offset 7105007)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 3,470 (partition 0, offset 6905008)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 1,227 (partition 0, offset 3305003)",
+    "severity": "P2",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:07+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-9d20",
+    "message": "connection pool stats: healthy",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:11:03+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-a39c",
+    "message": "GC minor collection, pause 19ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:59+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-8092",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:55+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-37ff",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:52+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-ad69",
+    "message": "connection pool stats: healthy",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:32+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-32a9",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 14 (partition 0, offset 9087911)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:26+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-7590",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:26+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-2508",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 25 (partition 0, offset 7137810)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:14+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-9980",
+    "message": "connection pool stats: healthy",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:08+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-374b",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:02+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-4f4b",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:02+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0531",
+    "component": "pay-adapter-svc-23f9",
+    "message": "slow query against Oracle OMS: 8097ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:01+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-7057",
+    "message": "batch processed 312 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:00+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0402",
+    "component": "settle-batch-job-c64b",
+    "message": "settlement batch queue depth 340, above soft threshold (unrelated job)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": true
+  },
+  {
+    "ts": "2026-09-18T22:10:00+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0530",
+    "component": "ord-intake-svc-089c",
+    "message": "slow query against Oracle OMS: 3956ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 10 (partition 0, offset 6937326)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:10:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 19 (partition 0, offset 3336663)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:58+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0529",
+    "component": "fulfil-disp-svc-b099",
+    "message": "slow query against Oracle OMS: 9476ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:56+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-ecab",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:56+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-a1c1",
+    "message": "connection pool stats: healthy",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:56+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0528",
+    "component": "pay-adapter-svc-ab55",
+    "message": "slow query against Oracle OMS: 9750ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:54+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0527",
+    "component": "ord-intake-svc-ad0c",
+    "message": "slow query against Oracle OMS: 8968ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:52+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0526",
+    "component": "fulfil-disp-svc-0556",
+    "message": "slow query against Oracle OMS: 2985ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:50+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0525",
+    "component": "pay-adapter-svc-f1c3",
+    "message": "slow query against Oracle OMS: 3206ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:48+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0524",
+    "component": "ord-intake-svc-81bf",
+    "message": "slow query against Oracle OMS: 6455ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:46+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0523",
+    "component": "fulfil-disp-svc-9dcb",
+    "message": "slow query against Oracle OMS: 7964ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:44+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0522",
+    "component": "pay-adapter-svc-bcd2",
+    "message": "slow query against Oracle OMS: 9748ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:42+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-b91b",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:42+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0521",
+    "component": "ord-intake-svc-e122",
+    "message": "slow query against Oracle OMS: 4334ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:41+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-50fe",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:40+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0520",
+    "component": "fulfil-disp-svc-5d66",
+    "message": "slow query against Oracle OMS: 7540ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:38+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0519",
+    "component": "pay-adapter-svc-7de6",
+    "message": "slow query against Oracle OMS: 4470ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:36+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0518",
+    "component": "ord-intake-svc-788a",
+    "message": "slow query against Oracle OMS: 2642ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:35+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-e368",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:34+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0517",
+    "component": "fulfil-disp-svc-cd38",
+    "message": "slow query against Oracle OMS: 8463ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:32+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0516",
+    "component": "pay-adapter-svc-3acb",
+    "message": "slow query against Oracle OMS: 7503ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:30+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-2085",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:30+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0515",
+    "component": "ord-intake-svc-c6c6",
+    "message": "slow query against Oracle OMS: 4667ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 3 (partition 0, offset 9087414)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:28+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0514",
+    "component": "fulfil-disp-svc-4812",
+    "message": "slow query against Oracle OMS: 8721ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:27+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-5961",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:26+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0513",
+    "component": "pay-adapter-svc-fb84",
+    "message": "slow query against Oracle OMS: 6925ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:24+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0512",
+    "component": "ord-intake-svc-5f04",
+    "message": "slow query against Oracle OMS: 7857ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:23+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-69ed",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:22+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0511",
+    "component": "fulfil-disp-svc-c880",
+    "message": "slow query against Oracle OMS: 6909ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:20+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0510",
+    "component": "pay-adapter-svc-856b",
+    "message": "slow query against Oracle OMS: 5630ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:18+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0509",
+    "component": "ord-intake-svc-1589",
+    "message": "slow query against Oracle OMS: 6758ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:17+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-34b3",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:17+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-acf7",
+    "message": "GC minor collection, pause 14ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:16+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0508",
+    "component": "fulfil-disp-svc-d1ed",
+    "message": "slow query against Oracle OMS: 7598ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 20 (partition 0, offset 7137310)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:14+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0507",
+    "component": "pay-adapter-svc-0bef",
+    "message": "slow query against Oracle OMS: 9434ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:12+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0506",
+    "component": "ord-intake-svc-ad57",
+    "message": "slow query against Oracle OMS: 3870ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:10+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0505",
+    "component": "fulfil-disp-svc-3387",
+    "message": "slow query against Oracle OMS: 7583ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:09+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-2c3a",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:08+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0504",
+    "component": "pay-adapter-svc-504d",
+    "message": "slow query against Oracle OMS: 8933ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:06+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0503",
+    "component": "ord-intake-svc-262d",
+    "message": "slow query against Oracle OMS: 3892ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:04+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0502",
+    "component": "fulfil-disp-svc-1f67",
+    "message": "slow query against Oracle OMS: 7628ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:02+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0501",
+    "component": "pay-adapter-svc-2306",
+    "message": "slow query against Oracle OMS: 8865ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:00+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0500",
+    "component": "ord-intake-svc-b542",
+    "message": "slow query against Oracle OMS: 3221ms (baseline <150ms)",
+    "severity": "P2",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 7 (partition 0, offset 6936860)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:09:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 14 (partition 0, offset 3336133)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:59+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-dba5",
+    "message": "session cache hit ratio 0.94",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:45+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-83e4",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:43+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-a837",
+    "message": "batch processed 68 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:41+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-817a",
+    "message": "batch processed 398 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:32+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-1446",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:30+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-ceaf",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 25 (partition 0, offset 9086849)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:28+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-3ad2",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:25+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-e08a",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:21+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-3e48",
+    "message": "batch processed 84 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 8 (partition 0, offset 7136792)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:07+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-a685",
+    "message": "session cache hit ratio 0.86",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:00+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0601",
+    "component": null,
+    "message": "Oracle OMS connection pool at 100% (180/180), wait queue growing",
+    "severity": "P1",
+    "correlationId": "mrd-20260918-e15f2a88",
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 17 (partition 0, offset 6936221)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:08:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 10 (partition 0, offset 3335559)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:58+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-1a6f",
+    "message": "GC minor collection, pause 34ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:57+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-f670",
+    "message": "GC minor collection, pause 19ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:52+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-ea06",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:44+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-f279",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:40+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-5d99",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:37+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-01cb",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:34+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-37d8",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 23 (partition 0, offset 9086346)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:26+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-6396",
+    "message": "session cache hit ratio 0.94",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:25+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-5d4f",
+    "message": "connection pool stats: healthy",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:19+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-347f",
+    "message": "GC minor collection, pause 31ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:16+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-b9e1",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:15+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 22 (partition 0, offset 7136193)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:09+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-5340",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:08+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-ad7d",
+    "message": "connection pool stats: healthy",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:04+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-5409",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 9 (partition 0, offset 6935688)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:07:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 7 (partition 0, offset 3335034)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:50+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-26ca",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:43+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-e0a9",
+    "message": "GC minor collection, pause 8ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:38+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-2ec8",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 22 (partition 0, offset 9085686)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:24+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-a4de",
+    "message": "batch processed 357 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:18+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-5e6a",
+    "message": "GC minor collection, pause 33ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:12+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-6568",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:05+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-effc",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:04+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-dd1f",
+    "message": "GC minor collection, pause 12ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:00+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-07d9",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 1 (partition 0, offset 7135539)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 11 (partition 0, offset 6935156)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:06:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 3 (partition 0, offset 3334415)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:57+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-40f0",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:50+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-c35b",
+    "message": "batch processed 368 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:43+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-fed7",
+    "message": "GC minor collection, pause 19ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:42+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-5cbf",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:40+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-d2da",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:33+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-3671",
+    "message": "session cache hit ratio 0.90",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:31+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-c00e",
+    "message": "GC minor collection, pause 28ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 15 (partition 0, offset 9085143)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:26+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-0404",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:15+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-e699",
+    "message": "session cache hit ratio 0.95",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:14+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-1c71",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:01+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-3d4e",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:00+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-8e57",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 8 (partition 0, offset 7135080)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 15 (partition 0, offset 6934577)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:05:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 12 (partition 0, offset 3333920)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:58+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-7523",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:58+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-41e4",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:43+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-662f",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:41+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-cfe7",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 14 (partition 0, offset 9084593)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:26+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-6b7a",
+    "message": "GC minor collection, pause 30ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:20+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-e806",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:18+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-126d",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:18+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-508a",
+    "message": "session cache hit ratio 0.93",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:14+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-4de2",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:08+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-f9f8",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:08+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-43c0",
+    "message": "connection pool stats: healthy",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:04:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 24 (partition 0, offset 3333374)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:59+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-43ee",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:45+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 17 (partition 0, offset 7134460)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:45+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 9 (partition 0, offset 6933829)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:42+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-4b0f",
+    "message": "connection pool stats: healthy",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:33+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-31e8",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:31+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-db4b",
+    "message": "GC minor collection, pause 17ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 7 (partition 0, offset 9083985)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:29+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-6938",
+    "message": "batch processed 204 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:20+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-5c64",
+    "message": "GC minor collection, pause 18ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:19+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-1f11",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:18+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-d96b",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:15+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-e8ae",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:03:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 14 (partition 0, offset 3332936)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:55+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-1577",
+    "message": "session cache hit ratio 0.92",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:51+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-8188",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:47+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-d6e5",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:45+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 20 (partition 0, offset 7133870)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:45+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 6 (partition 0, offset 6933328)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:42+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-8e67",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:38+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-05cb",
+    "message": "GC minor collection, pause 35ms",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:37+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-0a28",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 1 (partition 0, offset 9083396)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:29+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-4f19",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:29+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-91d4",
+    "message": "batch processed 313 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:12+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-ed52",
+    "message": "readiness probe OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:11+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-3b4c",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:07+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-6380",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:02:00+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 7 (partition 0, offset 3332389)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:58+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-0474",
+    "message": "connection pool stats: healthy",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:54+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-71a6",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:45+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-f39c",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:45+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 5 (partition 0, offset 7133443)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:45+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 25 (partition 0, offset 6932903)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:42+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-0722",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:41+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-7e2a",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:32+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-15d9",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 15 (partition 0, offset 9082950)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:26+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-92c7",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:21+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-08b6",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:13+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-27a1",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:09+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-0fbf",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:07+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-ea63",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:03+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-5801",
+    "message": "batch processed 107 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:01:03+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-fd64",
+    "message": "connection pool stats: healthy",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:49+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-d130",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:45+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 2 (partition 0, offset 6932341)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:45+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 20 (partition 0, offset 3331780)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:42+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-6b38",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:36+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-79d6",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:31+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-1828",
+    "message": "session cache hit ratio 0.85",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 25 (partition 0, offset 7132824)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 11 (partition 0, offset 9082363)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:24+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-1e78",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:19+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-6cba",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:17+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-eb26",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:16+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-00b6",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:05+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "fulfil-disp-svc-49ba",
+    "message": "config reload no-op, no changes detected",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T22:00:00+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "oracle-oms",
+    "message": "fin-monthend-extract run #171 started (routine, monthly schedule, 14-month history with no incident)",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false,
+    "isFirstSymptom": true
+  },
+  {
+    "ts": "2026-09-18T21:59:47+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pricing-svc-f165",
+    "message": "cache refresh completed",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T21:59:42+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-intake-svc-3776",
+    "message": "scheduled heartbeat",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T21:59:38+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apigee-gw-6718",
+    "message": "batch processed 373 records",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T21:59:32+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "inv-resv-svc-6a0d",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T21:59:30+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "pay-adapter-svc-97a8",
+    "message": "metrics flush OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T21:59:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-intake-cg / order.created",
+    "message": "lag 3 (partition 0, offset 7132424)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T21:59:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "order-enriched-cg / order.enriched",
+    "message": "lag 20 (partition 0, offset 6931691)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T21:59:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "inventory-reservation-cg / inventory.reserve.req",
+    "message": "lag 25 (partition 0, offset 9081948)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T21:59:30+00:00",
+    "source": "Kafka",
+    "ruleId": "KFK-LAG-004",
+    "component": "fulfilment-dispatch-cg / fulfilment.dispatch",
+    "message": "lag 16 (partition 0, offset 3331165)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T21:59:29+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "apim-gw-3bb7",
+    "message": "health check OK",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T21:59:28+00:00",
+    "source": "ELK",
+    "ruleId": "—",
+    "component": "ord-orch-svc-16ff",
+    "message": "session cache hit ratio 0.92",
+    "severity": "P4",
+    "correlationId": null,
+    "isNoise": false
+  },
+  {
+    "ts": "2026-09-18T21:35:00+00:00",
+    "source": "ELK",
+    "ruleId": "ELK-R-0401",
+    "component": "settle-batch-job-2827",
+    "message": "settlement batch retry 2/5, transient upstream timeout (unrelated job)",
+    "severity": "P3",
+    "correlationId": null,
+    "isNoise": true
+  }
+]

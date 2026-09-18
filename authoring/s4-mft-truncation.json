@@ -1,0 +1,115 @@
+{
+  "meta": {
+    "slug": "s4-mft-truncation",
+    "title": "Multiple oversells — stale WMS stock position",
+    "incidentNumber": "INC0098480",
+    "duplicateIncidents": [],
+    "faultOneLine": "Silent truncation of the 06:00 WMS stock file"
+  },
+  "diagnosis": {
+    "incident_summary": "Inventory has been overselling since 09:12 UTC because the 06:00 WMS stock file transferred as only 60% complete while reporting SUCCESS; no rule caught it for over three hours, and the incident was only raised manually by warehouse ops at 10:15.",
+    "timeline": [
+      { "event_id": "e-0568", "ts": "2026-09-18T06:00:00+00:00", "source": "MFT", "component": "WMS-INBOUND", "description": "stock_position_0600.csv transferred, status SUCCESS, 4.1MB (usual ~6.8MB) — trailer declares 128,400 rows but only 77,032 actually arrived", "is_first_symptom": true },
+      { "event_id": "e-0613", "ts": "2026-09-18T06:05:00+00:00", "source": "ELK", "component": "inventory-reservation", "description": "ELK-R-MFT-004 file transfer monitor: stock_position_0600.csv status=SUCCESS — the rule checks the status flag only, never declared_rows vs actual_rows, so it passes cleanly" },
+      { "event_id": "e-2369", "ts": "2026-09-18T09:12:00+00:00", "source": "ELK", "component": "inventory-reservation", "description": "reservation confirmed for SKU MRD-30217 qty 6 — exceeds available stock position (stale WMS data)" },
+      { "event_id": "e-2632", "ts": "2026-09-18T09:40:00+00:00", "source": "ELK", "component": "inventory-reservation", "description": "oversell rate climbing: 14 orders affected in last 30 min, all against stock positions sourced from stock_position_0600.csv" },
+      { "event_id": "e-2969", "ts": "2026-09-18T10:15:00+00:00", "source": "ServiceNow", "component": "Inventory & Fulfilment", "description": "INC0098480: Multiple oversells traced to WMS stock file — manual escalation" }
+    ],
+    "hypotheses": [
+      {
+        "rank": 1,
+        "cause": "The 06:00 WMS stock file (stock_position_0600.csv) was silently truncated at the source — only 77,032 of 128,400 declared rows actually arrived, so inventory-reservation has been working from a stale, incomplete stock picture since 06:00",
+        "confidence": "High",
+        "supports": [
+          { "event_id": "e-0568", "why": "The transfer trailer itself declares 128,400 rows but only 77,032 arrived, and the file size (4.1MB vs a normal ~6.8MB) is consistent with roughly 60% of the data — this is a real, checkable mismatch in the transfer record, not an inference." },
+          { "event_id": "e-2369", "why": "The first oversell lands exactly three hours after the truncated transfer, against a SKU whose stock position could only be wrong if the source file were incomplete." },
+          { "event_id": "e-2632", "why": "Every oversold order traces back to stock positions sourced from this same file — a single common root, not scattered SKUs, which argues against a general demand effect." }
+        ],
+        "contradicts": [
+          { "event_id": "e-0613", "why": "The MFT job reported SUCCESS and the dedicated file-transfer monitor rule also passed at 06:05 — both signals said the transfer was fine, which is precisely why nobody looked at the file for over three hours." }
+        ],
+        "what_would_change_this": "If the export job logs showed a clean, complete write for the 06:00 run, that would rule out truncation and reopen the investigation toward a genuine demand or reservation-logic issue."
+      },
+      {
+        "rank": 2,
+        "cause": "A genuine demand spike is causing legitimate oversell against otherwise-correct stock data",
+        "confidence": "Low",
+        "supports": [
+          { "event_id": "e-2632", "why": "A rising oversell count over successive 30-minute windows is superficially consistent with organic demand outpacing correct inventory." }
+        ],
+        "contradicts": [
+          { "event_id": "e-2369", "why": "The description explicitly ties the oversell to stale WMS data sourced from the 06:00 file, and every affected SKU traces to that same transfer — a volume-driven oversell would be expected to spread more evenly rather than concentrate on one file's data." }
+        ],
+        "what_would_change_this": "If oversells were spread across SKUs with no relationship to the 06:00 transfer, or if a later, complete stock file failed to resolve them, that would support a genuine demand-driven read instead."
+      }
+    ],
+    "ruled_out": [
+      { "candidate": "Settlement batch job retry noise (06:55)", "reason": "Different service (nightly-settlement-batch), no shared correlation ID, unrelated to inventory or MFT." },
+      { "candidate": "Settlement batch queue depth warning (08:50)", "reason": "Same unrelated nightly-settlement-batch job; timing is coincidental." }
+    ],
+    "checks": [
+      {
+        "order": 1,
+        "action": "Compare declared_rows to actual_rows in the 06:00 transfer trailer",
+        "command": "awk -F, '$2==\"stock_position_0600.csv\"{print $1,$7,$8,$9}' data/s4-mft-truncation/mft-transfers.csv",
+        "if_result_a": "declared_rows (128,400) != actual_rows (77,032) — confirms truncation immediately",
+        "if_result_b": "Row counts match — rules out truncation, reopens the investigation",
+        "effort": "low"
+      },
+      {
+        "order": 2,
+        "action": "Cross-reference oversold SKUs against the row range missing from the truncated file",
+        "command": "diff <(cut -d, -f1 stock_position_0600_full_export.csv) <(cut -d, -f1 stock_position_0600.csv) | comm -23 - oversold_skus.txt",
+        "if_result_a": "Oversold SKUs fall within the missing row range — confirms hypothesis 1 precisely",
+        "if_result_b": "No overlap — points away from the truncation as the specific mechanism",
+        "effort": "medium"
+      },
+      {
+        "order": 3,
+        "action": "Check OMS-EXPORT-01's job log and exit code for the 06:00 export run",
+        "command": "journalctl -u oms-export --since '2026-09-18 05:55' --until '2026-09-18 06:10'",
+        "if_result_a": "Non-zero exit / kill signal partway through — confirms the export was killed mid-write",
+        "if_result_b": "Clean exit code — the truncation happened somewhere in transit instead of at the source",
+        "effort": "medium"
+      }
+    ],
+    "blast_radius": {
+      "channels": ["Web checkout", "Mobile app", "Store POS"],
+      "orders_stuck": 23,
+      "downstream_degraded": ["inventory-reservation (confirming against stale stock)", "fulfilment-dispatch (will need cancellations/backorders for oversold SKUs)"],
+      "partner_feed_impacted": false
+    },
+    "recovery": {
+      "proposal": "Trigger an out-of-band re-export and re-transfer of the current WMS stock position, force-refresh inventory-reservation's cache from the new file, and freeze reservations on the affected SKU range until the refresh completes; separately notify fulfilment to flag the 14+ oversold orders for manual backorder or substitution.",
+      "risk": "Freezing reservations on affected SKUs will itself cause some checkout failures for a short window; if the out-of-band export also fails partially, the stale-data problem could reoccur.",
+      "rollback": "If the re-export introduces new inconsistencies, revert inventory-reservation's cache to the previous (stale but internally consistent) snapshot and keep the SKU freeze in place until a verified file lands.",
+      "requires_approval": true
+    },
+    "post_incident_note": "INC0098480 — root cause: 06:00 WMS stock file transfer truncated at ~60% (77,032 of 128,400 rows) while reporting SUCCESS; the file-transfer monitor rule (ELK-R-MFT-004) checks status only, not row counts, so nothing fired for over three hours until warehouse ops manually escalated. Mitigated via out-of-band re-export and cache refresh once approved. Follow-up: add a declared_rows-vs-actual_rows check to ELK-R-MFT-004 (or a dedicated rule) so a SUCCESS status with a row-count mismatch alerts immediately instead of passing silently."
+  },
+  "lateEvidence": {
+    "diff": {
+      "changed_summary": "The OMS export job log confirms the mechanism directly: the source export process was killed by a host memory-pressure eviction at row 51,368 of 128,400, which is why the transfer reported SUCCESS (the file that existed at kill time uploaded cleanly) despite being incomplete — this closes the last open question against hypothesis 1.",
+      "rank_before": [
+        { "cause": "The 06:00 WMS stock file (stock_position_0600.csv) was silently truncated at the source — only 77,032 of 128,400 declared rows actually arrived, so inventory-reservation has been working from a stale, incomplete stock picture since 06:00", "rank": 1 },
+        { "cause": "A genuine demand spike is causing legitimate oversell against otherwise-correct stock data", "rank": 2 }
+      ],
+      "rank_after": [
+        { "cause": "The 06:00 WMS stock file (stock_position_0600.csv) was silently truncated at the source — only 77,032 of 128,400 declared rows actually arrived, so inventory-reservation has been working from a stale, incomplete stock picture since 06:00", "rank": 1 },
+        { "cause": "A genuine demand spike is causing legitimate oversell against otherwise-correct stock data", "rank": 2 }
+      ],
+      "what_changed": [
+        "Exit code 137 (SIGKILL) at row 51,368 confirms the export was killed mid-write by a host-level memory-pressure eviction on OMS-EXPORT-01, not a network truncation in transit or an MFT-side bug — this points the fix at OMS-EXPORT-01's resource limits, not the file-transfer layer.",
+        "The demand-spike alternative had no plausible mechanism left once the SIGKILL evidence landed; it stays ranked 2 for completeness but is now considered closed."
+      ]
+    },
+    "diagnosisAfterOverrides": {
+      "incident_summary": "Inventory oversold from 09:12 UTC because the 06:00 WMS export was killed mid-write (SIGKILL, host memory pressure) at 51,368 of 128,400 rows, and the transfer still reported SUCCESS.",
+      "hypothesisPatches": {
+        "1": {
+          "what_would_change_this": "Nothing outstanding on root cause. Open item: confirm whether OMS-EXPORT-01's memory limits need raising, or whether a competing process on the same host should be moved, to prevent recurrence."
+        }
+      }
+    }
+  }
+}

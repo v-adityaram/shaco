@@ -1,0 +1,2280 @@
+{
+  "meta": {
+    "slug": "s1-memory-leak",
+    "title": "Order flow degraded — inventory-reservation",
+    "incidentNumber": "INC0098451",
+    "duplicateIncidents": [
+      "INC0098452",
+      "INC0098453"
+    ],
+    "faultOneLine": "Memory leak in inventory-reservation reservation cache"
+  },
+  "events": [
+    {
+      "event_id": "e-0257",
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "ELK",
+      "component": "order-intake",
+      "severity": 4,
+      "description": "weekly capacity report: peak order rate today trending 1,000/min; last Tuesday (2026-09-09) peak was 1,400/min (+40%) with inventory-reservation heap flat under 55%, no incident",
+      "correlation_id": null,
+      "raw_ref": {
+        "file": "elk-logs.ndjson",
+        "line": 136
+      }
+    },
+    {
+      "event_id": "e-0767",
+      "ts": "2026-09-18T08:40:00+00:00",
+      "source": "ELK",
+      "component": "inventory-reservation",
+      "severity": 4,
+      "description": "heap utilisation 71.2% on inv-resv-svc, above soft threshold",
+      "correlation_id": "mrd-20260918-9a41c7e2",
+      "raw_ref": {
+        "file": "elk-logs.ndjson",
+        "line": 404
+      }
+    },
+    {
+      "event_id": "e-1341",
+      "ts": "2026-09-18T09:25:00+00:00",
+      "source": "ELK",
+      "component": "order-orchestrator",
+      "severity": 4,
+      "description": "order.enriched producer rate 859 msg/min (flat baseline)",
+      "correlation_id": null,
+      "raw_ref": {
+        "file": "elk-logs.ndjson",
+        "line": 705
+      }
+    },
+    {
+      "event_id": "e-1343",
+      "ts": "2026-09-18T09:25:00+00:00",
+      "source": "ELK",
+      "component": "inventory-reservation",
+      "severity": 3,
+      "description": "GC pause p99 climbing: 40ms -> 900ms over last 10 samples",
+      "correlation_id": "mrd-20260918-9a41c7e2",
+      "raw_ref": {
+        "file": "elk-logs.ndjson",
+        "line": 707
+      }
+    },
+    {
+      "event_id": "e-1694",
+      "ts": "2026-09-18T09:52:00+00:00",
+      "source": "ELK",
+      "component": "inventory-reservation",
+      "severity": 1,
+      "description": "OOMKilled: container exceeded memory limit, pod inv-resv-svc-7d4f restart 1",
+      "correlation_id": "mrd-20260918-9a41c7e2",
+      "raw_ref": {
+        "file": "elk-logs.ndjson",
+        "line": 895
+      }
+    },
+    {
+      "event_id": "e-1709",
+      "ts": "2026-09-18T09:53:00+00:00",
+      "source": "Kafka",
+      "component": "inventory-reservation",
+      "severity": 3,
+      "description": "consumer_group=inventory-reservation-cg topic=inventory.reserve.req partition=0 current_offset=8517598 log_end_offset=8517626 lag=28",
+      "correlation_id": null,
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 533
+      }
+    },
+    {
+      "event_id": "e-1771",
+      "ts": "2026-09-18T09:58:00+00:00",
+      "source": "ELK",
+      "component": "inventory-reservation",
+      "severity": 1,
+      "description": "OOMKilled: pod inv-resv-svc-7d4f restart 2, crash loop detected",
+      "correlation_id": "mrd-20260918-9a41c7e2",
+      "raw_ref": {
+        "file": "elk-logs.ndjson",
+        "line": 935
+      }
+    },
+    {
+      "event_id": "e-1826",
+      "ts": "2026-09-18T10:02:00+00:00",
+      "source": "APIM",
+      "component": "azure-apim",
+      "severity": 1,
+      "description": "endpoint=/internal/inventory/reserve status=504 count=84 p99_latency_ms=5006",
+      "correlation_id": "mrd-20260918-9a41c7e2",
+      "raw_ref": {
+        "file": "apim-errors.json",
+        "index": 142
+      }
+    },
+    {
+      "event_id": "e-1847",
+      "ts": "2026-09-18T10:04:00+00:00",
+      "source": "Apigee",
+      "component": "apigee-edge",
+      "severity": 1,
+      "description": "endpoint=/v2/orders status=502 count=177 p99_latency_ms=3374",
+      "correlation_id": "mrd-20260918-9a41c7e2",
+      "raw_ref": {
+        "file": "apigee-errors.json",
+        "index": 144
+      }
+    },
+    {
+      "event_id": "e-1877",
+      "ts": "2026-09-18T10:06:00+00:00",
+      "source": "ServiceNow",
+      "component": "Inventory & Fulfilment",
+      "severity": 1,
+      "description": "INC0098451: Order flow degraded -- inventory-reservation",
+      "correlation_id": null,
+      "raw_ref": {
+        "file": "servicenow-incidents.json",
+        "index": 0
+      }
+    },
+    {
+      "event_id": "e-late-0001",
+      "ts": "2026-09-18T10:24:00+00:00",
+      "source": "ELK",
+      "component": "inventory-reservation",
+      "severity": 2,
+      "description": "late signal: pod eviction record shows no memory limit change in last 30 days and no recent deploy -- rules out config/deploy as the trigger, consistent with a slow leak",
+      "correlation_id": "mrd-20260918-9a41c7e2",
+      "raw_ref": {
+        "file": "late-evidence.ndjson",
+        "line": 1
+      }
+    }
+  ],
+  "alertRows": [
+    {
+      "ts": "2026-09-18T10:07:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 1,845 (partition 0, offset 8518117)",
+      "severity": "P2",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:07:45+00:00",
+      "source": "ServiceNow",
+      "ruleId": "INC0098453",
+      "component": "Integration",
+      "message": "APIM 504 spike -- /internal/inventory/reserve",
+      "severity": "P1",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:07:15+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-83d5",
+      "message": "health check OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:07:10+00:00",
+      "source": "ServiceNow",
+      "ruleId": "INC0098452",
+      "component": "Inventory & Fulfilment",
+      "message": "Kafka consumer lag critical -- inventory-reservation-cg",
+      "severity": "P1",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:07:09+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-6f35",
+      "message": "connection pool stats: healthy",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:07:09+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-f1d1",
+      "message": "metrics flush OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:07:08+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-7a15",
+      "message": "connection pool stats: healthy",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:07:00+00:00",
+      "source": "Apigee",
+      "ruleId": "APG-5XX-012",
+      "component": "/v2/orders",
+      "message": "502 rate, count=192 p99=3410ms",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:07:00+00:00",
+      "source": "APIM",
+      "ruleId": "AZ-GW-0091",
+      "component": "/internal/inventory/reserve",
+      "message": "504 rate, count=107 p99=4933ms",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:06:45+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-86c2",
+      "message": "session cache hit ratio 0.95",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:06:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 1,738 (partition 0, offset 8518074)",
+      "severity": "P2",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:06:44+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-34c1",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:06:40+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-21cd",
+      "message": "connection pool stats: healthy",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:06:27+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-04ab",
+      "message": "connection pool stats: healthy",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:06:00+00:00",
+      "source": "Apigee",
+      "ruleId": "APG-5XX-012",
+      "component": "/v2/orders",
+      "message": "502 rate, count=217 p99=3185ms",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:06:00+00:00",
+      "source": "APIM",
+      "ruleId": "AZ-GW-0091",
+      "component": "/internal/inventory/reserve",
+      "message": "504 rate, count=170 p99=4929ms",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:06:00+00:00",
+      "source": "ServiceNow",
+      "ruleId": "INC0098451",
+      "component": "Inventory & Fulfilment",
+      "message": "Order flow degraded -- inventory-reservation",
+      "severity": "P1",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:05:56+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-54bd",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:05:54+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-7457",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:05:50+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-b9bd",
+      "message": "health check OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:05:49+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-4330",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:05:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 1,632 (partition 0, offset 8518037)",
+      "severity": "P2",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:05:34+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-3dff",
+      "message": "health check OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:05:30+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-1ad0",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:05:10+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-4d3f",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:05:05+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-4cda",
+      "message": "health check OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:05:00+00:00",
+      "source": "Apigee",
+      "ruleId": "APG-5XX-012",
+      "component": "/v2/orders",
+      "message": "502 rate, count=180 p99=3363ms",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:05:00+00:00",
+      "source": "APIM",
+      "ruleId": "AZ-GW-0091",
+      "component": "/internal/inventory/reserve",
+      "message": "504 rate, count=84 p99=4959ms",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:04:53+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-b71e",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:04:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 1,456 (partition 0, offset 8518014)",
+      "severity": "P2",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:04:39+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-4ff3",
+      "message": "connection pool stats: healthy",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:04:31+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-4b1d",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:04:30+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-30b5",
+      "message": "health check OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:04:16+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-399f",
+      "message": "batch processed 231 records",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:04:15+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-2512",
+      "message": "session cache hit ratio 0.96",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:04:14+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-929d",
+      "message": "metrics flush OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:04:12+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-91ef",
+      "message": "connection pool stats: healthy",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:04:00+00:00",
+      "source": "Apigee",
+      "ruleId": "APG-5XX-012",
+      "component": "/v2/orders",
+      "message": "502 rate, count=177 p99=3374ms",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:04:00+00:00",
+      "source": "APIM",
+      "ruleId": "AZ-GW-0091",
+      "component": "/internal/inventory/reserve",
+      "message": "504 rate, count=181 p99=4870ms",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:03:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 1,330 (partition 0, offset 8517986)",
+      "severity": "P2",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:03:38+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-3d2a",
+      "message": "health check OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:03:28+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-5ebe",
+      "message": "session cache hit ratio 0.94",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:03:23+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-4adc",
+      "message": "session cache hit ratio 0.92",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:03:19+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-5bcf",
+      "message": "metrics flush OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:03:09+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-f3b9",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:03:00+00:00",
+      "source": "APIM",
+      "ruleId": "AZ-GW-0091",
+      "component": "/internal/inventory/reserve",
+      "message": "504 rate, count=159 p99=5008ms",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:02:58+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-803c",
+      "message": "readiness probe OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:02:48+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-6286",
+      "message": "readiness probe OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:02:46+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-4c81",
+      "message": "GC minor collection, pause 37ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:02:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 1,240 (partition 0, offset 8517941)",
+      "severity": "P2",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:02:21+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-b631",
+      "message": "metrics flush OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:02:10+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-943a",
+      "message": "readiness probe OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:02:00+00:00",
+      "source": "APIM",
+      "ruleId": "AZ-GW-0091",
+      "component": "/internal/inventory/reserve",
+      "message": "504 rate, count=84 p99=5006ms",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:01:48+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-c5ce",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:01:47+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-1239",
+      "message": "health check OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:01:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 1,141 (partition 0, offset 8517907)",
+      "severity": "P2",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:01:42+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-46b8",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:01:38+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-0ea3",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:01:17+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-cf23",
+      "message": "readiness probe OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:01:15+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-7919",
+      "message": "session cache hit ratio 0.98",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:01:10+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-cadf",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:01:02+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-70f8",
+      "message": "batch processed 101 records",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:00:48+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-2ec8",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:00:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 1,035 (partition 0, offset 8517872)",
+      "severity": "P2",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:00:38+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-e54e",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:00:36+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-96c3",
+      "message": "session cache hit ratio 0.95",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:00:25+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-0b34",
+      "message": "batch processed 114 records",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:00:19+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-c713",
+      "message": "readiness probe OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T10:00:12+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-bf51",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:59:58+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-f6f9",
+      "message": "GC minor collection, pause 12ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:59:53+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-6cda",
+      "message": "session cache hit ratio 0.97",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:59:45+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-34f2",
+      "message": "session cache hit ratio 0.97",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:59:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 906 (partition 0, offset 8517829)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:59:43+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-4941",
+      "message": "session cache hit ratio 0.87",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:59:30+00:00",
+      "source": "ELK",
+      "ruleId": "ELK-R-0217",
+      "component": "inv-resv-svc-7d4f",
+      "message": "OOMKilled: pod inv-resv-svc-7d4f restart 3, crash loop detected",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:59:28+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-ccd7",
+      "message": "session cache hit ratio 0.96",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:59:28+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-63b4",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:59:13+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-3c0e",
+      "message": "session cache hit ratio 0.95",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:59:11+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-715f",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:58:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 773 (partition 0, offset 8517814)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:58:32+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-c2bd",
+      "message": "health check OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:58:29+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-5e3f",
+      "message": "batch processed 194 records",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:58:13+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-daba",
+      "message": "GC minor collection, pause 36ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:58:07+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-6414",
+      "message": "batch processed 398 records",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:58:00+00:00",
+      "source": "ELK",
+      "ruleId": "ELK-R-0217",
+      "component": "inv-resv-svc-7d4f",
+      "message": "OOMKilled: pod inv-resv-svc-7d4f restart 2, crash loop detected",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:57:54+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-0a0b",
+      "message": "GC minor collection, pause 37ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:57:45+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-87be",
+      "message": "batch processed 245 records",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:57:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 634 (partition 0, offset 8517788)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:57:41+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-3d05",
+      "message": "metrics flush OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:57:37+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-ba30",
+      "message": "session cache hit ratio 0.96",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:57:09+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-5d89",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:57:07+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-23b4",
+      "message": "metrics flush OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:56:45+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-ff30",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:56:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 508 (partition 0, offset 8517738)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:56:42+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-5615",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:56:36+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-f032",
+      "message": "connection pool stats: healthy",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:56:36+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-5b54",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:56:28+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-5292",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:56:20+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-360c",
+      "message": "health check OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:56:04+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-bfcd",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:56:01+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-2a4f",
+      "message": "batch processed 185 records",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:56:00+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-edd4",
+      "message": "readiness probe OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:55:46+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-048e",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:55:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 409 (partition 0, offset 8517696)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:55:44+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-fb1c",
+      "message": "GC minor collection, pause 21ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:55:38+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-458c",
+      "message": "batch processed 235 records",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:55:20+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-032c",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:55:09+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-d13c",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:55:00+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-27d8",
+      "message": "order.enriched producer rate 857 msg/min (flat baseline)",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:54:58+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-e68f",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:54:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 260 (partition 0, offset 8517658)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:54:41+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-a48a",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:54:39+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-e956",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:54:14+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-aa76",
+      "message": "health check OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:54:13+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-ca5e",
+      "message": "metrics flush OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:54:02+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-bf96",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:53:51+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-4642",
+      "message": "health check OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:53:46+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-7039",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:53:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 100 (partition 0, offset 8517631)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:53:31+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-2a0e",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:53:20+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-d376",
+      "message": "metrics flush OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:53:10+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-0c6e",
+      "message": "readiness probe OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:52:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 11 (partition 0, offset 8517592)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:52:42+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-ac4a",
+      "message": "readiness probe OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:52:38+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-6d9f",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:52:36+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-c67b",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:52:35+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-d3aa",
+      "message": "readiness probe OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:52:31+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-a627",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:52:14+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-cac6",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:52:11+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-4f85",
+      "message": "readiness probe OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:52:00+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-7d4f",
+      "message": "GC pause p99 900ms",
+      "severity": "P3",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:52:00+00:00",
+      "source": "ELK",
+      "ruleId": "ELK-R-0217",
+      "component": "inv-resv-svc-7d4f",
+      "message": "OOMKilled: container exceeded memory limit, pod inv-resv-svc-7d4f restart 1",
+      "severity": "P1",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:51:56+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-de58",
+      "message": "session cache hit ratio 0.86",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:51:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 32 (partition 0, offset 8516686)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:51:38+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-3c17",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:51:32+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-aefe",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:51:30+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-c520",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:51:23+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-6fd3",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:51:19+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-6e13",
+      "message": "connection pool stats: healthy",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:51:13+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-96e8",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:51:01+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-2c64",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:50:58+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-b9c5",
+      "message": "batch processed 86 records",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:50:57+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-9253",
+      "message": "metrics flush OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:50:51+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-7afe",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:50:50+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-c6c2",
+      "message": "GC minor collection, pause 43ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:50:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 5 (partition 0, offset 8515838)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:50:23+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-62c9",
+      "message": "metrics flush OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:50:07+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-b05a",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:49:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 40 (partition 0, offset 8514898)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:49:44+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-a2a6",
+      "message": "batch processed 340 records",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:49:42+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-0b44",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:49:30+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-a7dd",
+      "message": "connection pool stats: healthy",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:49:27+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-8986",
+      "message": "readiness probe OK",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:49:23+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-9bcc",
+      "message": "GC minor collection, pause 21ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:49:04+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-c776",
+      "message": "GC minor collection, pause 35ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:49:00+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-7d4f",
+      "message": "container.memory.usage.pct 85.2%",
+      "severity": "P4",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:49:00+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-7d4f",
+      "message": "GC pause p99 700ms",
+      "severity": "P3",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:48:55+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-8733",
+      "message": "session cache hit ratio 0.97",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:48:47+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-144a",
+      "message": "scheduled heartbeat",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:48:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 37 (partition 0, offset 8514043)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:48:35+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inv-resv-svc-bfe5",
+      "message": "GC minor collection, pause 29ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:48:33+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pricing-svc-f8c1",
+      "message": "session cache hit ratio 0.94",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:48:24+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-intake-svc-7169",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:48:24+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apigee-gw-eedd",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:48:20+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "pay-adapter-svc-69dc",
+      "message": "config reload no-op, no changes detected",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:47:52+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "apim-gw-e782",
+      "message": "session cache hit ratio 0.95",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:47:47+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "fulfil-disp-svc-29eb",
+      "message": "GC minor collection, pause 21ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:47:46+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "ord-orch-svc-f62f",
+      "message": "cache refresh completed",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:47:45+00:00",
+      "source": "Kafka",
+      "ruleId": "KFK-LAG-004",
+      "component": "inventory-reservation-cg / inventory.reserve.req",
+      "message": "lag 21 (partition 0, offset 8513105)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T09:40:00+00:00",
+      "source": "ELK",
+      "ruleId": "ELK-R-0402",
+      "component": "settle-batch-job-7563",
+      "message": "settlement batch queue depth 340, above soft threshold (unrelated job)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": true
+    },
+    {
+      "ts": "2026-09-18T08:40:00+00:00",
+      "source": "ELK",
+      "ruleId": "ELK-R-0401",
+      "component": "settle-batch-job-19ed",
+      "message": "settlement batch retry 2/5, transient upstream timeout (unrelated job)",
+      "severity": "P3",
+      "correlationId": null,
+      "isNoise": true
+    },
+    {
+      "ts": "2026-09-18T08:40:00+00:00",
+      "source": "ELK",
+      "ruleId": "—",
+      "component": "inventory-reservation",
+      "message": "heap utilisation 71.2% on inv-resv-svc, above soft threshold",
+      "severity": "P4",
+      "correlationId": "mrd-20260918-9a41c7e2",
+      "isNoise": false,
+      "isFirstSymptom": true
+    }
+  ],
+  "diagnosis": {
+    "incident_summary": "Order flow has been degraded across web, mobile, POS and the partner feed since 09:52 UTC, when inventory-reservation entered an OOMKill crash loop; the first symptom was a buried P4 heap alert at 08:40.",
+    "timeline": [
+      {
+        "event_id": "e-0767",
+        "ts": "2026-09-18T08:40:00+00:00",
+        "source": "ELK",
+        "component": "inventory-reservation",
+        "description": "heap utilisation 71.2% on inv-resv-svc, above soft threshold",
+        "is_first_symptom": true
+      },
+      {
+        "event_id": "e-1343",
+        "ts": "2026-09-18T09:25:00+00:00",
+        "source": "ELK",
+        "component": "inventory-reservation",
+        "description": "GC pause p99 climbing: 40ms -> 900ms over last 10 samples"
+      },
+      {
+        "event_id": "e-1694",
+        "ts": "2026-09-18T09:52:00+00:00",
+        "source": "ELK",
+        "component": "inventory-reservation",
+        "description": "OOMKilled: container exceeded memory limit, pod inv-resv-svc-7d4f restart 1"
+      },
+      {
+        "event_id": "e-1709",
+        "ts": "2026-09-18T09:53:00+00:00",
+        "source": "Kafka",
+        "component": "inventory-reservation",
+        "description": "consumer lag on inventory.reserve.req begins climbing as the consumer group falls behind (offset 8517598, lag 28 and rising)"
+      },
+      {
+        "event_id": "e-1771",
+        "ts": "2026-09-18T09:58:00+00:00",
+        "source": "ELK",
+        "component": "inventory-reservation",
+        "description": "OOMKilled: pod inv-resv-svc-7d4f restart 2, crash loop detected"
+      },
+      {
+        "event_id": "e-1826",
+        "ts": "2026-09-18T10:02:00+00:00",
+        "source": "APIM",
+        "component": "azure-apim",
+        "description": "504 gateway timeouts on /internal/inventory/reserve, count=84, p99=5006ms"
+      },
+      {
+        "event_id": "e-1847",
+        "ts": "2026-09-18T10:04:00+00:00",
+        "source": "Apigee",
+        "component": "apigee-edge",
+        "description": "502 on /v2/orders, count=177, p99=3374ms — customer-visible"
+      },
+      {
+        "event_id": "e-1877",
+        "ts": "2026-09-18T10:06:00+00:00",
+        "source": "ServiceNow",
+        "component": "Inventory & Fulfilment",
+        "description": "INC0098451: Order flow degraded — inventory-reservation"
+      }
+    ],
+    "hypotheses": [
+      {
+        "rank": 1,
+        "cause": "Slow memory leak in the inventory-reservation reservation cache, builds over ~90 minutes to an OOMKill crash loop",
+        "confidence": "High",
+        "supports": [
+          {
+            "event_id": "e-0767",
+            "why": "Heap crossed 71% as a soft-threshold WARN, 72 minutes before the first restart — a gradual climb, not a step change, is the classic leak signature."
+          },
+          {
+            "event_id": "e-1343",
+            "why": "GC pause p99 climbing from 40ms to 900ms over the same window is consistent with the collector fighting a shrinking free heap, not a sudden load spike."
+          },
+          {
+            "event_id": "e-1694",
+            "why": "First OOMKill lands exactly where the heap trend was heading, with no other trigger event at that timestamp."
+          },
+          {
+            "event_id": "e-0257",
+            "why": "inventory-reservation handled 40% higher peak order volume on 2026-09-09 with heap flat under 55% — rules out volume as the trigger and points at something time-based."
+          }
+        ],
+        "contradicts": [
+          {
+            "event_id": "e-1709",
+            "why": "Consumer lag was still low (28) a minute after the first restart, briefly recovering — a hard, monotonic leak would be expected to degrade further immediately rather than dip, which is also consistent with an external saturating dependency intermittently unblocking."
+          }
+        ],
+        "what_would_change_this": "Evidence of a recent deploy, config change, or dependency version bump to inventory-reservation around 08:00–08:40 would point at a triggered regression instead of an organic leak."
+      },
+      {
+        "rank": 2,
+        "cause": "Upstream retry storm inflating batch sizes into inventory-reservation",
+        "confidence": "Low",
+        "supports": [
+          {
+            "event_id": "e-1826",
+            "why": "Sustained 504s on the internal reserve endpoint are consistent with a backed-up caller retrying aggressively."
+          }
+        ],
+        "contradicts": [
+          {
+            "event_id": "e-1341",
+            "why": "order.enriched producer rate stayed flat at baseline (820–890 msg/min) throughout the pre-incident window — no retry storm or batch-size inflation is visible upstream."
+          }
+        ],
+        "what_would_change_this": "A visible spike in order.enriched producer rate or batch size in the 30 minutes before 09:52 would support this instead."
+      }
+    ],
+    "ruled_out": [
+      {
+        "candidate": "Settlement batch job retry noise (settle-batch-job-19ed, 08:40)",
+        "reason": "Different service (nightly-settlement-batch), no shared correlation ID with the incident, and the retry resolved on its own — an unrelated routine job blip that happened to land at the same minute as the first real symptom."
+      },
+      {
+        "candidate": "Settlement batch queue depth warning (settle-batch-job-7563, 09:40)",
+        "reason": "Same unrelated nightly-settlement-batch job, again with no correlation ID linking it to inventory-reservation."
+      }
+    ],
+    "checks": [
+      {
+        "order": 1,
+        "action": "Pull the inv-resv-svc deploy/rollout history for the last 7 days",
+        "command": "kubectl rollout history deployment/inv-resv-svc --namespace=order-platform",
+        "if_result_a": "No changes in the window — supports the organic leak hypothesis",
+        "if_result_b": "A change lands between 07:00–08:40 — supports a triggered regression instead",
+        "effort": "low"
+      },
+      {
+        "order": 2,
+        "action": "Chart heap utilisation for inv-resv-svc across the full pre-incident window",
+        "command": "Grafana: container.memory.usage.pct{service=\"inventory-reservation\"} from 07:00 to 10:06",
+        "if_result_a": "Monotonic, roughly linear climb from ~44% to OOM — confirms a leak signature",
+        "if_result_b": "A step change coincides with a specific event — points at a trigger, not a leak",
+        "effort": "low"
+      },
+      {
+        "order": 3,
+        "action": "Compare inventory.reserve.req producer vs. consumer throughput, today vs. 2026-09-09",
+        "command": "Kafka consumer-group describe + producer rate metrics, both dates, 08:00–10:00 window",
+        "if_result_a": "Today's producer rate is at or below last Tuesday's — rules out volume as the trigger",
+        "if_result_b": "Today's rate is materially higher — reopens the volume/retry-storm hypothesis",
+        "effort": "medium"
+      }
+    ],
+    "blast_radius": {
+      "channels": [
+        "Web checkout",
+        "Mobile app",
+        "Store POS",
+        "Partner B2B feed"
+      ],
+      "orders_stuck": 268,
+      "downstream_degraded": [
+        "apigee-edge /v2/orders",
+        "azure-apim /internal/inventory/reserve",
+        "fulfilment-dispatch (blocked on reservation confirmation)"
+      ],
+      "partner_feed_impacted": true
+    },
+    "recovery": {
+      "proposal": "Roll inv-resv-svc pods on a staggered schedule with the memory limit raised from 768Mi to 1.5Gi to buy headroom and drain the Kafka backlog without a full outage; capture a heap dump on the next OOM before the rollout completes, to confirm the leaking object graph for a permanent fix.",
+      "risk": "A larger memory limit only delays the next OOM if the leak is unbounded — if the leak rate is fast enough, pods could still exhaust the new limit within a few hours.",
+      "rollback": "Revert the memory limit to the 768Mi baseline; this returns the service to its current (degraded but familiar) crash-loop behaviour with no other state mutated.",
+      "requires_approval": true
+    },
+    "post_incident_note": "INC0098451 — root cause: slow heap leak in inv-resv-svc reservation cache, first symptom 08:40, first OOMKill 09:52. No deploy or config change in the preceding 30 days (confirmed via late evidence at 10:24). Mitigated via staggered pod restart with raised memory limit once approved. Follow-up: heap dump analysis to identify and patch the leaking allocation path; consider a scheduled restart policy as a stopgap."
+  },
+  "lateEvidence": {
+    "event": {
+      "event_id": "e-late-0001",
+      "ts": "2026-09-18T10:24:00+00:00",
+      "source": "ELK",
+      "component": "inventory-reservation",
+      "severity": 2,
+      "description": "late signal: pod eviction record shows no memory limit change in last 30 days and no recent deploy -- rules out config/deploy as the trigger, consistent with a slow leak",
+      "correlation_id": "mrd-20260918-9a41c7e2",
+      "raw_ref": {
+        "file": "late-evidence.ndjson",
+        "line": 1
+      }
+    },
+    "diff": {
+      "new_event": {
+        "event_id": "e-late-0001",
+        "ts": "2026-09-18T10:24:00+00:00",
+        "source": "ELK",
+        "component": "inventory-reservation",
+        "description": "late signal: pod eviction record shows no memory limit change in last 30 days and no recent deploy -- rules out config/deploy as the trigger, consistent with a slow leak",
+        "is_first_symptom": false
+      },
+      "changed_summary": "The deploy/config history check closes the one open question against the leak hypothesis — no change to inventory-reservation in 30 days — so the memory-leak diagnosis stands confirmed rather than merely favoured, and the retry-storm alternative is now effectively closed out.",
+      "rank_before": [
+        {
+          "cause": "Slow memory leak in the inventory-reservation reservation cache",
+          "rank": 1
+        },
+        {
+          "cause": "Upstream retry storm inflating batch sizes into inventory-reservation",
+          "rank": 2
+        }
+      ],
+      "rank_after": [
+        {
+          "cause": "Slow memory leak in the inventory-reservation reservation cache",
+          "rank": 1
+        },
+        {
+          "cause": "Upstream retry storm inflating batch sizes into inventory-reservation",
+          "rank": 2
+        }
+      ],
+      "what_changed": [
+        "The pod-eviction record shows no memory-limit change and no deploy to inventory-reservation in the last 30 days — this was hypothesis 1's stated 'what would change this' trigger for a lower confidence read, and it has now been resolved in the leak's favour.",
+        "Hypothesis 2 (retry storm) had no plausible remaining trigger event even before this evidence; it stays ranked 2 but is now considered closed rather than merely unlikely."
+      ]
+    },
+    "diagnosisAfter": {
+      "incident_summary": "Order flow has been degraded across web, mobile, POS and the partner feed since 09:52 UTC due to a confirmed memory leak in inventory-reservation; deploy history rules out any recent change as the trigger.",
+      "timeline": [
+        {
+          "event_id": "e-0767",
+          "ts": "2026-09-18T08:40:00+00:00",
+          "source": "ELK",
+          "component": "inventory-reservation",
+          "description": "heap utilisation 71.2% on inv-resv-svc, above soft threshold",
+          "is_first_symptom": true
+        },
+        {
+          "event_id": "e-1343",
+          "ts": "2026-09-18T09:25:00+00:00",
+          "source": "ELK",
+          "component": "inventory-reservation",
+          "description": "GC pause p99 climbing: 40ms -> 900ms over last 10 samples"
+        },
+        {
+          "event_id": "e-1694",
+          "ts": "2026-09-18T09:52:00+00:00",
+          "source": "ELK",
+          "component": "inventory-reservation",
+          "description": "OOMKilled: container exceeded memory limit, pod inv-resv-svc-7d4f restart 1"
+        },
+        {
+          "event_id": "e-1709",
+          "ts": "2026-09-18T09:53:00+00:00",
+          "source": "Kafka",
+          "component": "inventory-reservation",
+          "description": "consumer lag on inventory.reserve.req begins climbing as the consumer group falls behind (offset 8517598, lag 28 and rising)"
+        },
+        {
+          "event_id": "e-1771",
+          "ts": "2026-09-18T09:58:00+00:00",
+          "source": "ELK",
+          "component": "inventory-reservation",
+          "description": "OOMKilled: pod inv-resv-svc-7d4f restart 2, crash loop detected"
+        },
+        {
+          "event_id": "e-1826",
+          "ts": "2026-09-18T10:02:00+00:00",
+          "source": "APIM",
+          "component": "azure-apim",
+          "description": "504 gateway timeouts on /internal/inventory/reserve, count=84, p99=5006ms"
+        },
+        {
+          "event_id": "e-1847",
+          "ts": "2026-09-18T10:04:00+00:00",
+          "source": "Apigee",
+          "component": "apigee-edge",
+          "description": "502 on /v2/orders, count=177, p99=3374ms — customer-visible"
+        },
+        {
+          "event_id": "e-1877",
+          "ts": "2026-09-18T10:06:00+00:00",
+          "source": "ServiceNow",
+          "component": "Inventory & Fulfilment",
+          "description": "INC0098451: Order flow degraded — inventory-reservation"
+        },
+        {
+          "event_id": "e-late-0001",
+          "ts": "2026-09-18T10:24:00+00:00",
+          "source": "ELK",
+          "component": "inventory-reservation",
+          "description": "late signal: pod eviction record shows no memory limit change in last 30 days and no recent deploy -- rules out config/deploy as the trigger, consistent with a slow leak",
+          "is_first_symptom": false
+        }
+      ],
+      "hypotheses": [
+        {
+          "rank": 1,
+          "cause": "Slow memory leak in the inventory-reservation reservation cache, builds over ~90 minutes to an OOMKill crash loop",
+          "confidence": "High",
+          "supports": [
+            {
+              "event_id": "e-0767",
+              "why": "Heap crossed 71% as a soft-threshold WARN, 72 minutes before the first restart — a gradual climb, not a step change, is the classic leak signature."
+            },
+            {
+              "event_id": "e-1343",
+              "why": "GC pause p99 climbing from 40ms to 900ms over the same window is consistent with the collector fighting a shrinking free heap, not a sudden load spike."
+            },
+            {
+              "event_id": "e-1694",
+              "why": "First OOMKill lands exactly where the heap trend was heading, with no other trigger event at that timestamp."
+            },
+            {
+              "event_id": "e-0257",
+              "why": "inventory-reservation handled 40% higher peak order volume on 2026-09-09 with heap flat under 55% — rules out volume as the trigger and points at something time-based."
+            }
+          ],
+          "contradicts": [
+            {
+              "event_id": "e-1709",
+              "why": "Consumer lag was still low (28) a minute after the first restart, briefly recovering — a hard, monotonic leak would be expected to degrade further immediately rather than dip, which is also consistent with an external saturating dependency intermittently unblocking."
+            }
+          ],
+          "what_would_change_this": "Nothing outstanding — deploy/config history confirms no trigger other than the leak itself. A heap dump would still be needed to identify the exact leaking allocation for a permanent code fix."
+        },
+        {
+          "rank": 2,
+          "cause": "Upstream retry storm inflating batch sizes into inventory-reservation",
+          "confidence": "Low",
+          "supports": [
+            {
+              "event_id": "e-1826",
+              "why": "Sustained 504s on the internal reserve endpoint are consistent with a backed-up caller retrying aggressively."
+            }
+          ],
+          "contradicts": [
+            {
+              "event_id": "e-1341",
+              "why": "order.enriched producer rate stayed flat at baseline (820–890 msg/min) throughout the pre-incident window — no retry storm or batch-size inflation is visible upstream."
+            }
+          ],
+          "what_would_change_this": "A visible spike in order.enriched producer rate or batch size in the 30 minutes before 09:52 would support this instead."
+        }
+      ],
+      "ruled_out": [
+        {
+          "candidate": "Settlement batch job retry noise (settle-batch-job-19ed, 08:40)",
+          "reason": "Different service (nightly-settlement-batch), no shared correlation ID with the incident, and the retry resolved on its own — an unrelated routine job blip that happened to land at the same minute as the first real symptom."
+        },
+        {
+          "candidate": "Settlement batch queue depth warning (settle-batch-job-7563, 09:40)",
+          "reason": "Same unrelated nightly-settlement-batch job, again with no correlation ID linking it to inventory-reservation."
+        }
+      ],
+      "checks": [
+        {
+          "order": 1,
+          "action": "Pull the inv-resv-svc deploy/rollout history for the last 7 days",
+          "command": "kubectl rollout history deployment/inv-resv-svc --namespace=order-platform",
+          "if_result_a": "No changes in the window — supports the organic leak hypothesis",
+          "if_result_b": "A change lands between 07:00–08:40 — supports a triggered regression instead",
+          "effort": "low"
+        },
+        {
+          "order": 2,
+          "action": "Chart heap utilisation for inv-resv-svc across the full pre-incident window",
+          "command": "Grafana: container.memory.usage.pct{service=\"inventory-reservation\"} from 07:00 to 10:06",
+          "if_result_a": "Monotonic, roughly linear climb from ~44% to OOM — confirms a leak signature",
+          "if_result_b": "A step change coincides with a specific event — points at a trigger, not a leak",
+          "effort": "low"
+        },
+        {
+          "order": 3,
+          "action": "Compare inventory.reserve.req producer vs. consumer throughput, today vs. 2026-09-09",
+          "command": "Kafka consumer-group describe + producer rate metrics, both dates, 08:00–10:00 window",
+          "if_result_a": "Today's producer rate is at or below last Tuesday's — rules out volume as the trigger",
+          "if_result_b": "Today's rate is materially higher — reopens the volume/retry-storm hypothesis",
+          "effort": "medium"
+        }
+      ],
+      "blast_radius": {
+        "channels": [
+          "Web checkout",
+          "Mobile app",
+          "Store POS",
+          "Partner B2B feed"
+        ],
+        "orders_stuck": 268,
+        "downstream_degraded": [
+          "apigee-edge /v2/orders",
+          "azure-apim /internal/inventory/reserve",
+          "fulfilment-dispatch (blocked on reservation confirmation)"
+        ],
+        "partner_feed_impacted": true
+      },
+      "recovery": {
+        "proposal": "Roll inv-resv-svc pods on a staggered schedule with the memory limit raised from 768Mi to 1.5Gi to buy headroom and drain the Kafka backlog without a full outage; capture a heap dump on the next OOM before the rollout completes, to confirm the leaking object graph for a permanent fix.",
+        "risk": "A larger memory limit only delays the next OOM if the leak is unbounded — if the leak rate is fast enough, pods could still exhaust the new limit within a few hours.",
+        "rollback": "Revert the memory limit to the 768Mi baseline; this returns the service to its current (degraded but familiar) crash-loop behaviour with no other state mutated.",
+        "requires_approval": true
+      },
+      "post_incident_note": "INC0098451 — root cause: slow heap leak in inv-resv-svc reservation cache, first symptom 08:40, first OOMKill 09:52. No deploy or config change in the preceding 30 days (confirmed via late evidence at 10:24). Mitigated via staggered pod restart with raised memory limit once approved. Follow-up: heap dump analysis to identify and patch the leaking allocation path; consider a scheduled restart policy as a stopgap."
+    }
+  },
+  "rulesFired": 5,
+  "rulesTotal": 412
+}

@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.local
+*.log
+__pycache__/
+*.pyc
+
+# regenerable raw generator/normaliser output (run generator/generate.py +
+# normaliser/normalise.py to recreate) -- the app only needs app/src/data
+/data/
