@@ -8,51 +8,76 @@ const PROMPTS_DIR = join(__dirname, '..', 'prompts')
 const ANALYST_SYSTEM = readFileSync(join(PROMPTS_DIR, 'analyst-system.md'), 'utf-8')
 const LATE_EVIDENCE_INSTRUCTIONS = readFileSync(join(PROMPTS_DIR, 'late-evidence.md'), 'utf-8')
 
-const ANTHROPIC_API_KEY = process.env.ANTHROPIC_API_KEY
-const MODEL = process.env.ANTHROPIC_MODEL || 'claude-sonnet-5'
+// Azure AI Foundry project (Responses API, OpenAI-compatible surface).
+// FOUNDRY_ENDPOINT is the "…/openai/v1" base shown in the Foundry portal's
+// "Call this model" panel; the model is a deployment name on that project,
+// not a generic model id.
+const FOUNDRY_ENDPOINT = process.env.FOUNDRY_ENDPOINT
+const FOUNDRY_API_KEY = process.env.FOUNDRY_API_KEY
+const MODEL = process.env.FOUNDRY_MODEL || 'gpt-5'
+// unset by default -- let gpt-5 reason at its own default depth. This is a
+// one-shot analyst report shown live exactly once in the demo, not a
+// latency-sensitive path, so there's no reason to trade accuracy for speed
+// here the way the fast-path classification calls elsewhere do.
+const REASONING_EFFORT = process.env.FOUNDRY_REASONING_EFFORT || undefined
 
 const app = express()
 app.use(express.json({ limit: '10mb' }))
 
 function requireApiKey(res) {
-  if (!ANTHROPIC_API_KEY) {
+  if (!FOUNDRY_ENDPOINT || !FOUNDRY_API_KEY) {
     res.status(500).json({
       error:
-        'ANTHROPIC_API_KEY is not set. The live toggle needs a real key in the environment; every other scenario path uses the cached bundles and does not need this server.',
+        'FOUNDRY_ENDPOINT and FOUNDRY_API_KEY are not both set. The live toggle needs both in the environment; every other scenario path uses the cached bundles and does not need this server.',
     })
     return false
   }
   return true
 }
 
-async function callClaude(system, userContent) {
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+function extractOutputText(data) {
+  if (typeof data.output_text === 'string' && data.output_text) return data.output_text
+  const chunks = []
+  for (const item of data.output || []) {
+    for (const c of item.content || []) {
+      if (c.type === 'output_text' && c.text) chunks.push(c.text)
+    }
+  }
+  return chunks.join('')
+}
+
+async function callFoundry(instructions, input) {
+  const body = {
+    model: MODEL,
+    instructions,
+    input,
+    text: { verbosity: 'medium' },
+  }
+  if (REASONING_EFFORT) body.reasoning = { effort: REASONING_EFFORT }
+
+  const resp = await fetch(`${FOUNDRY_ENDPOINT.replace(/\/$/, '')}/responses`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      'x-api-key': ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01',
+      'api-key': FOUNDRY_API_KEY,
+      authorization: `Bearer ${FOUNDRY_API_KEY}`,
     },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: 4096,
-      system,
-      messages: [{ role: 'user', content: userContent }],
-    }),
+    body: JSON.stringify(body),
   })
   if (!resp.ok) {
-    throw new Error(`Anthropic API error ${resp.status}: ${await resp.text()}`)
+    throw new Error(`Azure AI Foundry error ${resp.status}: ${await resp.text()}`)
   }
   const data = await resp.json()
-  const text = data.content?.map((b) => b.text ?? '').join('') ?? ''
-  return JSON.parse(text)
+  const text = extractOutputText(data)
+  const cleaned = text.trim().replace(/^```(?:json)?\s*/i, '').replace(/```\s*$/, '')
+  return JSON.parse(cleaned)
 }
 
 app.post('/api/diagnose', async (req, res) => {
   if (!requireApiKey(res)) return
   try {
     const { events } = req.body
-    const diagnosis = await callClaude(
+    const diagnosis = await callFoundry(
       ANALYST_SYSTEM,
       `normalised_events:\n${JSON.stringify(events, null, 2)}`,
     )
@@ -66,7 +91,7 @@ app.post('/api/diagnose/late-evidence', async (req, res) => {
   if (!requireApiKey(res)) return
   try {
     const { events, lateEvent, previousDiagnosis } = req.body
-    const diagnosis = await callClaude(
+    const diagnosis = await callFoundry(
       ANALYST_SYSTEM + '\n\n---\n\n' + LATE_EVIDENCE_INSTRUCTIONS,
       `normalised_events:\n${JSON.stringify(events, null, 2)}\n\nlate_event:\n${JSON.stringify(
         lateEvent,
@@ -81,10 +106,12 @@ app.post('/api/diagnose/late-evidence', async (req, res) => {
 })
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, liveEnabled: Boolean(ANTHROPIC_API_KEY), model: MODEL })
+  res.json({ ok: true, liveEnabled: Boolean(FOUNDRY_ENDPOINT && FOUNDRY_API_KEY), model: MODEL })
 })
 
 const PORT = process.env.PORT || 8787
 app.listen(PORT, () => {
-  console.log(`Incident AI thin server listening on :${PORT} (live=${Boolean(ANTHROPIC_API_KEY)})`)
+  console.log(
+    `Incident AI thin server listening on :${PORT} (live=${Boolean(FOUNDRY_ENDPOINT && FOUNDRY_API_KEY)}, model=${MODEL})`,
+  )
 })

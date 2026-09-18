@@ -1,8 +1,10 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Badges } from '../components/Badges'
 import { BridgeTimer } from '../components/BridgeTimer'
 import { LayerStack } from '../components/LayerStack'
+import { LiveDiagnosisControl } from '../components/LiveDiagnosisControl'
 import { ScenarioSwitcher } from '../components/ScenarioSwitcher'
+import { runLiveDiagnosis } from '../lib/ai'
 import { BlastRadius } from '../panels/BlastRadius'
 import { Checks } from '../panels/Checks'
 import { Hypotheses } from '../panels/Hypotheses'
@@ -28,11 +30,24 @@ export function AiView({
   const [lateInjected, setLateInjected] = useState(false)
   const [showDiff, setShowDiff] = useState(false)
 
-  const diagnosis: AiDiagnosis = lateInjected ? bundle.lateEvidence.diagnosisAfter : bundle.diagnosis
+  const [liveStatus, setLiveStatus] = useState<'idle' | 'loading' | 'error' | 'done'>('idle')
+  const [liveDiagnosis, setLiveDiagnosis] = useState<AiDiagnosis | null>(null)
+  const [liveError, setLiveError] = useState<string | null>(null)
+  const [liveElapsed, setLiveElapsed] = useState(0)
+  const elapsedTimer = useRef<number | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (elapsedTimer.current) window.clearInterval(elapsedTimer.current)
+    }
+  }, [])
+
+  const diagnosis: AiDiagnosis =
+    liveDiagnosis ?? (lateInjected ? bundle.lateEvidence.diagnosisAfter : bundle.diagnosis)
 
   const events: NormalisedEvent[] = useMemo(
-    () => (lateInjected ? [...bundle.events, bundle.lateEvidence.event] : bundle.events),
-    [bundle, lateInjected],
+    () => (lateInjected && !liveDiagnosis ? [...bundle.events, bundle.lateEvidence.event] : bundle.events),
+    [bundle, lateInjected, liveDiagnosis],
   )
   const eventsById = useMemo(() => new Map(events.map((e) => [e.event_id, e])), [events])
 
@@ -43,6 +58,32 @@ export function AiView({
     setShowDiff(true)
   }
 
+  async function runLive() {
+    setLiveStatus('loading')
+    setLiveError(null)
+    setLiveElapsed(0)
+    elapsedTimer.current = window.setInterval(() => setLiveElapsed((s) => s + 1), 1000)
+    try {
+      const result = await runLiveDiagnosis(bundle.events)
+      setLiveDiagnosis(result)
+      setLiveStatus('done')
+    } catch (err) {
+      setLiveError(err instanceof Error ? err.message : String(err))
+      setLiveStatus('error')
+    } finally {
+      if (elapsedTimer.current) {
+        window.clearInterval(elapsedTimer.current)
+        elapsedTimer.current = null
+      }
+    }
+  }
+
+  function backToCached() {
+    setLiveDiagnosis(null)
+    setLiveStatus('idle')
+    setLiveError(null)
+  }
+
   return (
     <div className="relative min-h-full bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-200">
       <div className="pointer-events-none fixed top-16 right-3 z-40">
@@ -51,11 +92,20 @@ export function AiView({
 
       <div className="mx-auto max-w-6xl px-4 py-5">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-          <Badges
-            rulesFired={bundle.rulesFired}
-            rulesTotal={bundle.rulesTotal}
-            ruledOutCount={diagnosis.ruled_out.length}
-          />
+          <div className="flex flex-wrap items-center gap-2">
+            <Badges
+              rulesFired={bundle.rulesFired}
+              rulesTotal={bundle.rulesTotal}
+              ruledOutCount={diagnosis.ruled_out.length}
+            />
+            <LiveDiagnosisControl
+              status={liveStatus}
+              elapsed={liveElapsed}
+              error={liveError}
+              onRunLive={runLive}
+              onBackToCached={backToCached}
+            />
+          </div>
           <ScenarioSwitcher
             slugs={slugs}
             labels={labels}
@@ -134,8 +184,9 @@ export function AiView({
 
         <div className="mt-5 flex justify-center pb-8">
           <button
-            disabled={lateInjected}
+            disabled={lateInjected || Boolean(liveDiagnosis)}
             onClick={injectLateEvidence}
+            title={liveDiagnosis ? 'Not available on a live result — go back to cached first' : undefined}
             className="rounded-md border border-amber-300 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 px-4 py-2 text-[12.5px] font-medium text-amber-700 dark:text-amber-300 transition hover:bg-amber-100 dark:hover:bg-amber-500/20 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {lateInjected ? 'Late evidence injected' : 'Inject late evidence →'}
