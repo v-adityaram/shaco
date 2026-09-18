@@ -1,6 +1,12 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
+  color-scheme: light;
+}
+
+:root.dark {
   color-scheme: dark;
 }
 
@@ -19,6 +25,11 @@ body,
 
 body {
   font-family: ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif;
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.dark body {
   background: #0b0c10;
   color: #e5e7eb;
 }

@@ -1,4 +1,6 @@
 import { useMemo, useRef, useState } from 'react'
+import { ThemeToggle } from './components/ThemeToggle'
+import { useTheme } from './hooks/useTheme'
 import { getAllScenarios, getScenarioBundle, scenarioSlugs } from './lib/cache'
 import { AiView } from './screens/AiView'
 import { AlertFloor } from './screens/AlertFloor'
@@ -17,6 +19,7 @@ export default function App() {
   const [activeSlug, setActiveSlug] = useState(scenarioSlugs[0])
   const [phase, setPhase] = useState<Phase>('today')
   const timers = useRef<number[]>([])
+  const { theme, toggleTheme } = useTheme()
 
   const bundles = useMemo(() => getAllScenarios(), [])
   const bundle = getScenarioBundle(activeSlug)
@@ -57,7 +60,10 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-svh bg-slate-950">
+    <div className="min-h-svh bg-slate-100 dark:bg-slate-950">
+      <div className="fixed top-3 right-3 z-50">
+        <ThemeToggle theme={theme} onToggle={toggleTheme} />
+      </div>
       {phase !== 'ai' ? (
         <div className="h-svh">
           <AlertFloor
@@ -75,7 +81,7 @@ export default function App() {
           <div className="mx-auto flex max-w-6xl justify-start px-4 pt-3">
             <button
               onClick={backToToday}
-              className="text-[11px] text-slate-500 underline decoration-dotted hover:text-slate-300"
+              className="text-[11px] text-slate-500 underline decoration-dotted hover:text-slate-800 dark:hover:text-slate-300"
             >
               ← back to alert floor
             </button>

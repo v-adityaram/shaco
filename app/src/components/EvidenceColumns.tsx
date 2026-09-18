@@ -17,16 +17,16 @@ export function EvidenceColumns({
   return (
     <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
       <div>
-        <div className="mb-1.5 text-[11px] font-semibold tracking-wide text-emerald-400 uppercase">
+        <div className="mb-1.5 text-[11px] font-semibold tracking-wide text-emerald-600 dark:text-emerald-400 uppercase">
           Supports
         </div>
         <ul className="space-y-1.5">
           {supports.map((s) => (
             <li
               key={s.event_id}
-              className="rounded border border-emerald-500/20 bg-emerald-500/5 px-2 py-1.5 text-[12px] text-slate-300"
+              className="rounded border border-emerald-300 dark:border-emerald-500/20 bg-emerald-50 dark:bg-emerald-500/5 px-2 py-1.5 text-[12px] text-slate-600 dark:text-slate-300"
             >
-              <div className="font-mono-tight text-[10px] text-emerald-400/80">
+              <div className="font-mono-tight text-[10px] text-emerald-600/80 dark:text-emerald-400/80">
                 {s.event_id} · {describeEvent(s, eventsById)}
               </div>
               {s.why}
@@ -35,16 +35,16 @@ export function EvidenceColumns({
         </ul>
       </div>
       <div>
-        <div className="mb-1.5 text-[11px] font-semibold tracking-wide text-rose-400 uppercase">
+        <div className="mb-1.5 text-[11px] font-semibold tracking-wide text-rose-600 dark:text-rose-400 uppercase">
           Contradicts
         </div>
         <ul className="space-y-1.5">
           {contradicts.map((c) => (
             <li
               key={c.event_id}
-              className="rounded border border-rose-500/20 bg-rose-500/5 px-2 py-1.5 text-[12px] text-slate-300"
+              className="rounded border border-rose-300 dark:border-rose-500/20 bg-rose-50 dark:bg-rose-500/5 px-2 py-1.5 text-[12px] text-slate-600 dark:text-slate-300"
             >
-              <div className="font-mono-tight text-[10px] text-rose-400/80">
+              <div className="font-mono-tight text-[10px] text-rose-600/80 dark:text-rose-400/80">
                 {c.event_id} · {describeEvent(c, eventsById)}
               </div>
               {c.why}
