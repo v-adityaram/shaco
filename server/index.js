@@ -131,6 +131,8 @@ function sanitise(diag, byId) {
       h[side] = h[side].filter((ev) => byId.has(ev.event_id))
       if (h[side].length !== before) warnings.push(`dropped ${before - h[side].length} uncitable ${side} item(s) on rank ${h.rank}`)
     }
+    const both = h.supports.filter((a) => h.contradicts.some((b) => b.event_id === a.event_id)).map((a) => a.event_id)
+    if (both.length) warnings.push(`rank ${h.rank} cites ${both.join(', ')} on both sides`)
   }
   diag.timeline = diag.timeline
     .filter((t) => byId.has(t.event_id))
@@ -146,6 +148,19 @@ function sanitise(diag, byId) {
       }
     })
     .sort((a, b) => a.ts.localeCompare(b.ts))
+  // exactly one first symptom: keep the earliest flagged event
+  const flagged = diag.timeline.filter((t) => t.is_first_symptom)
+  if (flagged.length > 1) {
+    for (const t of flagged.slice(1)) t.is_first_symptom = false
+    warnings.push(`model marked ${flagged.length} first symptoms; kept the earliest`)
+  }
+  // grounding: blast_radius.exchanges_stuck must appear in some event, otherwise flag it
+  const n = diag.blast_radius && diag.blast_radius.exchanges_stuck
+  if (typeof n === 'number' && n > 0) {
+    const forms = [String(n), n.toLocaleString('en-US')]
+    const found = [...byId.values()].some((e) => forms.some((f) => e.description.includes(f)))
+    if (!found) warnings.push(`exchanges_stuck=${n} does not appear in any evidence event`)
+  }
   diag.recovery.requires_approval = true
   return warnings
 }

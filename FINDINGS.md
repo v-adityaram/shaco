@@ -88,3 +88,22 @@ S1 and S2 are a deliberate pair: the same business symptom ("deliveries not arri
 - Analyst prompts: `prompts/`
 - Live server and fallback cache: `server/`
 - App: `app/`
+
+## 9. Round 2 — S3 gave a different, worse answer on a later run
+
+**What happened.** A later live run of S3 ranked "problem inside SAP" first (High) and the vendor release second (Low), the opposite of an earlier run. It also reported 493 "stuck / failed" exchanges when that figure was the *in-progress* count (the failed count in the same record was 279), and it listed the same evidence on both sides of a hypothesis.
+
+**Root cause.** Partly the model, partly our evidence. The generator wrote "(Workato recipe ...)" into each failing exchange's log message, but the normaliser dropped that text and kept only the error reason. The model therefore saw failing half-flows named `EURO_RFCT_...` with no sign they call Workato, and reasonably concluded they were separate ESB flows that a Workato-only regression could not explain. The data contradicted itself.
+
+**Fixes.**
+| Fix | Where |
+| --- | --- |
+| Failing Sonar lines (and the grouped summaries) now state when the failing step is a Workato recipe call: 167 of 260 pack events carry it | `normaliser/normalise.py` |
+| New prompt rules: count only the incident's own flows and name the status; cite each event on one side only; use High confidence only when the discriminating check is done; mark exactly one first symptom | `prompts/analyst-system.md` |
+| Server flags a blast-radius number that appears in no evidence event, flags events cited on both sides, and keeps only the earliest first symptom | `server/index.js` |
+
+**Result.** Two clean live runs of S3: both ranked the vendor release first at Moderate with the SAP-side cause second at Low, both marked the single vendor notice as the first symptom, both reported 318 (the cumulative failed count, present in the evidence), and neither triggered a warning. The saved fallback now holds a correct answer.
+
+**New finding: rate limiting.** Firing three live calls at once produced a 429 "rate limit exceeded" from the model service on one of them; the server correctly replayed the saved fallback. In the room, do not switch between AI-only scenarios quickly, since each switch starts a live call.
+
+**Still true.** Two runs is a small sample. gpt-5 gives no way to fix the random seed, so some run-to-run variation remains; the server-side checks and the fallback exist for that reason.

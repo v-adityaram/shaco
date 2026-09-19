@@ -182,6 +182,9 @@ def parse_sonar(o, d, sc):
         elif st == "FAILED":
             desc = (f"{ex} / {r['halfflow']} FAILED at halfflow {r['halfflow.missing']}: {r['event.reason']} "
                     f"[{r['object.name']} {r['object.id']}, exchange.id {r['exchange.id']}]")
+            # the log message names the step that failed (e.g. a Workato recipe call); keep it, it is part of the record
+            if "Workato" in (r.get("message") or ""):
+                desc += " -- failing step is a call to a Workato recipe (per the log message)"
             o.add(r["_dt"], "SONAR", comp, 2, desc, xid, "context", raw_ref=base_ref)
         elif st == "REPLAYED":
             o.add(r["_dt"], "SONAR", comp, 4,
@@ -249,9 +252,12 @@ def parse_sonar(o, d, sc):
             hfs = {r["halfflow"] for r in all_items}
             prj = sorted({r["project"] for r in all_items})
             first = min(r["_dt"] for r in all_items)
+            via_workato = sum(1 for r in all_items if "Workato" in (r.get("message") or ""))
             desc = (f"{len(items)} exchanges FAILED in the 5 min to {k:%H:%M} with identical event.reason '{reason}'; "
                     f"cumulative since {first:%H:%M:%S}: {len(all_items)} failed exchanges across {len(hfs)} distinct half-flows "
                     f"in {len(prj)} projects ({', '.join(prj[:6])})")
+            if via_workato:
+                desc += f"; in {via_workato} of {len(all_items)} the failing step is a call to a Workato recipe (per the log message)"
             o.add(k, "SONAR", "SONAR-OPS", 2, desc, None, "context", raw_ref={"file": fn, "computed": "failed-by-reason"})
 
     # ---- partial-success watch (S3) ----

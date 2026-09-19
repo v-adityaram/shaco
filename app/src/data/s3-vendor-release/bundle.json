@@ -221,7 +221,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 7986018244322800, exchange.id 202609180952124187595290]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 7986018244322800, exchange.id 202609180952124187595290] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180952124187595290",
       "kind": "context",
       "raw_ref": {
@@ -265,7 +265,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9515045952047150, exchange.id 202609180952157117493079]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9515045952047150, exchange.id 202609180952157117493079] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180952157117493079",
       "kind": "context",
       "raw_ref": {
@@ -309,7 +309,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 7895662049703830, exchange.id 202609180953262986324153]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 7895662049703830, exchange.id 202609180953262986324153] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180953262986324153",
       "kind": "context",
       "raw_ref": {
@@ -338,7 +338,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 4894508558560174, exchange.id 202609180953386773734237]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 4894508558560174, exchange.id 202609180953386773734237] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180953386773734237",
       "kind": "context",
       "raw_ref": {
@@ -382,7 +382,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 1778538303411582, exchange.id 202609180954004878102293]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 1778538303411582, exchange.id 202609180954004878102293] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180954004878102293",
       "kind": "context",
       "raw_ref": {
@@ -411,7 +411,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 5735769438275204, exchange.id 202609180954154603389751]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 5735769438275204, exchange.id 202609180954154603389751] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180954154603389751",
       "kind": "context",
       "raw_ref": {
@@ -440,7 +440,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "14 exchanges FAILED in the 5 min to 09:55 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 14 failed exchanges across 8 distinct half-flows in 8 projects (EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04, EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPNE_YLCD01)",
+      "description": "14 exchanges FAILED in the 5 min to 09:55 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 14 failed exchanges across 8 distinct half-flows in 8 projects (EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04, EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPNE_YLCD01); in 14 of 14 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -454,7 +454,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2146657028760019, exchange.id 202609180955017429685341]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2146657028760019, exchange.id 202609180955017429685341] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180955017429685341",
       "kind": "context",
       "raw_ref": {
@@ -528,7 +528,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 2242800192811246, exchange.id 202609180955103694439017]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 2242800192811246, exchange.id 202609180955103694439017] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180955103694439017",
       "kind": "context",
       "raw_ref": {
@@ -587,7 +587,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 8307398560648725, exchange.id 202609180955467153000494]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 8307398560648725, exchange.id 202609180955467153000494] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180955467153000494",
       "kind": "context",
       "raw_ref": {
@@ -615,7 +615,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 6853912578261401, exchange.id 202609180956037107704332]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 6853912578261401, exchange.id 202609180956037107704332] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180956037107704332",
       "kind": "context",
       "raw_ref": {
@@ -659,7 +659,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 4201066562844983, exchange.id 202609180956117583868400]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 4201066562844983, exchange.id 202609180956117583868400] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180956117583868400",
       "kind": "context",
       "raw_ref": {
@@ -703,7 +703,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 8581785884231148, exchange.id 202609180956207625288688]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 8581785884231148, exchange.id 202609180956207625288688] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180956207625288688",
       "kind": "context",
       "raw_ref": {
@@ -732,7 +732,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 4760584055115908, exchange.id 202609180956446944398750]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 4760584055115908, exchange.id 202609180956446944398750] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180956446944398750",
       "kind": "context",
       "raw_ref": {
@@ -761,7 +761,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 5291854993127375, exchange.id 202609180957197882832334]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 5291854993127375, exchange.id 202609180957197882832334] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180957197882832334",
       "kind": "context",
       "raw_ref": {
@@ -805,7 +805,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 5267119530381927, exchange.id 202609180957559373218743]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 5267119530381927, exchange.id 202609180957559373218743] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180957559373218743",
       "kind": "context",
       "raw_ref": {
@@ -834,7 +834,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 4568513094178879, exchange.id 202609180958570021676192]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 4568513094178879, exchange.id 202609180958570021676192] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180958570021676192",
       "kind": "context",
       "raw_ref": {
@@ -878,7 +878,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1894387818665589, exchange.id 202609180959260015702971]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1894387818665589, exchange.id 202609180959260015702971] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180959260015702971",
       "kind": "context",
       "raw_ref": {
@@ -907,7 +907,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 3651910548586444, exchange.id 202609180959388319251025]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 3651910548586444, exchange.id 202609180959388319251025] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180959388319251025",
       "kind": "context",
       "raw_ref": {
@@ -951,7 +951,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 4697978733198322, exchange.id 202609180959525676619689]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 4697978733198322, exchange.id 202609180959525676619689] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609180959525676619689",
       "kind": "context",
       "raw_ref": {
@@ -980,7 +980,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "25 exchanges FAILED in the 5 min to 10:00 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 39 failed exchanges across 15 distinct half-flows in 15 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "25 exchanges FAILED in the 5 min to 10:00 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 39 failed exchanges across 15 distinct half-flows in 15 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 39 of 39 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -994,7 +994,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 6937707632642577, exchange.id 202609181000048386073889]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 6937707632642577, exchange.id 202609181000048386073889] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181000048386073889",
       "kind": "context",
       "raw_ref": {
@@ -1053,7 +1053,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 2009307353236524, exchange.id 202609181000431867664021]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 2009307353236524, exchange.id 202609181000431867664021] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181000431867664021",
       "kind": "context",
       "raw_ref": {
@@ -1067,7 +1067,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9136230264325793, exchange.id 202609181000539408428368]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9136230264325793, exchange.id 202609181000539408428368] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181000539408428368",
       "kind": "context",
       "raw_ref": {
@@ -1081,7 +1081,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 7962072617831678, exchange.id 202609181001167153237777]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 7962072617831678, exchange.id 202609181001167153237777] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181001167153237777",
       "kind": "context",
       "raw_ref": {
@@ -1154,7 +1154,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9933019089136432, exchange.id 202609181002392295851481]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9933019089136432, exchange.id 202609181002392295851481] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181002392295851481",
       "kind": "context",
       "raw_ref": {
@@ -1168,7 +1168,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 3742230579527864, exchange.id 202609181003045817714474]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 3742230579527864, exchange.id 202609181003045817714474] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181003045817714474",
       "kind": "context",
       "raw_ref": {
@@ -1197,7 +1197,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 3706532126916111, exchange.id 202609181004023811162744]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 3706532126916111, exchange.id 202609181004023811162744] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181004023811162744",
       "kind": "context",
       "raw_ref": {
@@ -1225,7 +1225,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 2859804441673318, exchange.id 202609181004235924768238]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 2859804441673318, exchange.id 202609181004235924768238] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181004235924768238",
       "kind": "context",
       "raw_ref": {
@@ -1254,7 +1254,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 5324906064413708, exchange.id 202609181004342680168577]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 5324906064413708, exchange.id 202609181004342680168577] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181004342680168577",
       "kind": "context",
       "raw_ref": {
@@ -1268,7 +1268,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8369664999447553, exchange.id 202609181004449806022093]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8369664999447553, exchange.id 202609181004449806022093] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181004449806022093",
       "kind": "context",
       "raw_ref": {
@@ -1282,7 +1282,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "21 exchanges FAILED in the 5 min to 10:05 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 60 failed exchanges across 15 distinct half-flows in 15 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "21 exchanges FAILED in the 5 min to 10:05 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 60 failed exchanges across 15 distinct half-flows in 15 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 60 of 60 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -1325,7 +1325,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 8717163917772840, exchange.id 202609181005258832669994]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 8717163917772840, exchange.id 202609181005258832669994] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181005258832669994",
       "kind": "context",
       "raw_ref": {
@@ -1339,7 +1339,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 8704606780290249, exchange.id 202609181005341038917015]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 8704606780290249, exchange.id 202609181005341038917015] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181005341038917015",
       "kind": "context",
       "raw_ref": {
@@ -1413,7 +1413,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 4002590493018191, exchange.id 202609181005579708548377]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 4002590493018191, exchange.id 202609181005579708548377] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181005579708548377",
       "kind": "context",
       "raw_ref": {
@@ -1442,7 +1442,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 6864315734141425, exchange.id 202609181006265330253013]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 6864315734141425, exchange.id 202609181006265330253013] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181006265330253013",
       "kind": "context",
       "raw_ref": {
@@ -1471,7 +1471,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 6809908837701517, exchange.id 202609181006426568591344]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 6809908837701517, exchange.id 202609181006426568591344] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181006426568591344",
       "kind": "context",
       "raw_ref": {
@@ -1514,7 +1514,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002559_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9999904138332904, exchange.id 202609181007054583854338]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002559_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9999904138332904, exchange.id 202609181007054583854338] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181007054583854338",
       "kind": "context",
       "raw_ref": {
@@ -1528,7 +1528,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7260601497346912, exchange.id 202609181007140882784343]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7260601497346912, exchange.id 202609181007140882784343] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181007140882784343",
       "kind": "context",
       "raw_ref": {
@@ -1557,7 +1557,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 5316008113276668, exchange.id 202609181007282827743253]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 5316008113276668, exchange.id 202609181007282827743253] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181007282827743253",
       "kind": "context",
       "raw_ref": {
@@ -1601,7 +1601,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2455024745762783, exchange.id 202609181007452616017697]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2455024745762783, exchange.id 202609181007452616017697] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181007452616017697",
       "kind": "context",
       "raw_ref": {
@@ -1630,7 +1630,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1652204578596421, exchange.id 202609181008136946515472]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1652204578596421, exchange.id 202609181008136946515472] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181008136946515472",
       "kind": "context",
       "raw_ref": {
@@ -1644,7 +1644,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2674597384815392, exchange.id 202609181008576221458257]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2674597384815392, exchange.id 202609181008576221458257] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181008576221458257",
       "kind": "context",
       "raw_ref": {
@@ -1673,7 +1673,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002559_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 4701218016033136, exchange.id 202609181009224086797774]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002559_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 4701218016033136, exchange.id 202609181009224086797774] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181009224086797774",
       "kind": "context",
       "raw_ref": {
@@ -1701,7 +1701,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "25 exchanges FAILED in the 5 min to 10:10 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 85 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "25 exchanges FAILED in the 5 min to 10:10 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 85 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 85 of 85 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -1715,7 +1715,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 6092607833545847, exchange.id 202609181010087131966619]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 6092607833545847, exchange.id 202609181010087131966619] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181010087131966619",
       "kind": "context",
       "raw_ref": {
@@ -1729,7 +1729,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7742603917876764, exchange.id 202609181010110538082486]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7742603917876764, exchange.id 202609181010110538082486] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181010110538082486",
       "kind": "context",
       "raw_ref": {
@@ -1743,7 +1743,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 1172533119449933, exchange.id 202609181010358617189342]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 1172533119449933, exchange.id 202609181010358617189342] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181010358617189342",
       "kind": "context",
       "raw_ref": {
@@ -1757,7 +1757,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 4019655883973203, exchange.id 202609181011400549798184]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 4019655883973203, exchange.id 202609181011400549798184] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181011400549798184",
       "kind": "context",
       "raw_ref": {
@@ -1771,7 +1771,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2734642935290527, exchange.id 202609181011393602422023]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2734642935290527, exchange.id 202609181011393602422023] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181011393602422023",
       "kind": "context",
       "raw_ref": {
@@ -1785,7 +1785,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002559_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 5121285487374884, exchange.id 202609181011445270386533]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002559_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 5121285487374884, exchange.id 202609181011445270386533] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181011445270386533",
       "kind": "context",
       "raw_ref": {
@@ -1799,7 +1799,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 8677384564589676, exchange.id 202609181011460412701302]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 8677384564589676, exchange.id 202609181011460412701302] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181011460412701302",
       "kind": "context",
       "raw_ref": {
@@ -1813,7 +1813,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9004149319462524, exchange.id 202609181011529333026244]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9004149319462524, exchange.id 202609181011529333026244] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181011529333026244",
       "kind": "context",
       "raw_ref": {
@@ -1827,7 +1827,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 2919095907204126, exchange.id 202609181012117947256574]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 2919095907204126, exchange.id 202609181012117947256574] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181012117947256574",
       "kind": "context",
       "raw_ref": {
@@ -1841,7 +1841,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002559_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8455726618833765, exchange.id 202609181013110098462378]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002559_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8455726618833765, exchange.id 202609181013110098462378] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181013110098462378",
       "kind": "context",
       "raw_ref": {
@@ -1855,7 +1855,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1367998392378783, exchange.id 202609181013315884453783]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1367998392378783, exchange.id 202609181013315884453783] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181013315884453783",
       "kind": "context",
       "raw_ref": {
@@ -1869,7 +1869,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9282006414488179, exchange.id 202609181013533177374311]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9282006414488179, exchange.id 202609181013533177374311] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181013533177374311",
       "kind": "context",
       "raw_ref": {
@@ -1883,7 +1883,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1402917895521275, exchange.id 202609181014220884871094]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1402917895521275, exchange.id 202609181014220884871094] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181014220884871094",
       "kind": "context",
       "raw_ref": {
@@ -1897,7 +1897,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "26 exchanges FAILED in the 5 min to 10:15 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 111 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "26 exchanges FAILED in the 5 min to 10:15 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 111 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 111 of 111 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -1911,7 +1911,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002559_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9983281591000745, exchange.id 202609181014598939079027]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002559_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9983281591000745, exchange.id 202609181014598939079027] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181014598939079027",
       "kind": "context",
       "raw_ref": {
@@ -1925,7 +1925,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 3391606484958383, exchange.id 202609181016061833742140]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 3391606484958383, exchange.id 202609181016061833742140] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181016061833742140",
       "kind": "context",
       "raw_ref": {
@@ -1939,7 +1939,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9989534650877132, exchange.id 202609181016355787227639]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9989534650877132, exchange.id 202609181016355787227639] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181016355787227639",
       "kind": "context",
       "raw_ref": {
@@ -1953,7 +1953,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 6467375219305961, exchange.id 202609181016527225698716]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 6467375219305961, exchange.id 202609181016527225698716] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181016527225698716",
       "kind": "context",
       "raw_ref": {
@@ -1967,7 +1967,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 9267567888687314, exchange.id 202609181017132048169660]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 9267567888687314, exchange.id 202609181017132048169660] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181017132048169660",
       "kind": "context",
       "raw_ref": {
@@ -1981,7 +1981,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9057458661429445, exchange.id 202609181017576235674281]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 9057458661429445, exchange.id 202609181017576235674281] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181017576235674281",
       "kind": "context",
       "raw_ref": {
@@ -1995,7 +1995,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 5098626850822098, exchange.id 202609181018213062749065]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 5098626850822098, exchange.id 202609181018213062749065] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181018213062749065",
       "kind": "context",
       "raw_ref": {
@@ -2009,7 +2009,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 8847110360120753, exchange.id 202609181019017994083737]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 8847110360120753, exchange.id 202609181019017994083737] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181019017994083737",
       "kind": "context",
       "raw_ref": {
@@ -2023,7 +2023,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 1003270990194345, exchange.id 202609181019052400857499]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 1003270990194345, exchange.id 202609181019052400857499] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181019052400857499",
       "kind": "context",
       "raw_ref": {
@@ -2037,7 +2037,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9317026837734535, exchange.id 202609181019142452959724]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9317026837734535, exchange.id 202609181019142452959724] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181019142452959724",
       "kind": "context",
       "raw_ref": {
@@ -2051,7 +2051,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 3532845935434059, exchange.id 202609181019284819662571]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 3532845935434059, exchange.id 202609181019284819662571] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181019284819662571",
       "kind": "context",
       "raw_ref": {
@@ -2065,7 +2065,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 5967549954255920, exchange.id 202609181019548540471508]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 5967549954255920, exchange.id 202609181019548540471508] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181019548540471508",
       "kind": "context",
       "raw_ref": {
@@ -2079,7 +2079,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "23 exchanges FAILED in the 5 min to 10:20 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 134 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "23 exchanges FAILED in the 5 min to 10:20 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 134 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 134 of 134 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -2093,7 +2093,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 9081830444869556, exchange.id 202609181020163995503210]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 9081830444869556, exchange.id 202609181020163995503210] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181020163995503210",
       "kind": "context",
       "raw_ref": {
@@ -2107,7 +2107,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7974495157735614, exchange.id 202609181020433440754856]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7974495157735614, exchange.id 202609181020433440754856] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181020433440754856",
       "kind": "context",
       "raw_ref": {
@@ -2121,7 +2121,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8849229008879647, exchange.id 202609181020492525500699]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8849229008879647, exchange.id 202609181020492525500699] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181020492525500699",
       "kind": "context",
       "raw_ref": {
@@ -2135,7 +2135,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 7092075115374276, exchange.id 202609181021159945990315]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 7092075115374276, exchange.id 202609181021159945990315] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181021159945990315",
       "kind": "context",
       "raw_ref": {
@@ -2149,7 +2149,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8254112873464565, exchange.id 202609181021411685789915]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8254112873464565, exchange.id 202609181021411685789915] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181021411685789915",
       "kind": "context",
       "raw_ref": {
@@ -2177,7 +2177,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 9535819121001425, exchange.id 202609181022101370757095]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 9535819121001425, exchange.id 202609181022101370757095] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181022101370757095",
       "kind": "context",
       "raw_ref": {
@@ -2191,7 +2191,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 6515751060817492, exchange.id 202609181022288986618628]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 6515751060817492, exchange.id 202609181022288986618628] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181022288986618628",
       "kind": "context",
       "raw_ref": {
@@ -2205,7 +2205,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 7515538702692499, exchange.id 202609181022503318222083]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 7515538702692499, exchange.id 202609181022503318222083] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181022503318222083",
       "kind": "context",
       "raw_ref": {
@@ -2234,7 +2234,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 3498301069317557, exchange.id 202609181023373922227918]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 3498301069317557, exchange.id 202609181023373922227918] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181023373922227918",
       "kind": "context",
       "raw_ref": {
@@ -2248,7 +2248,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 4575595029235740, exchange.id 202609181024199655482181]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 4575595029235740, exchange.id 202609181024199655482181] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181024199655482181",
       "kind": "context",
       "raw_ref": {
@@ -2276,7 +2276,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1820357148568075, exchange.id 202609181024330958311170]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1820357148568075, exchange.id 202609181024330958311170] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181024330958311170",
       "kind": "context",
       "raw_ref": {
@@ -2290,7 +2290,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1856102144372659, exchange.id 202609181024422706204520]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1856102144372659, exchange.id 202609181024422706204520] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181024422706204520",
       "kind": "context",
       "raw_ref": {
@@ -2304,7 +2304,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 5980422955967591, exchange.id 202609181024531602068759]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 5980422955967591, exchange.id 202609181024531602068759] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181024531602068759",
       "kind": "context",
       "raw_ref": {
@@ -2318,7 +2318,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "27 exchanges FAILED in the 5 min to 10:25 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 161 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "27 exchanges FAILED in the 5 min to 10:25 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 161 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 161 of 161 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -2347,7 +2347,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 6015486957419581, exchange.id 202609181025292106714157]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 6015486957419581, exchange.id 202609181025292106714157] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181025292106714157",
       "kind": "context",
       "raw_ref": {
@@ -2375,7 +2375,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 3554365562333365, exchange.id 202609181026316703628999]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 3554365562333365, exchange.id 202609181026316703628999] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181026316703628999",
       "kind": "context",
       "raw_ref": {
@@ -2389,7 +2389,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 7537905085371580, exchange.id 202609181026435346495049]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 7537905085371580, exchange.id 202609181026435346495049] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181026435346495049",
       "kind": "context",
       "raw_ref": {
@@ -2403,7 +2403,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1252529332906870, exchange.id 202609181026518135710772]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1252529332906870, exchange.id 202609181026518135710772] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181026518135710772",
       "kind": "context",
       "raw_ref": {
@@ -2417,7 +2417,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2354353345512404, exchange.id 202609181027036982368070]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2354353345512404, exchange.id 202609181027036982368070] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181027036982368070",
       "kind": "context",
       "raw_ref": {
@@ -2431,7 +2431,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 3614812226397808, exchange.id 202609181027263304567855]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 3614812226397808, exchange.id 202609181027263304567855] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181027263304567855",
       "kind": "context",
       "raw_ref": {
@@ -2445,7 +2445,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 1122970213350746, exchange.id 202609181027455006399113]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 1122970213350746, exchange.id 202609181027455006399113] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181027455006399113",
       "kind": "context",
       "raw_ref": {
@@ -2459,7 +2459,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8685076555064174, exchange.id 202609181028148775660856]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8685076555064174, exchange.id 202609181028148775660856] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181028148775660856",
       "kind": "context",
       "raw_ref": {
@@ -2473,7 +2473,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 1901900884064480, exchange.id 202609181028362150068226]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 1901900884064480, exchange.id 202609181028362150068226] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181028362150068226",
       "kind": "context",
       "raw_ref": {
@@ -2487,7 +2487,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7200603888368307, exchange.id 202609181029042924427837]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7200603888368307, exchange.id 202609181029042924427837] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181029042924427837",
       "kind": "context",
       "raw_ref": {
@@ -2515,7 +2515,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 4392590936396692, exchange.id 202609181029192148897853]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 4392590936396692, exchange.id 202609181029192148897853] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181029192148897853",
       "kind": "context",
       "raw_ref": {
@@ -2529,7 +2529,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 6222624164894559, exchange.id 202609181029445590762288]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 6222624164894559, exchange.id 202609181029445590762288] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181029445590762288",
       "kind": "context",
       "raw_ref": {
@@ -2557,7 +2557,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "27 exchanges FAILED in the 5 min to 10:30 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 188 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "27 exchanges FAILED in the 5 min to 10:30 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 188 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 188 of 188 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -2585,7 +2585,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 9449287290867312, exchange.id 202609181030398488695166]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 9449287290867312, exchange.id 202609181030398488695166] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181030398488695166",
       "kind": "context",
       "raw_ref": {
@@ -2599,7 +2599,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 8336672565395797, exchange.id 202609181031053052519654]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 8336672565395797, exchange.id 202609181031053052519654] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181031053052519654",
       "kind": "context",
       "raw_ref": {
@@ -2613,7 +2613,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 8340761547166328, exchange.id 202609181031366960331318]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 8340761547166328, exchange.id 202609181031366960331318] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181031366960331318",
       "kind": "context",
       "raw_ref": {
@@ -2627,7 +2627,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 6260020234481524, exchange.id 202609181031537142369110]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 6260020234481524, exchange.id 202609181031537142369110] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181031537142369110",
       "kind": "context",
       "raw_ref": {
@@ -2641,7 +2641,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 2828499206599291, exchange.id 202609181031598983494690]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 2828499206599291, exchange.id 202609181031598983494690] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181031598983494690",
       "kind": "context",
       "raw_ref": {
@@ -2655,7 +2655,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 3089224373474836, exchange.id 202609181032103876729670]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 3089224373474836, exchange.id 202609181032103876729670] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181032103876729670",
       "kind": "context",
       "raw_ref": {
@@ -2669,7 +2669,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 2652737848721909, exchange.id 202609181032371649127983]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 2652737848721909, exchange.id 202609181032371649127983] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181032371649127983",
       "kind": "context",
       "raw_ref": {
@@ -2683,7 +2683,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 9160509521209112, exchange.id 202609181033126596114117]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 9160509521209112, exchange.id 202609181033126596114117] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181033126596114117",
       "kind": "context",
       "raw_ref": {
@@ -2697,7 +2697,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 7099743849749891, exchange.id 202609181033458626611815]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 7099743849749891, exchange.id 202609181033458626611815] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181033458626611815",
       "kind": "context",
       "raw_ref": {
@@ -2725,7 +2725,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9435996511613654, exchange.id 202609181034143594740799]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9435996511613654, exchange.id 202609181034143594740799] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181034143594740799",
       "kind": "context",
       "raw_ref": {
@@ -2739,7 +2739,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1387481263287871, exchange.id 202609181034180950125025]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1387481263287871, exchange.id 202609181034180950125025] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181034180950125025",
       "kind": "context",
       "raw_ref": {
@@ -2753,7 +2753,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 1817086721719370, exchange.id 202609181034351181044084]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 1817086721719370, exchange.id 202609181034351181044084] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181034351181044084",
       "kind": "context",
       "raw_ref": {
@@ -2767,7 +2767,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 6182879861305572, exchange.id 202609181034483772272213]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 6182879861305572, exchange.id 202609181034483772272213] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181034483772272213",
       "kind": "context",
       "raw_ref": {
@@ -2781,7 +2781,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "26 exchanges FAILED in the 5 min to 10:35 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 214 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "26 exchanges FAILED in the 5 min to 10:35 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 214 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 214 of 214 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -2809,7 +2809,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 4533141401213443, exchange.id 202609181035578956888249]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 4533141401213443, exchange.id 202609181035578956888249] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181035578956888249",
       "kind": "context",
       "raw_ref": {
@@ -2851,7 +2851,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 1113080210182492, exchange.id 202609181037171484649001]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 1113080210182492, exchange.id 202609181037171484649001] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181037171484649001",
       "kind": "context",
       "raw_ref": {
@@ -2865,7 +2865,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 3271075656200777, exchange.id 202609181037355677018111]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 3271075656200777, exchange.id 202609181037355677018111] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181037355677018111",
       "kind": "context",
       "raw_ref": {
@@ -2879,7 +2879,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 5790217309749889, exchange.id 202609181037452008919200]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 5790217309749889, exchange.id 202609181037452008919200] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181037452008919200",
       "kind": "context",
       "raw_ref": {
@@ -2893,7 +2893,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 9959510952956525, exchange.id 202609181037505066090345]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 9959510952956525, exchange.id 202609181037505066090345] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181037505066090345",
       "kind": "context",
       "raw_ref": {
@@ -2907,7 +2907,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 1945749276473142, exchange.id 202609181038049419645192]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 1945749276473142, exchange.id 202609181038049419645192] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181038049419645192",
       "kind": "context",
       "raw_ref": {
@@ -2921,7 +2921,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 3411545341970381, exchange.id 202609181039045975987600]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 3411545341970381, exchange.id 202609181039045975987600] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181039045975987600",
       "kind": "context",
       "raw_ref": {
@@ -2935,7 +2935,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 1524181020262537, exchange.id 202609181039381595265506]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 1524181020262537, exchange.id 202609181039381595265506] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181039381595265506",
       "kind": "context",
       "raw_ref": {
@@ -2949,7 +2949,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "18 exchanges FAILED in the 5 min to 10:40 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 232 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "18 exchanges FAILED in the 5 min to 10:40 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 232 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 232 of 232 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -2977,7 +2977,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 7964016515422278, exchange.id 202609181040006805712691]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 7964016515422278, exchange.id 202609181040006805712691] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181040006805712691",
       "kind": "context",
       "raw_ref": {
@@ -3006,7 +3006,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 7302464177667605, exchange.id 202609181041084822537338]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 7302464177667605, exchange.id 202609181041084822537338] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181041084822537338",
       "kind": "context",
       "raw_ref": {
@@ -3020,7 +3020,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 8232807220240699, exchange.id 202609181041114544434472]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 8232807220240699, exchange.id 202609181041114544434472] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181041114544434472",
       "kind": "context",
       "raw_ref": {
@@ -3034,7 +3034,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2255103468319483, exchange.id 202609181041538238454839]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2255103468319483, exchange.id 202609181041538238454839] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181041538238454839",
       "kind": "context",
       "raw_ref": {
@@ -3048,7 +3048,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 2278336889696249, exchange.id 202609181042572816126122]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 2278336889696249, exchange.id 202609181042572816126122] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181042572816126122",
       "kind": "context",
       "raw_ref": {
@@ -3062,7 +3062,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 5161384665841008, exchange.id 202609181043385495789835]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 5161384665841008, exchange.id 202609181043385495789835] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181043385495789835",
       "kind": "context",
       "raw_ref": {
@@ -3076,7 +3076,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 4420430049549430, exchange.id 202609181044094109965231]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 4420430049549430, exchange.id 202609181044094109965231] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181044094109965231",
       "kind": "context",
       "raw_ref": {
@@ -3090,7 +3090,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 8747716616117161, exchange.id 202609181044285816624498]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 8747716616117161, exchange.id 202609181044285816624498] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181044285816624498",
       "kind": "context",
       "raw_ref": {
@@ -3104,7 +3104,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 5881757820504127, exchange.id 202609181044380128837093]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 5881757820504127, exchange.id 202609181044380128837093] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181044380128837093",
       "kind": "context",
       "raw_ref": {
@@ -3118,7 +3118,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8060687926128015, exchange.id 202609181045002803914493]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8060687926128015, exchange.id 202609181045002803914493] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181045002803914493",
       "kind": "context",
       "raw_ref": {
@@ -3132,7 +3132,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 9464855164232435, exchange.id 202609181045162635707721]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 9464855164232435, exchange.id 202609181045162635707721] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181045162635707721",
       "kind": "context",
       "raw_ref": {
@@ -3146,7 +3146,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2463105996106841, exchange.id 202609181045257344240468]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2463105996106841, exchange.id 202609181045257344240468] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181045257344240468",
       "kind": "context",
       "raw_ref": {
@@ -3160,7 +3160,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 7794453880787645, exchange.id 202609181045377475822125]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YLCD01 / EURO_RFCT_DINTG0002505_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 7794453880787645, exchange.id 202609181045377475822125] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181045377475822125",
       "kind": "context",
       "raw_ref": {
@@ -3174,7 +3174,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8305103879551537, exchange.id 202609181046004276394300]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 8305103879551537, exchange.id 202609181046004276394300] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181046004276394300",
       "kind": "context",
       "raw_ref": {
@@ -3188,7 +3188,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 4536614528842445, exchange.id 202609181046018082937297]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 4536614528842445, exchange.id 202609181046018082937297] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181046018082937297",
       "kind": "context",
       "raw_ref": {
@@ -3202,7 +3202,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 7952793569486229, exchange.id 202609181046040138277558]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 7952793569486229, exchange.id 202609181046040138277558] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181046040138277558",
       "kind": "context",
       "raw_ref": {
@@ -3216,7 +3216,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1213241364560886, exchange.id 202609181046310280195168]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04 / EURO_RFCT_DINTG0002361_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1213241364560886, exchange.id 202609181046310280195168] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181046310280195168",
       "kind": "context",
       "raw_ref": {
@@ -3230,7 +3230,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2750438675177552, exchange.id 202609181046511642214622]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2750438675177552, exchange.id 202609181046511642214622] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181046511642214622",
       "kind": "context",
       "raw_ref": {
@@ -3244,7 +3244,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 3941526874019733, exchange.id 202609181047007739887649]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YLCD01 / EURO_RFCT_DINTG0002705_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 3941526874019733, exchange.id 202609181047007739887649] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181047007739887649",
       "kind": "context",
       "raw_ref": {
@@ -3258,7 +3258,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 4161343478993156, exchange.id 202609181047019830701388]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 4161343478993156, exchange.id 202609181047019830701388] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181047019830701388",
       "kind": "context",
       "raw_ref": {
@@ -3272,7 +3272,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 3492142229163659, exchange.id 202609181047205380791093]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04 / EURO_RFCT_DINTG0002561_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 3492142229163659, exchange.id 202609181047205380791093] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181047205380791093",
       "kind": "context",
       "raw_ref": {
@@ -3286,7 +3286,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 4340731342283960, exchange.id 202609181047450269152714]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 4340731342283960, exchange.id 202609181047450269152714] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181047450269152714",
       "kind": "context",
       "raw_ref": {
@@ -3300,7 +3300,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1344525391634193, exchange.id 202609181047535675000731]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-COND-A04 / EURO_RFCT_DINTG0002661_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 1344525391634193, exchange.id 202609181047535675000731] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181047535675000731",
       "kind": "context",
       "raw_ref": {
@@ -3314,7 +3314,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7957966849276148, exchange.id 202609181047584271370548]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7957966849276148, exchange.id 202609181047584271370548] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181047584271370548",
       "kind": "context",
       "raw_ref": {
@@ -3328,7 +3328,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 6508973409273889, exchange.id 202609181048193556184658]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002359_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 6508973409273889, exchange.id 202609181048193556184658] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181048193556184658",
       "kind": "context",
       "raw_ref": {
@@ -3342,7 +3342,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 5168155252614703, exchange.id 202609181048378820670641]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 5168155252614703, exchange.id 202609181048378820670641] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181048378820670641",
       "kind": "context",
       "raw_ref": {
@@ -3356,7 +3356,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 9394466242220953, exchange.id 202609181048536658013836]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 9394466242220953, exchange.id 202609181048536658013836] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181048536658013836",
       "kind": "context",
       "raw_ref": {
@@ -3370,7 +3370,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7228947748249798, exchange.id 202609181049033021039058]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7228947748249798, exchange.id 202609181049033021039058] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181049033021039058",
       "kind": "context",
       "raw_ref": {
@@ -3398,7 +3398,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "39 exchanges FAILED in the 5 min to 10:50 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 288 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "39 exchanges FAILED in the 5 min to 10:50 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 288 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 288 of 288 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -3469,7 +3469,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 5975089911444176, exchange.id 202609181051523271804512]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 5975089911444176, exchange.id 202609181051523271804512] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181051523271804512",
       "kind": "context",
       "raw_ref": {
@@ -3497,7 +3497,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9892964427798479, exchange.id 202609181052096201180086]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07 / EURO_RFCT_DINTG0002784_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9892964427798479, exchange.id 202609181052096201180086] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181052096201180086",
       "kind": "context",
       "raw_ref": {
@@ -3511,7 +3511,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9762248122788196, exchange.id 202609181054273365263450]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 9762248122788196, exchange.id 202609181054273365263450] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181054273365263450",
       "kind": "context",
       "raw_ref": {
@@ -3525,7 +3525,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 4123300569686139, exchange.id 202609181054330635008770]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 4123300569686139, exchange.id 202609181054330635008770] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181054330635008770",
       "kind": "context",
       "raw_ref": {
@@ -3539,7 +3539,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "11 exchanges FAILED in the 5 min to 10:55 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 299 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "11 exchanges FAILED in the 5 min to 10:55 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 299 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 299 of 299 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
@@ -3553,7 +3553,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 1920522782046816, exchange.id 202609181055099464249208]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIPDELVRY07 / EURO_RFCT_DINTG0002584_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 1920522782046816, exchange.id 202609181055099464249208] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181055099464249208",
       "kind": "context",
       "raw_ref": {
@@ -3567,7 +3567,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2926287793415144, exchange.id 202609181055309536144044]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YLCD01 / EURO_RFCT_DINTG0002605_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 2926287793415144, exchange.id 202609181055309536144044] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181055309536144044",
       "kind": "context",
       "raw_ref": {
@@ -3581,7 +3581,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 1624836391502894, exchange.id 202609181056007390932869]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002459_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 1624836391502894, exchange.id 202609181056007390932869] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181056007390932869",
       "kind": "context",
       "raw_ref": {
@@ -3595,7 +3595,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 6136190419363382, exchange.id 202609181056407843609204]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 6136190419363382, exchange.id 202609181056407843609204] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181056407843609204",
       "kind": "context",
       "raw_ref": {
@@ -3609,7 +3609,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 7247204187008770, exchange.id 202609181057106589820857]",
+      "description": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04 / EURO_RFCT_DINTG0002461_YHIP-COND-A04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-COND-A04 7247204187008770, exchange.id 202609181057106589820857] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181057106589820857",
       "kind": "context",
       "raw_ref": {
@@ -3623,7 +3623,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7172761850865325, exchange.id 202609181057124540367688]",
+      "description": "EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07 / EURO_RFCT_DINTG0002484_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 7172761850865325, exchange.id 202609181057124540367688] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181057124540367688",
       "kind": "context",
       "raw_ref": {
@@ -3637,7 +3637,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YLCD01",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 9663857717174228, exchange.id 202609181057323988253281]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YLCD01 / EURO_RFCT_DINTG0002805_YLCD01_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YLCD01 9663857717174228, exchange.id 202609181057323988253281] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181057323988253281",
       "kind": "context",
       "raw_ref": {
@@ -3651,7 +3651,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 3347780750218037, exchange.id 202609181058148772065322]",
+      "description": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04 / EURO_RFCT_DINTG0002659_YHIP-BOMMAT04_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIP-BOMMAT04 3347780750218037, exchange.id 202609181058148772065322] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181058148772065322",
       "kind": "context",
       "raw_ref": {
@@ -3665,7 +3665,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 5020583707927884, exchange.id 202609181058421826872928]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 5020583707927884, exchange.id 202609181058421826872928] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181058421826872928",
       "kind": "context",
       "raw_ref": {
@@ -3679,7 +3679,7 @@
       "source": "SONAR",
       "component": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07",
       "severity": 2,
-      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 2464982010463213, exchange.id 202609181059419555224864]",
+      "description": "EURO_COMMON_IDOC_SAPIT_YHIPDELVRY07 / EURO_RFCT_DINTG0002684_YHIPDELVRY07_03 FAILED at halfflow 3/4: SAP RFC Error: Failed to fetch ConfigForDocSending [YHIPDELVRY07 2464982010463213, exchange.id 202609181059419555224864] -- failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": "202609181059419555224864",
       "kind": "context",
       "raw_ref": {
@@ -3708,7 +3708,7 @@
       "source": "SONAR",
       "component": "SONAR-OPS",
       "severity": 2,
-      "description": "19 exchanges FAILED in the 5 min to 11:00 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 318 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04)",
+      "description": "19 exchanges FAILED in the 5 min to 11:00 with identical event.reason 'SAP RFC Error: Failed to fetch ConfigForDocSending'; cumulative since 09:52:03: 318 failed exchanges across 16 distinct half-flows in 16 projects (EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04, EURO_COMMON_IDOC_SAPCE_YHIPDELVRY07, EURO_COMMON_IDOC_SAPCE_YLCD01, EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04, EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04); in 318 of 318 the failing step is a call to a Workato recipe (per the log message)",
       "correlation_id": null,
       "kind": "context",
       "raw_ref": {
