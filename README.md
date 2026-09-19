@@ -77,3 +77,8 @@ Notes on the data:
 ## What is code vs. what is the model
 
 Deterministic code parses the raw formats, normalises timestamps and severities, resolves service aliases (project ↔ half-flow ↔ Kubernetes deployment / ELK alias), threads exchange ids, computes counts and absences, and builds the evidence pack. The model does one thing: takes that pack and returns ranked hypotheses with supporting and contradicting evidence, check ordering, and a recovery proposal that stays behind a human approval gate. See `prompts/analyst-system.md` for the exact contract.
+
+## Further reading
+
+- [`BRIEFING.md`](./BRIEFING.md) — the HIP vocabulary explained, and the case for AI on top of existing monitoring rules
+- [`FINDINGS.md`](./FINDINGS.md) — what was built, what worked, what didn't, and why
