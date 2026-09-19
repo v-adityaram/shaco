@@ -34,6 +34,37 @@ body {
   color: #e5e7eb;
 }
 
+:root {
+  --kb-page: #f7f8fc;
+  --kb-panel: #ffffff;
+  --kb-panel2: #f1f4fa;
+  --kb-border: #d3dae6;
+  --kb-text: #343741;
+  --kb-muted: #69707d;
+  --kb-link: #0061a6;
+  --kb-hover: #e9edf3;
+}
+:root.dark {
+  --kb-page: #141519;
+  --kb-panel: #1d1e24;
+  --kb-panel2: #25262e;
+  --kb-border: #343741;
+  --kb-text: #dfe5ef;
+  --kb-muted: #98a2b3;
+  --kb-link: #36a2ef;
+  --kb-hover: #2a2c35;
+}
+.kb-page { background: var(--kb-page); color: var(--kb-text); }
+.kb-panel { background: var(--kb-panel); }
+.kb-panel2 { background: var(--kb-panel2); }
+.kb-bd { border-color: var(--kb-border); }
+.kb-muted { color: var(--kb-muted); }
+.kb-link { color: var(--kb-link); }
+.kb-hover:hover { background: var(--kb-hover); }
+.kb-table th { position: sticky; top: 0; z-index: 1; background: var(--kb-panel2); font-weight: 600; text-align: left; padding: 4px 8px; white-space: nowrap; border-bottom: 1px solid var(--kb-border); }
+.kb-table td { padding: 3px 8px; white-space: nowrap; border-bottom: 1px solid var(--kb-border); }
+.kb-table tbody tr:hover td { background: var(--kb-hover); }
+
 .font-mono-tight {
   font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
 }
@@ -79,6 +110,10 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2e303a;
+  background: #98a2b3;
   border-radius: 6px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #3a3d48;
 }

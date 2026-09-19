@@ -33,6 +33,7 @@ export function ApprovalDialog({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
       <div className="w-full max-w-md rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 p-5 shadow-2xl">
         <h3 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Approve recovery action</h3>
+        <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">Replay / repush / restart / rollback — executes only after a named approver logs a reason.</p>
         <p className="mt-2 rounded border border-dashed border-amber-300 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/5 px-3 py-2 text-[12px] text-amber-800/90 dark:text-amber-200/90">
           {proposal}
         </p>
@@ -42,7 +43,7 @@ export function ApprovalDialog({
             autoFocus
             value={approver}
             onChange={(e) => setApprover(e.target.value)}
-            placeholder="e.g. Priyanka Tota"
+            placeholder="e.g. HIP Ops L2 on-call"
             className="mt-1 w-full rounded border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-950 px-2 py-1.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-sky-500"
           />
         </label>
@@ -51,7 +52,7 @@ export function ApprovalDialog({
           <textarea
             value={reason}
             onChange={(e) => setReason(e.target.value)}
-            placeholder="e.g. Offset and heap evidence confirm poison message; consumer group idle, safe to replay"
+            placeholder="e.g. Evidence confirms the top-ranked cause; duplicate-delivery risk on replay accepted; rollback path confirmed"
             rows={2}
             className="mt-1 w-full resize-none rounded border border-slate-300 dark:border-slate-700 bg-slate-100 dark:bg-slate-950 px-2 py-1.5 text-sm text-slate-900 dark:text-slate-100 outline-none focus:border-sky-500"
           />
@@ -70,7 +71,7 @@ export function ApprovalDialog({
                 approver: approver.trim(),
                 reason: reason.trim(),
                 approvedAt: new Date().toISOString(),
-                evidenceCited: 'Top-ranked hypothesis, supporting evidence panel',
+                evidenceCited: 'Top-ranked candidate cause and its supporting timeline events',
               })
             }
             className="rounded bg-sky-600 px-3 py-1.5 text-[12px] font-medium text-slate-900 dark:text-white disabled:cursor-not-allowed disabled:bg-slate-200 dark:disabled:bg-slate-700 disabled:text-slate-400 dark:disabled:text-slate-500"

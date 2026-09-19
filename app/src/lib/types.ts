@@ -1,11 +1,13 @@
 export type SourceSystem =
-  | 'ELK'
+  | 'SONAR'
+  | 'HIPMON'
+  | 'Splunk'
   | 'Kafka'
+  | 'Workato'
   | 'Apigee'
-  | 'APIM'
   | 'MFT'
   | 'ServiceNow'
-  | 'DevOps'
+  | 'Change'
 
 export interface NormalisedEvent {
   event_id: string
@@ -16,6 +18,9 @@ export interface NormalisedEvent {
   description: string
   correlation_id: string | null
   raw_ref?: string
+  /** 'rule_hit' = output of an existing detection rule; 'context' = retrieved record (change, ticket, metric...). */
+  kind: 'rule_hit' | 'context'
+  rule_id?: string
 }
 
 export interface AlertRow {
@@ -59,11 +64,11 @@ export interface DiagnosticCheck {
 }
 
 export interface BlastRadius {
-  channels: string[]
-  orders_stuck: number
-  value_at_risk_inr?: number
+  business_flows: string[]
+  exchanges_stuck: number
+  zones: string[]
   downstream_degraded: string[]
-  partner_feed_impacted?: boolean
+  business_objects_at_risk?: string
 }
 
 export interface RecoveryProposal {
@@ -101,24 +106,105 @@ export interface LateEvidenceDiff {
   what_changed: string[]
 }
 
+export interface KpiBlock {
+  exchanges: number
+  inprogress: number
+  complete: number
+  warning: number
+  failed: number
+  replayed: number
+  failurePct: number
+  durationAvg: string
+  durationMax: string
+}
+
+export type ExchangeStatus =
+  | 'COMPLETE'
+  | 'COMPLETE (F)'
+  | 'INPROGRESS'
+  | 'FAILED'
+  | 'WARNING'
+  | 'REPLAYED'
+
+export interface ExchangeRow {
+  ts: string
+  status: ExchangeStatus
+  project: string
+  exchange: string
+  exchangeId: string
+  halfflowCount: number
+  halfflowMissing: string
+  durationMs: number
+  source: string
+  destination: string
+  objectId: string
+  objectName: string
+  eventCode: string
+  businessValue: string
+  frameworkVersion: string
+  isAnomalous?: boolean
+}
+
+export type TraceLevel = 'ERROR' | 'INFO' | 'ENTRYINFO' | 'EXITINFO' | 'WARN'
+
+export interface TraceRow {
+  ts: string
+  level: TraceLevel
+  exchange: string
+  exchangeId: string
+  halfflow: string
+  halfflowId: string
+  application: string
+  eventCode: string
+  eventReason: string
+  message: string
+  businessValue: string
+}
+
+export interface SonarDashboard {
+  windowLabel: string
+  exchangeKpis: KpiBlock
+  halfflowKpis: KpiBlock
+  exchangeRows: ExchangeRow[]
+  traceFocus: { exchange: string; exchangeId: string; rows: TraceRow[] }
+}
+
 export interface ScenarioMeta {
   slug: string
   title: string
   incidentNumber: string
   duplicateIncidents: string[]
   faultOneLine: string
+  /** curated = cached diagnosis shipped in the bundle; ai-live = diagnosis obtained from the live call only. */
+  mode: 'curated' | 'ai-live'
 }
 
 export interface ScenarioBundle {
   meta: ScenarioMeta
   events: NormalisedEvent[]
   alertRows: AlertRow[]
-  diagnosis: AiDiagnosis
+  dashboard: SonarDashboard
+  diagnosis: AiDiagnosis | null
   lateEvidence: {
     event: NormalisedEvent
-    diff: LateEvidenceDiff
-    diagnosisAfter: AiDiagnosis
+    diff: LateEvidenceDiff | null
+    diagnosisAfter: AiDiagnosis | null
   }
   rulesFired: number
   rulesTotal: number
+  noiseRulesFired: number
 }
+
+export interface DiagnosisMeta {
+  source: 'live' | 'server-cache'
+  cachedAt?: string
+  model?: string
+  latencyMs?: number
+  warnings?: string[]
+}
+
+/** Response of POST /api/diagnose. */
+export type DiagnosisResult = AiDiagnosis & { _meta?: DiagnosisMeta }
+
+/** Response of POST /api/diagnose/late-evidence. */
+export type LateEvidenceResult = AiDiagnosis & { diff: LateEvidenceDiff; _meta?: DiagnosisMeta }

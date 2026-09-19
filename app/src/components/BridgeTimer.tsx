@@ -18,19 +18,19 @@ export function BridgeTimer({ causeAgreed }: { causeAgreed?: string }) {
   }, [])
 
   return (
-    <div className="flex flex-wrap items-center gap-3 border-t border-slate-800 bg-slate-950/90 px-4 py-2 text-[12px]">
+    <div className="flex flex-wrap items-center gap-3 border-t border-slate-300 bg-white/90 px-4 py-2 text-[12px] dark:border-slate-800 dark:bg-slate-950/90">
       <span className="h-2 w-2 animate-pulse-live rounded-full bg-red-500" />
-      <span className="font-mono-tight text-base font-bold text-red-400">{format(elapsed)}</span>
+      <span className="font-mono-tight text-base font-bold text-red-600 dark:text-red-400">{format(elapsed)}</span>
       <span className="text-slate-500">6 engineers on bridge</span>
-      <span className="text-slate-600">·</span>
+      <span className="text-slate-400 dark:text-slate-600">·</span>
       <span className="text-slate-500">
-        Agreed cause:{' '}
-        <span className={causeAgreed ? 'text-emerald-400' : 'text-slate-300'}>
+        {causeAgreed ? 'Agreed cause: none · AI-proposed (not yet agreed):' : 'Agreed cause:'}{' '}
+        <span className={causeAgreed ? 'text-sky-600 dark:text-sky-400' : 'text-slate-700 dark:text-slate-300'}>
           {causeAgreed ?? 'none'}
         </span>
       </span>
-      <span className="text-slate-600">·</span>
-      <span className="text-amber-400">Customer impact: ongoing</span>
+      <span className="text-slate-400 dark:text-slate-600">·</span>
+      <span className="text-amber-600 dark:text-amber-400">Customer impact: ongoing</span>
     </div>
   )
 }

@@ -1,298 +1,286 @@
 """
-generator/scenarios.py -- structured, declarative data for the five
-Meridian Retail incident scenarios.
+generator/scenarios.py -- declarative facts for the five HIP incident
+scenarios (plan v2, section 3). All times are UTC on 2026-09-18.
 
-This module holds ONLY the facts of each scenario: identity, fault
-description, the anchor signal sequence (the events generate.py MUST place
-at the right relative offsets in the raw files), the planted contradiction,
-and the expected hypotheses for later validation. It contains no generation
-logic -- that lives in generate.py.
+This module holds ONLY facts: identity, window, the anchor signal table,
+the planted contradiction, expected hypotheses, alert scope, and the anchor
+specs that scripts/find_anchors.py resolves against normalised events.
+Generation logic lives in generate.py.
 
-Each signal in `signals` is a dict:
-    {
-        "time": "HH:MM[:SS]",   # UTC, on CORRELATION_DATE (2026-09-18)
-        "source": "ELK" | "Kafka" | "Apigee" | "APIM" | "ServiceNow"
-                  | "DevOps" | "PartnerFeed" | "MFT",
-        "text": "human-readable signal description (used as the anchor
-                 message / basis for the generated record)",
-    }
-These are the "backbone" events; generate.py surrounds them with realistic
-baseline noise and expands each into the correct raw-file record shape.
+`signals`  : the backbone table from plan section 3 (documentation + tests).
+`scope`    : projects / components / processing groups that belong to the
+             incident. Used by the generator (background noise never touches
+             them) and by build_alert_feed.py (rulesFired relevance).
+`anchors`  : declarative selectors resolved by find_anchors.py.
+             Each: key, role, label, kind ('rule_hit'|'context'), and a
+             `match` of {source, re (regex on description), ts_from, ts_to,
+             component, pick ('first'|'last'|'all')}.
 """
 
-import sys
 import os
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import naming  # noqa: E402
 
+D = naming.DATE
+
 SCENARIOS = [
+    # ------------------------------------------------------------------ S1
     {
         "id": "s1",
-        "slug": "s1-memory-leak",
-        "title": "Memory leak in inventory-reservation",
-        "correlation_id": f"mrd-{naming.CORRELATION_DATE}-9a41c7e2",
+        "slug": "s1-large-mapping-heap",
+        "title": "Large-mapping half-flow exhausts its processing group",
+        "incident_number": "INC10790101",
+        "duplicate_incidents": ["INC10790311", "INC10790312", "INC10790313"],
+        "fault_one_line": "ASN mapping half-flow payloads 3x normal exhaust heap in processing group opsfin-01-neo-odes-large",
+        "user_headline": "No ASN integrated in S4 - trucks waiting",
+        "focal_exchange": "GLBL_SAPS4HANA_SAPS4HANA_ASN_INT",
+        "focal_component": "opsfin-01-neo-odes-large",
+        "start": "04:10:00", "end": "08:30:00",
+        "feed_end": "08:12:00",
+        "bg_period_sec": 21,
+        "hourly_report_minute": 30,
         "fault": (
-            "A slow heap leak in the inventory-reservation cache builds over "
-            "roughly 90 minutes, causing GC thrash, then an OOMKill and pod "
-            "restart, repeating in a crash loop."
+            "After a large STO batch, the ASN mapping half-flow "
+            "GLBL_SAPS4HANA_SAPS4HANA_ASN_INT produces payloads roughly 3x normal size. "
+            "Heap in the opsfin-01-neo-odes-large processing group climbs steadily, GC "
+            "thrashes, pods are OOMKilled and restart, throughput collapses and the topic backs up."
         ),
-        "primary_component": "inventory-reservation",
         "signals": [
-            {"time": "08:40:00", "source": "ELK",
-             "text": "ELK-R-0188 heap utilisation > 70% on inv-resv-svc -- P4, buried, first symptom"},
-            {"time": "09:25:00", "source": "ELK",
-             "text": "GC pause p99 climbing on inv-resv-svc, 40ms -> 900ms"},
-            {"time": "09:52:00", "source": "ELK",
-             "text": "ELK-R-0217 OOMKilled, pod inv-resv-svc-7d4f restart 1"},
-            {"time": "09:53:00", "source": "Kafka",
-             "text": "inventory-reservation-cg lag on inventory.reserve.req climbs past 12,000"},
-            {"time": "09:58:00", "source": "ELK",
-             "text": "pod inv-resv-svc-7d4f restart 2, then restart 3 -- crash loop"},
-            {"time": "10:02:00", "source": "APIM",
-             "text": "504 gateway timeouts on /internal/inventory/reserve"},
-            {"time": "10:04:00", "source": "Apigee",
-             "text": "502 on /v2/orders -- customer-visible"},
-            {"time": "10:06:00", "source": "ServiceNow",
-             "text": "INC0098451 auto-raised P1: order flow degraded"},
+            {"time": "05:10:00", "source": "Splunk", "text": "heap > 70% on hip-esb-odes-large pods - P4, nobody looks (first symptom)"},
+            {"time": "05:55:00", "source": "Kafka", "text": "lag on ...process-int-opsfin-01-neo-odes-large.v1 starts to climb"},
+            {"time": "06:20:00", "source": "Sonar", "text": "ASN_INT exchanges INPROGRESS at half-flow 2/4, durations 1 -> 9 min"},
+            {"time": "06:35:00", "source": "Splunk", "text": "OOMKilled, pod restart 1; restart 2 at 06:52"},
+            {"time": "07:05:00", "source": "HIPMON", "text": "Consumer Lag alert, P3"},
+            {"time": "07:30:00", "source": "Sonar", "text": "GLBL_MSTR_HLTH_CHK reports 45,000+ InProgress"},
+            {"time": "08:10:00", "source": "ServiceNow", "text": "user incident + three HIPMON auto duplicates"},
         ],
         "contradiction": {
-            "fact": (
-                "inventory-reservation handled a 40% higher peak order rate "
-                "on 2026-09-09 (last Tuesday, 1,400 orders/min vs today's "
-                "1,000 orders/min peak) with heap utilisation staying flat "
-                "under 55% and no incident."
-            ),
-            "argues_against": "load-driven / volume-driven memory pressure",
-            "argues_for": "time-based leak, not a volume-triggered one",
+            "fact": "ASN message inflow is LOWER than last Thursday and lag on every other processing group is zero.",
+            "argues_against": "broker trouble / load-driven backlog",
+            "argues_for": "payload size, not volume",
         },
         "hypotheses": {
-            "top1": "Memory leak in inventory-reservation reservation cache "
-                    "(linear pre-incident heap trend, no deploy in window)",
-            "top2": "Upstream retry storm inflating batch sizes "
-                    "(contradicted by flat order.enriched producer rate)",
+            "top1": "Heap exhaustion from oversized ASN payloads in the large processing group",
+            "top2": "Kafka broker / cluster degradation (contradicted by zero lag on all other groups)",
+        },
+        "scope": {
+            "projects": ["SAPS4HANA_ASN", "SONAR-OPS"],
+            "components": ["opsfin-01-neo-odes-large", "CONFLUENT_EMEA"],
+            "incident_codes": ["PRC003", "LAG01"],
+        },
+        "cheapest_check": "heap and average payload size for opsfin-01-neo-odes-large (kubectl top / Sonar payload-size series)",
+        "late": {
+            "ts": "05:04:10", "source": "SONAR", "component": "SAPS4HANA_ASN", "severity": 3,
+            "message": ("Late Sonar batch (ingest delayed 3 h): exchange 20260918050411 STO batch 3,850 STOs "
+                        "delivered in one ASN message, payload 3.1x the 24 h average line-item count; "
+                        "half-flow GLBL_SAPS4HANA_SAPS4HANA_ASN_INT_02_ESB mapping allocated 1.4 GB"),
         },
     },
+    # ------------------------------------------------------------------ S2
     {
         "id": "s2",
-        "slug": "s2-poison-message",
-        "title": "Poison message on order.enriched",
-        "correlation_id": f"mrd-{naming.CORRELATION_DATE}-3f0b6d15",
+        "watch": {"silence": ["EMEA_SAPCE_PI7_IDOC_DELVRY07_TO_MANH"], "heartbeat": ["AN_COMMON_PI7IDOCListner"]},
+        "slug": "s2-pi7-listener-hang",
+        "title": "PI7 IDoc listener hangs while its JVM stays up",
+        "incident_number": "INC10790202",
+        "duplicate_incidents": ["INC10790321", "INC10790322", "INC10790323"],
+        "fault_one_line": "AN_COMMON_PI7IDOCListner stops consuming IDocs from SAP PI7 hub CE; nothing enters the platform",
+        "user_headline": "CZ warehouse - no deliveries from SAP",
+        "focal_exchange": "EMEA_SAPCE_PI7_IDOC_DELVRY07_TO_MANH",
+        "focal_component": "AN_COMMON_PI7IDOCListner",
+        "start": "12:30:00", "end": "17:20:00",
+        "feed_end": "15:52:00",
+        "bg_period_sec": 24,
+        "hourly_report_minute": 0,
         "fault": (
-            "One malformed partner B2B payload (a negative line quantity) "
-            "fails deserialisation. The order-orchestrator consumer crash-"
-            "loops retrying the same Kafka offset."
+            "The listener node that receives IDocs from SAP PI7 hub CE stops consuming "
+            "while its JVM stays up. No new exchanges are created. Replays have nothing to "
+            "replay against."
         ),
-        "primary_component": "order-orchestrator",
         "signals": [
-            {"time": "11:14:00", "source": "PartnerFeed",
-             "text": "Partner B2B batch PB-4471 accepted, 1 of 380 lines malformed (negative line quantity)"},
-            {"time": "11:16:00", "source": "ELK",
-             "text": "Deserialisation exception in order-orchestrator, stack trace"},
-            {"time": "11:16:05", "source": "ELK",
-             "text": "pod ord-orch-svc restart (interval 1 of the crash loop)"},
-            {"time": "11:19:05", "source": "ELK",
-             "text": "pod ord-orch-svc restart, exactly 3 min after previous"},
-            {"time": "11:22:05", "source": "ELK",
-             "text": "pod ord-orch-svc restart, exactly 3 min after previous"},
-            {"time": "11:25:05", "source": "ELK",
-             "text": "pod ord-orch-svc restart, exactly 3 min after previous"},
-            {"time": "11:20:00", "source": "Kafka",
-             "text": "consumer offset on order.enriched STATIC at 4,481,209"},
-            {"time": "11:21:00", "source": "Kafka",
-             "text": "lag on order.enriched climbing, DLQ depth zero (no DLQ configured on this topic)"},
-            {"time": "11:30:00", "source": "Apigee",
-             "text": "502 on /v2/orders"},
-            {"time": "11:33:00", "source": "ServiceNow",
-             "text": "INC0098462 P1 auto-raised (order flow degraded)"},
-            {"time": "11:33:02", "source": "ServiceNow",
-             "text": "INC0098463 auto-raised separately by Kafka lag rule (duplicate)"},
-            {"time": "11:33:05", "source": "ServiceNow",
-             "text": "INC0098464 auto-raised separately by gateway 5xx rule (duplicate)"},
+            {"time": "13:29:48", "source": "Sonar", "text": "last IDoc exchange from PI7 hub CE created"},
+            {"time": "13:30:12", "source": "Sonar", "text": "last listener heartbeat (every 60 s before)"},
+            {"time": "13:35:00", "source": "Sonar", "text": "inbound exchange count from PI7 = 0 (baseline 180 per 5 min)"},
+            {"time": "13:45:00", "source": "Kafka", "text": "lag on all processing groups 0; no growth anywhere"},
+            {"time": "14:10:00", "source": "HIPMON", "text": "NO DATA FROM SAPCE/Pi7 IN LAST 60 minutes"},
+            {"time": "14:20:00", "source": "ServiceNow", "text": "user incident: CZ warehouse - no deliveries; YODI reprocess no effect"},
+            {"time": "15:49:00", "source": "ServiceNow", "text": "raised to Critical; 17:17 escalated to Major"},
         ],
         "contradiction": {
-            "fact": (
-                "heap utilisation and CPU on order-orchestrator stay flat "
-                "and normal (heap 42-48%, CPU 25-32%) throughout the entire "
-                "incident window, including through all four restarts."
-            ),
-            "argues_against": "resource exhaustion / memory pressure",
-            "argues_for": "a deterministic poisoned-offset failure, not resource-driven",
+            "fact": "The listener passes its health check; JVM CPU and heap are normal and flat.",
+            "argues_against": "the node is down",
+            "argues_for": "it is up but not consuming",
         },
         "hypotheses": {
-            "top1": "Poison message on order.enriched blocking the consumer "
-                    "(static offset + metronomic 3-minute restarts + deserialisation trace)",
-            "top2": "Memory pressure on order-orchestrator (ruled out: heap is flat)",
+            "top1": "Listener node hung (heartbeat stopped, zero inbound, health check misleadingly green)",
+            "top2": "Processing-group saturation as in S1 - ruled out by zero lag, flat heap, no INPROGRESS",
         },
-        "note": (
-            "Symptom shape (lag climbing, restarts, 502/504) is deliberately "
-            "similar to S1 from the Kafka/gateway side; the differentiator "
-            "-- flat heap, static offset, regular 3-min restart interval -- "
-            "is present in the data but never narrated."
-        ),
+        "scope": {
+            "projects": ["SAPCE_PI7_INBOUND"],
+            "components": ["AN_COMMON_PI7IDOCListner"],
+            "incident_codes": ["NODATA01", "SLA01"],
+        },
+        "cheapest_check": "count of exchanges created in the last 15 minutes from PI7 hub CE (one Sonar query)",
+        "late": {
+            "ts": "13:30:20", "source": "SONAR", "component": "AN_COMMON_PI7IDOCListner", "severity": 3,
+            "message": ("Late SAP-side batch (ingest delayed): PI7 hub CE outbound queue holds 214 IDocs, "
+                        "delivery attempts to HIP listener endpoint since 13:30:20 time out with no ACK; "
+                        "listener thread dump shows all consumer threads BLOCKED on socket read"),
+        },
     },
+    # ------------------------------------------------------------------ S3
     {
         "id": "s3",
-        "slug": "s3-config-change",
-        "title": "Config change breaks internal auth",
-        "correlation_id": f"mrd-{naming.CORRELATION_DATE}-b2e8f401",
+        "watch": {"success": [{"exchange": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07", "since": "09:52:00", "compare_prefix": "EURO_COMMON_IDOC_"}]},
+        "slug": "s3-vendor-release",
+        "title": "Vendor platform push breaks IDoc outbound to SAP",
+        "incident_number": "INC10790303",
+        "duplicate_incidents": ["INC10790331", "INC10790332", "INC10790333", "INC10790334"],
+        "fault_one_line": "Workato platform release breaks ConfigForDocSending on every IDoc-out recipe; no HIP change record",
+        "user_headline": "Shipment completed in Manhattan but not integrated to SAP",
+        "focal_exchange": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07",
+        "focal_component": "WORKATO_PLATFORM",
+        "start": "08:40:00", "end": "11:00:00",
+        "feed_end": "10:42:00",
+        "bg_period_sec": 8,
+        "hourly_report_minute": 0,
         "fault": (
-            "An Azure APIM policy deployed at 09:12 (CHG0044219, revision "
-            "47, via release pipeline, no approval record) tightens JWT "
-            "audience validation. Only pricing-svc still sends the old "
-            "audience claim."
+            "A Workato platform release changes an HTTP/RFC connector default. Every recipe "
+            "that calls ConfigForDocSending fails. HIP has no change record - the release was the vendor's."
         ),
-        "primary_component": "pricing-svc",
         "signals": [
-            {"time": "09:12:00", "source": "DevOps",
-             "text": "CHG0044219 deployed -- APIM policy revision 47, release pipeline, no approval record"},
-            {"time": "09:14:00", "source": "APIM",
-             "text": "401s on /internal/pricing/quote, climbing"},
-            {"time": "09:15:00", "source": "ELK",
-             "text": "order-orchestrator timeout waiting on pricing-svc, retry exhaustion"},
-            {"time": "09:18:00", "source": "Kafka",
-             "text": "order.enriched producer rate collapses near zero"},
-            {"time": "09:21:00", "source": "ELK",
-             "text": "order completion rate down 80%"},
-            {"time": "09:24:00", "source": "Apigee",
-             "text": "504 on /v2/orders/{id}/confirm"},
-            {"time": "09:27:00", "source": "ServiceNow",
-             "text": "INC0098470 auto-raised P1"},
+            {"time": "09:40:00", "source": "Change", "text": "Vendor release notice (Workato platform push), informational, no HIP change"},
+            {"time": "09:52:00", "source": "Workato", "text": "Recipe function execution error: Recipe function call failed"},
+            {"time": "09:55:00", "source": "HIPMON", "text": "Failed to fetch ConfigForDocSending on SAPCE YLCD01, then SAPUK, SAPIT, SAPNE"},
+            {"time": "10:05:00", "source": "Sonar", "text": "30+ IDoc-out exchanges FAILED at half-flow 3/4"},
+            {"time": "10:25:00", "source": "ServiceNow", "text": "user incident: shipment completed in Manhattan but not integrated to SAP"},
+            {"time": "10:40:00", "source": "ServiceNow", "text": "second user incident, different warehouse"},
         ],
         "contradiction": {
-            "fact": (
-                "web and mobile checkout continue completing orders "
-                "successfully for cached-price items throughout the "
-                "incident (pricing cache hits bypass the APIM call)."
-            ),
-            "argues_against": "a clean, total config break",
-            "argues_for": None,
-            "note": "makes the failure look partial/intermittent, sending "
-                     "humans hunting for a flaky dependency instead of the "
-                     "09:12 change.",
+            "fact": "A minority of YHIPDELVRY07 IDocs to SAPNE still succeed and the SAP RFC gateway health check is green.",
+            "argues_against": "a clean vendor-side break (looks like a flaky SAP endpoint)",
+            "argues_for": "failure is on the config fetch, not the send",
         },
         "hypotheses": {
-            "top1": "APIM policy change CHG0044219 tightened JWT audience "
-                    "validation, breaking pricing-svc auth (timestamp "
-                    "proximity + component match, revision deployed with no "
-                    "approval record)",
-            "top2": "Flaky pricing-svc dependency (contradicted: failure is "
-                    "isolated to the pricing audience claim, not intermittent "
-                    "at the network level)",
+            "top1": "Vendor release regression (12 min before first failure, error on the Workato side of the RFC call)",
+            "top2": "SAP RFC gateway degradation (contradicted by green gateway health and config-fetch failure)",
         },
-        "note": (
-            "No ELK rule references CHG0044219 directly -- the correlation "
-            "exists only via timestamp proximity and component match, on "
-            "purpose."
-        ),
+        "scope": {
+            "projects": [f"EURO_COMMON_IDOC_SAP{h}_{t}" for h in naming.HUBS for t in naming.IDOC_TYPES] + ["SONAR-OPS"],
+            "components": ["WORKATO_PLATFORM", "SAPCE_RFC_GATEWAY", "SAPNE_RFC_GATEWAY"],
+            "incident_codes": ["DEFAULT"],
+        },
+        "cheapest_check": "change/vendor-notice search for the Workato platform in the 30 min before 09:52; compare against first FAILED IDoc-out exchange",
+        "late": {
+            "ts": "09:47:30", "source": "Change", "component": "WORKATO_PLATFORM", "severity": 2,
+            "message": ("Late vendor ticket update (posted 11:20, effective 09:47): Workato confirms platform release "
+                        "2026.09.3 changed the default value of the RFC connector parameter 'config_endpoint' to empty; "
+                        "customers calling ConfigForDocSending must set it explicitly. Rollback scheduled."),
+        },
     },
+    # ------------------------------------------------------------------ S4
     {
         "id": "s4",
-        "slug": "s4-mft-truncation",
-        "title": "Silent MFT truncation",
-        "correlation_id": f"mrd-{naming.CORRELATION_DATE}-c74a9d33",
+        "slug": "s4-stalled-exchange",
+        "title": "Silent stalled exchange after the EMEA patching window",
+        "incident_number": "INC10790404",
+        "duplicate_incidents": ["INC10790341", "INC10790342", "INC10790343"],
+        "fault_one_line": "BPM_to_FM_0200.csv delivered by SFG but the ESB half-flow never started; exchange stuck INPROGRESS at 2/4",
+        "user_headline": "FRCPD database locked, FKF not generated",
+        "focal_exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+        "focal_component": "ANAPLAN_BPM",
+        "start": "00:00:00", "end": "08:10:00",
+        "feed_end": "08:02:00",
+        "bg_period_sec": 26,
+        "hourly_report_minute": 0,
         "fault": (
-            "The 06:00 hourly WMS stock file transfers 'successfully' but "
-            "is truncated at ~60% (the source export job was killed "
-            "mid-write). Inventory positions go stale for three hours with "
-            "no error anywhere."
+            "During the EMEA patching window the MFT connector session to the ESB drops. The 02:00 file "
+            "GLBL_OPSF_ANAPLAN_BPM_to_FM is delivered by SFG with status SUCCESS, but the ESB half-flow never "
+            "starts. The exchange sits INPROGRESS at 2/4 and never becomes FAILED, so no rule fires. "
+            "Five hours later the downstream database locks."
         ),
-        "primary_component": "inventory-reservation",
         "signals": [
-            {"time": "06:00:00", "source": "MFT",
-             "text": "stock_position_0600.csv transferred, status SUCCESS, 4.1 MB (usual ~6.8 MB)"},
-            {"time": "06:00:05", "source": "MFT",
-             "text": "trailer declared_rows=128400, actual_rows=77032 -- never validated, status stays SUCCESS"},
-            {"time": "06:05:00", "source": "ELK",
-             "text": "ELK-R-MFT-004 file transfer monitor: stock_position_0600.csv OK (checks status flag only)"},
-            {"time": "09:12:00", "source": "ELK",
-             "text": "first oversell -- reservation confirmed against stock that does not exist"},
-            {"time": "09:40:00", "source": "ELK",
-             "text": "oversell rate climbing, 14 orders affected"},
-            {"time": "10:15:00", "source": "ServiceNow",
-             "text": "INC0098480 raised MANUALLY by warehouse ops, not by a rule"},
+            {"time": "01:30:00", "source": "Change", "text": "EMEA patching window opens - MFT hosts reboot (routine, approved)"},
+            {"time": "02:00:00", "source": "MFT", "text": "BPM_to_FM_0200.csv SUCCESS 4.1 MB (usual 6.8 MB); declared 128,400 rows, 77,032 present"},
+            {"time": "02:00:07", "source": "Sonar", "text": "exchange starts, half-flow 1 ENTRYINFO, half-flow 2 never appears; INPROGRESS 2/4"},
+            {"time": "03:00:00", "source": "Sonar", "text": "hourly critical-exchange report 03:00 -> 07:00 lists exchange under InProgress, not Failed"},
+            {"time": "07:57:00", "source": "ServiceNow", "text": "user incident: FRCPD database locked, FKF not generated"},
         ],
         "contradiction": {
-            "fact": (
-                "the MFT job reported status SUCCESS and the ELK file-"
-                "transfer monitor rule (ELK-R-MFT-004) also passed at "
-                "06:05, because both only check the status flag, never "
-                "declared_rows vs actual_rows."
-            ),
+            "fact": "SFG status SUCCESS and every hourly Sonar report shows zero failed exchanges.",
             "argues_against": "the file transfer being the problem",
             "argues_for": None,
         },
         "hypotheses": {
-            "top1": "Silent truncation of the 06:00 WMS stock file "
-                    "(declared_rows=128400 != actual_rows=77032 in the "
-                    "transfer trailer, despite status=SUCCESS)",
-            "top2": "Demand spike causing legitimate oversell (contradicted: "
-                    "oversold SKUs match exactly the tail of the truncated "
-                    "file, not a volume pattern)",
+            "top1": "Exchange stalled after the connector session dropped in the patching window (2/4, truncated file, no ESB entry event)",
+            "top2": "Source export late or empty (contradicted by the export log showing a normal run at 01:58)",
         },
-        "note": (
-            "Tests reasoning backwards from a 09:12 symptom to a silent, "
-            "hours-earlier event with no alert. The declared_rows/"
-            "actual_rows mismatch must be real, checkable data in "
-            "mft-transfers.csv, not a narrated fact."
-        ),
+        "scope": {
+            "projects": ["ANAPLAN_BPM", "FRCPD", "SONAR-OPS"],
+            "components": ["FRHIPGPRMFTSI02", "FRHIPGPRMFTSI01", "SGLORHIPPETLPC1"],
+            "incident_codes": ["TEC01", "COM01"],
+        },
+        "cheapest_check": "Sonar search on exchange.id of the 02:00 BPM_to_FM exchange: events present vs the 4 expected half-flows; compare MFT declared_rows vs actual_rows",
+        "late": {
+            "ts": "02:00:06", "source": "MFT", "component": "FRHIPGPRMFTSI02", "severity": 2,
+            "message": ("Delayed SFG trailer for BPM_to_FM_0200.csv: ESB adapter session reset at 02:00:06 during "
+                        "delivery; partial delivery acknowledged at 77,032 of 128,400 rows; delivery marked "
+                        "SUCCESS by the SFG business process without row validation"),
+        },
     },
+    # ------------------------------------------------------------------ S5
     {
         "id": "s5",
-        "slug": "s5-oracle-saturation",
-        "title": "Downstream saturation from an unrelated job",
-        "correlation_id": f"mrd-{naming.CORRELATION_DATE}-e15f2a88",
+        "slug": "s5-transco-cache",
+        "title": "Shared dependency failure across unrelated flows (transco-cache)",
+        "incident_number": "INC10790505",
+        "duplicate_incidents": ["INC10790351", "INC10790352", "INC10790353", "INC10790354", "INC10790355"],
+        "fault_one_line": "hip-fwk-transco-cache pod restart; Connection refused errors on 32 half-flows in 4 projects",
+        "user_headline": "Multiple sales-order flows failing - Connection refused transco-cache",
+        "focal_exchange": "EMEA_SAPIT_SALESORDER",
+        "focal_component": "hip-fwk-transco-cache",
+        "start": "00:00:00", "end": "01:40:00",
+        "feed_end": "01:16:00",
+        "bg_period_sec": 7,
+        "hourly_report_minute": 0,
         "fault": (
-            "The routine month-end reporting job fin-monthend-extract opens "
-            "180 connections against Oracle OMS, exhausting the pool. Every "
-            "service touching OMS degrades simultaneously. The real cause: "
-            "a recent index change made the job's queries slower, so it "
-            "holds connections open longer than in any prior run."
+            "The hip-fwk-transco-cache pod restarts (memory limit) during a busy window. For roughly "
+            "20 minutes every half-flow that calls transcoding fails, across projects that have nothing in "
+            "common but that dependency."
         ),
-        "primary_component": "oracle-oms",
         "signals": [
-            {"time": "22:00:00", "source": "DevOps",
-             "text": "scheduled job fin-monthend-extract starts (routine, runs every month, 14-month history with no incident)"},
-            {"time": "22:08:00", "source": "ELK",
-             "text": "Oracle OMS connection pool at 100%, wait queue growing"},
-            {"time": "22:09:00", "source": "ELK",
-             "text": "slow-query alerts across order-intake, payment-adapter, fulfilment-dispatch -- 30+ distinct rules firing"},
-            {"time": "22:11:00", "source": "Kafka",
-             "text": "lag on four topics simultaneously"},
-            {"time": "22:12:00", "source": "Apigee",
-             "text": "5xx across nine endpoints (Apigee + APIM combined)"},
-            {"time": "22:14:00", "source": "ServiceNow",
-             "text": "six P1/P2 incidents raised by six different rules"},
+            {"time": "00:20:00", "source": "Splunk", "text": "hip-fwk-transco-cache pod restart 1 - informational (first symptom)"},
+            {"time": "00:55:03", "source": "Sonar", "text": "Unhandled Internal error ... Connection refused: hip-fwk-transco-cache...:8080 on EMEA_SAPIT_SALESORDER_01_ESB_V2"},
+            {"time": "00:56:00", "source": "HIPMON", "text": "[AUTO] alerts on 30+ half-flows across SAPITCOMMON, KEPLER_NEXTGEN, PROCESSOUT, AMAZONCOMMON"},
+            {"time": "01:05:00", "source": "Kafka", "text": "lag on four processing groups simultaneously"},
+            {"time": "01:10:00", "source": "Apigee", "text": "5xx across nine endpoints"},
+            {"time": "01:15:00", "source": "ServiceNow", "text": "six auto incidents from six different rules"},
         ],
         "contradiction": {
-            "fact": (
-                "fin-monthend-extract has run on an identical monthly "
-                "schedule for 14 months with no incident (historical run "
-                "log: avg duration 42 min, avg peak connections 118, zero "
-                "incidents) -- tonight's run took 71 min and peaked at 180 "
-                "connections."
-            ),
-            "argues_against": "'the job' itself as the root cause",
-            "argues_for": "the environment changed underneath an unchanged job "
-                          "-- points at the IDX_ORD_STATUS index rebuild "
-                          "4 days prior",
+            "fact": "By the time anyone looks the cache pod is Running and Ready and every replay succeeds.",
+            "argues_against": "the cache being the cause (looks like intermittent networking)",
+            "argues_for": None,
         },
         "hypotheses": {
-            "top1": "Oracle OMS connection pool exhaustion caused by "
-                    "fin-monthend-extract running abnormally long after the "
-                    "IDX_ORD_STATUS index rebuild (2026-09-14) degraded its "
-                    "query plan, holding connections open far longer than "
-                    "its 14-month baseline",
-            "top2": "fin-monthend-extract itself is simply too heavy "
-                    "(contradicted by 14 months of identical, incident-free "
-                    "runs on the same schedule)",
+            "top1": "transco-cache restart / unavailability window (identical error string, restart record 35 min earlier)",
+            "top2": "AKS network / DNS blip (contradicted: other services in the namespace unaffected)",
         },
-        "note": (
-            "Hardest noise-vs-cause separation: 30+ rules fire correctly, "
-            "all describing symptoms on services that never touch the real "
-            "cause (Oracle OMS via an index rebuild nobody flagged as "
-            "risky)."
-        ),
+        "scope": {
+            "projects": ["SAPITCOMMON", "KEPLER_NEXTGEN", "PROCESSOUT", "AMAZONCOMMON", "SONAR-OPS"],
+            "components": ["hip-fwk-transco-cache", "APIGEE_EDGE", "sapit-01-default", "kepler-01-default",
+                           "procout-01-default", "amazon-01-default"],
+            "incident_codes": ["IVK003", "TEC01", "GEN01"],
+        },
+        "cheapest_check": "group failed exchanges by identical event.reason; kubectl get pod / describe for hip-fwk-transco-cache (restart count, last state, Ready transition)",
+        "late": {
+            "ts": "00:19:41", "source": "SPLUNK", "component": "hip-fwk-transco-cache", "severity": 3,
+            "message": ("Late Kubernetes event batch: container hip-fwk-transco-cache terminated OOMKilled "
+                        "(memory limit 2Gi, exit code 137) at 00:19:41; readiness probe :8080 failing from 00:52:07 "
+                        "while the cache rehydrated; Ready again at 01:13:41. No other pod in namespace hip-cloud-esb "
+                        "reported network errors."),
+        },
     },
 ]
 

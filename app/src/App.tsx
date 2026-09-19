@@ -1,19 +1,12 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { ThemeToggle } from './components/ThemeToggle'
 import { useTheme } from './hooks/useTheme'
-import { getAllScenarios, getScenarioBundle, scenarioSlugs } from './lib/cache'
+import { SCENARIO_LABELS, getAllScenarios, getScenarioBundle, scenarioSlugs } from './lib/cache'
+import { ensureDiagnosis } from './lib/liveCache'
 import { AiView } from './screens/AiView'
 import { AlertFloor } from './screens/AlertFloor'
 
 type Phase = 'today' | 'freezing' | 'collapsing' | 'ai'
-
-const SCENARIO_LABELS: Record<string, string> = {
-  's1-memory-leak': 'S1 · Memory leak',
-  's2-poison-message': 'S2 · Poison message',
-  's3-config-change': 'S3 · Config change',
-  's4-mft-truncation': 'S4 · MFT truncation',
-  's5-oracle-saturation': 'S5 · Oracle saturation',
-}
 
 export default function App() {
   const [activeSlug, setActiveSlug] = useState(scenarioSlugs[0])
@@ -22,12 +15,18 @@ export default function App() {
   const { theme, toggleTheme } = useTheme()
 
   const bundles = useMemo(() => getAllScenarios(), [])
-  const bundle = getScenarioBundle(activeSlug)
+  const bundle = activeSlug ? getScenarioBundle(activeSlug) : undefined
 
   const incidentRuleIds = useMemo(
-    () => new Set(bundle.alertRows.filter((r) => !r.isNoise).map((r) => r.ruleId)),
+    () => new Set((bundle?.alertRows ?? []).filter((r) => !r.isNoise).map((r) => r.ruleId)),
     [bundle],
   )
+
+  // ai-live scenarios have no cached diagnosis: start the call as soon as the scenario is shown,
+  // so it is usually finished by the time "Run AI correlation" is clicked. Memoised per slug.
+  useEffect(() => {
+    if (bundle && bundle.meta.mode === 'ai-live') ensureDiagnosis(bundle.meta.slug, bundle.events)
+  }, [bundle])
 
   function clearTimers() {
     timers.current.forEach((t) => window.clearTimeout(t))
@@ -52,11 +51,23 @@ export default function App() {
   function switchScenario(slug: string) {
     clearTimers()
     setActiveSlug(slug)
+    setPhase((p) => (p === 'ai' ? 'ai' : 'today'))
   }
 
   function backToToday() {
     clearTimers()
     setPhase('today')
+  }
+
+  if (!bundle) {
+    return (
+      <div className="grid min-h-svh place-items-center bg-slate-100 p-6 text-slate-700 dark:bg-slate-950 dark:text-slate-300">
+        <div className="max-w-md text-sm">
+          No scenario bundles found. Expected <code>app/src/data/&lt;slug&gt;/bundle.json</code> for:{' '}
+          {Object.keys(SCENARIO_LABELS).join(', ')}. See the console for details.
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -65,17 +76,35 @@ export default function App() {
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
       </div>
       {phase !== 'ai' ? (
-        <div className="h-svh">
-          <AlertFloor
-            meta={bundle.meta}
-            rows={bundle.alertRows}
-            rulesFired={bundle.rulesFired}
-            rulesTotal={bundle.rulesTotal}
-            incidentRuleIds={incidentRuleIds}
-            transitionPhase={phase === 'today' ? 'idle' : phase === 'freezing' ? 'freezing' : 'collapsing'}
-            onRunCorrelation={runCorrelation}
-          />
-        </div>
+        <>
+          <div className="fixed top-3.5 right-16 z-50">
+            <select
+              value={activeSlug}
+              disabled={phase !== 'today'}
+              onChange={(e) => switchScenario(e.target.value)}
+              aria-label="Scenario"
+              className="rounded border border-slate-500 bg-slate-700 px-1.5 py-1 text-[11px] text-slate-100 disabled:opacity-50"
+            >
+              {bundles.map((b) => (
+                <option key={b.meta.slug} value={b.meta.slug}>
+                  {SCENARIO_LABELS[b.meta.slug] ?? b.meta.slug}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="h-svh">
+            <AlertFloor
+              meta={bundle.meta}
+              rows={bundle.alertRows ?? []}
+              dashboard={bundle.dashboard}
+              rulesFired={bundle.rulesFired}
+              rulesTotal={bundle.rulesTotal}
+              incidentRuleIds={incidentRuleIds}
+              transitionPhase={phase === 'today' ? 'idle' : phase === 'freezing' ? 'freezing' : 'collapsing'}
+              onRunCorrelation={runCorrelation}
+            />
+          </div>
+        </>
       ) : (
         <div className="animate-card-in">
           <div className="mx-auto flex max-w-6xl justify-start px-4 pt-3">
@@ -83,7 +112,7 @@ export default function App() {
               onClick={backToToday}
               className="text-[11px] text-slate-500 underline decoration-dotted hover:text-slate-800 dark:hover:text-slate-300"
             >
-              ← back to alert floor
+              ← back to Sonar dashboard
             </button>
           </div>
           <AiView

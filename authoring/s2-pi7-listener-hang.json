@@ -1,0 +1,343 @@
+{
+  "meta": {
+    "slug": "s2-pi7-listener-hang",
+    "title": "PI7 IDoc listener hangs while its JVM stays up",
+    "incidentNumber": "INC10790202",
+    "duplicateIncidents": [
+      "INC10790321",
+      "INC10790322",
+      "INC10790323"
+    ],
+    "faultOneLine": "AN_COMMON_PI7IDOCListner stops consuming IDocs from SAP PI7 hub CE; nothing enters the platform"
+  },
+  "diagnosis": {
+    "incident_summary": "Deliveries from SAP PI7 hub CE have not entered HIP since 13:30 UTC (no new exchanges, no lag, no failed or stuck exchanges) while the IDoc listener AN_COMMON_PI7IDOCListner shows healthy JVM metrics but has stopped its heartbeat; CZ01 and a second warehouse are blocked (INC10790202).",
+    "timeline": [
+      {
+        "event_id": "e-0052",
+        "ts": "2026-09-18T13:29:48+00:00",
+        "source": "SONAR",
+        "component": "SAPCE_PI7_INBOUND",
+        "description": "last EMEA_SAPCE_PI7_IDOC_DELVRY07_TO_MANH exchange created at 13:29:48.310 UTC [exchange.id 202609181329469923169411]",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0060",
+        "ts": "2026-09-18T13:30:12+00:00",
+        "source": "SONAR",
+        "component": "AN_COMMON_PI7IDOCListner",
+        "description": "AN_COMMON_PI7IDOCListner heartbeat: connected to PI7 hub CE, consumed=732 since start, queue=0  [LAST heartbeat received]",
+        "is_first_symptom": true
+      },
+      {
+        "event_id": "e-0063",
+        "ts": "2026-09-18T13:35:01+00:00",
+        "source": "SONAR",
+        "component": "SONAR-OPS",
+        "description": "inbound exchanges from PI7 hub CE in last 5 min: 0 (baseline 180)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0065",
+        "ts": "2026-09-18T13:35:12+00:00",
+        "source": "SONAR",
+        "component": "AN_COMMON_PI7IDOCListner",
+        "description": "AN_COMMON_PI7IDOCListner heartbeat absent for 5 min: last heartbeat 13:30:12 UTC (expected every 60 s)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0070",
+        "ts": "2026-09-18T13:45:00+00:00",
+        "source": "Kafka",
+        "component": "CONFLUENT_EMEA",
+        "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0072",
+        "ts": "2026-09-18T13:45:01+00:00",
+        "source": "SONAR",
+        "component": "SONAR-OPS",
+        "description": "inbound exchanges from PI7 hub UK in last 5 min: 115 (baseline 120)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0100",
+        "ts": "2026-09-18T14:10:10+00:00",
+        "source": "HIPMON",
+        "component": "SAPCE_PI7_INBOUND",
+        "description": "[AUTO]|SAPCE_PI7_INBOUND|EMEA_SAPCE_PI7_IDOC_DELVRY07_TO_MANH_01_ESB|NODATA01|ETP_NODATA01 -- NO DATA FROM SAPCE/Pi7 IN LAST 60 minutes (priority 3 - High)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0108",
+        "ts": "2026-09-18T14:15:08+00:00",
+        "source": "HIPMON",
+        "component": "MANHATTAN_WMS",
+        "description": "[AUTO]|MANHATTAN_WMS|EMEA_MANH_DELIVERY_RECEIPT_MONITOR_01_ESB|SLA01|ETP_SLA01 -- No delivery IDoc received from SAP hub CE for warehouse CZ01 within 45 min SLA (priority 3 - High)  [x7 identical hits in total; first 14:15:08, last 17:00:30 UTC]",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0114",
+        "ts": "2026-09-18T14:20:31+00:00",
+        "source": "ServiceNow",
+        "component": "HIP-INCIDENT-L2",
+        "description": "INC10790202 (user, priority 2, TECH FNDN - WW - HIP INCIDENT L2): CZ warehouse - no deliveries from SAP -- CZ warehouse (Manhattan) reports no deliveries received from SAP since about 13:30. Warehouse is blocked. Last delivery visible: exchange 202609181329469923169411 (EMEA_SAPCE_PI7_IDOC_DELVRY07_TO_MANH). Reprocess (YODI) attempted, no effect.",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0128",
+        "ts": "2026-09-18T14:35:04+00:00",
+        "source": "SONAR",
+        "component": "SONAR-OPS",
+        "description": "GLBL_MSTR_REPLAY: Replay (YODI reprocess) requested by L1 for object.name=DELVRY07 status in (FAILED,INPROGRESS) since 13:30: 0 exchanges matched, nothing to replay",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0134",
+        "ts": "2026-09-18T14:41:10+00:00",
+        "source": "ServiceNow",
+        "component": "HIP-INCIDENT-L2",
+        "description": "INC10790322 (user, priority 3, TECH FNDN - WW - HIP INCIDENT L2, child of INC10790202): PL warehouse - deliveries from SAP not arriving -- Second warehouse reporting the same symptom: no deliveries from SAP hub CE.",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0191",
+        "ts": "2026-09-18T15:30:12+00:00",
+        "source": "SONAR",
+        "component": "AN_COMMON_PI7IDOCListner",
+        "description": "AN_COMMON_PI7IDOCListner heartbeat absent for 120 min: last heartbeat 13:30:12 UTC (expected every 60 s)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0192",
+        "ts": "2026-09-18T15:32:30+00:00",
+        "source": "Splunk",
+        "component": "AN_COMMON_PI7IDOCListner",
+        "description": "hip-pi7-idoc-listener-1cfe69370-vjvwp: GET /actuator/health -> 200 UP (jms, disk, ping); listener JVM heap 42%, CPU 11%",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0208",
+        "ts": "2026-09-18T15:49:00+00:00",
+        "source": "ServiceNow",
+        "component": "HIP-INCIDENT-L2",
+        "description": "INC10790202 priority changed to '1 - Critical'",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0301",
+        "ts": "2026-09-18T17:17:00+00:00",
+        "source": "ServiceNow",
+        "component": "HIP-INCIDENT-L2",
+        "description": "INC10790202 priority changed to 'Major incident declared'",
+        "is_first_symptom": false
+      }
+    ],
+    "hypotheses": [
+      {
+        "rank": 1,
+        "cause": "The IDoc listener node AN_COMMON_PI7IDOCListner has stopped consuming from hub CE (hung) while its JVM stays up, so nothing enters HIP.",
+        "confidence": "Moderate",
+        "supports": [
+          {
+            "event_id": "e-0060",
+            "why": "The listener's own heartbeat, emitted every 60 s regardless of traffic, stops after 13:30:12."
+          },
+          {
+            "event_id": "e-0065",
+            "why": "Heartbeat is absent for 5 minutes, then 30 (e-0092) and 120 (e-0191); it never resumes."
+          },
+          {
+            "event_id": "e-0063",
+            "why": "Inbound exchanges from hub CE fall from ~180 per 5 minutes to 0 at the same time."
+          },
+          {
+            "event_id": "e-0072",
+            "why": "The UK hub keeps flowing (115 vs 120 baseline), so the platform is not down; the fault is specific to the CE listener."
+          }
+        ],
+        "contradicts": [
+          {
+            "event_id": "e-0061",
+            "why": "The listener's health endpoint returns 200 UP after the hang, and continues to (e-0192); a hung consumer that still reports healthy is unusual."
+          },
+          {
+            "event_id": "e-0066",
+            "why": "Heap (40%), CPU (~11%) and thread count on the listener pods are indistinguishable from baseline, so there is no resource signature of a hang."
+          }
+        ],
+        "what_would_change_this": "A listener thread dump showing consumer threads blocked, or SAP reporting IDocs queued for delivery, would raise it to High; an empty SAP outbound queue would move weight to hypothesis 2."
+      },
+      {
+        "rank": 2,
+        "cause": "SAP PI7 hub CE stopped sending IDocs (source-side outage or network path), so the listener is idle rather than hung.",
+        "confidence": "Low",
+        "supports": [
+          {
+            "event_id": "e-0100",
+            "why": "The HIPMON NO DATA rule reports nothing received from SAPCE/PI7 for 60 minutes, consistent with a silent source."
+          },
+          {
+            "event_id": "e-0108",
+            "why": "The Manhattan receipt monitor reports no delivery IDoc from hub CE within its 45-minute SLA."
+          }
+        ],
+        "contradicts": [
+          {
+            "event_id": "e-0065",
+            "why": "An idle-but-healthy listener would still heartbeat every 60 s; the heartbeat stopped 24 seconds after the last exchange, which points at the listener, not the source."
+          },
+          {
+            "event_id": "e-0072",
+            "why": "Hub UK continues to deliver normally, so a general SAP or network outage is not in evidence; only hub CE is silent."
+          }
+        ],
+        "what_would_change_this": "An empty SAP outbound queue for hub CE with no IDocs generated since 13:30 would make this the leading cause; IDocs waiting in the queue would close it."
+      },
+      {
+        "rank": 3,
+        "cause": "Manhattan-side receipt problem (the warehouse system is failing to accept or register deliveries).",
+        "confidence": "Low",
+        "supports": [
+          {
+            "event_id": "e-0108",
+            "why": "The SLA alert originates from the Manhattan delivery-receipt monitor."
+          }
+        ],
+        "contradicts": [
+          {
+            "event_id": "e-0063",
+            "why": "Zero exchanges are being created inside HIP before the Manhattan hop, so deliveries never reach Manhattan to be accepted or rejected."
+          },
+          {
+            "event_id": "e-0128",
+            "why": "A replay query for FAILED or INPROGRESS DELVRY07 exchanges since 13:30 matches nothing: there is no failed hop to point at."
+          }
+        ],
+        "what_would_change_this": "FAILED exchanges on the Manhattan-facing half-flow, or Manhattan errors in the same window, would raise it."
+      }
+    ],
+    "ruled_out": [
+      {
+        "candidate": "Processing-group saturation or a consumer pile-up (the pattern in large-mapping incidents)",
+        "reason": "Consumer lag is 0 on all seven groups (e-0070), heap is flat (e-0066, e-0067), and a query for FAILED or INPROGRESS exchanges since 13:30 returns nothing (e-0128). A pile-up would show growth in all three; nothing is entering to pile up."
+      },
+      {
+        "candidate": "HIP replay / reprocess as a fix",
+        "reason": "L1's YODI reprocess matched 0 exchanges (e-0126, e-0128): there is nothing failed inside HIP to replay; the deliveries never arrived."
+      },
+      {
+        "candidate": "Standing host alerts: SGLORHIPQETLPC1 swap 90% and FRHIPGQAMFTSI01 CPU 98%",
+        "reason": "Recurring non-production host alerts (e-0007, e-0021), present before 13:30 and unrelated to the listener pods."
+      },
+      {
+        "candidate": "Background HIPMON alerts on SAPTR_FOM flows",
+        "reason": "Different project and error strings (e-0022, e-0034: HTTP 503, missing field), present at baseline, none on the PI7 inbound flow."
+      },
+      {
+        "candidate": "A recent change to the listener or platform",
+        "reason": "The change records in the window (e.g. e-0023 QA host patch, e-0093 Schema Registry key rotation) concern other components; none touches AN_COMMON_PI7IDOCListner or hub CE. The absence of a relevant change is itself noted."
+      }
+    ],
+    "checks": [
+      {
+        "order": 1,
+        "action": "Count exchanges created from each PI7 hub in the last 15 minutes and check for INPROGRESS growth",
+        "command": "Sonar: filter exchange:EMEA_SAPCE_PI7_IDOC_DELVRY07_TO_MANH, last 15 minutes, count by exchange.status; compare with hub UK",
+        "if_result_a": "0 new exchanges and no INPROGRESS growth while other hubs flow: a no-inflow incident, not a pile-up (hypotheses 1/2)",
+        "if_result_b": "New exchanges with growing INPROGRESS and lag: a pile-up; use the processing-group playbook instead",
+        "effort": "low"
+      },
+      {
+        "order": 2,
+        "action": "Ask SAP Basis for the outbound queue state for hub CE's destination to HIP",
+        "command": "SAP: SMQ1 / SM58 - queue and tRFC status for the RFC destination to the HIP listener, entries since 13:30 UTC",
+        "if_result_a": "IDocs queued with delivery attempts timing out: the listener is not accepting (hypothesis 1)",
+        "if_result_b": "Queue empty and no IDocs generated since 13:30: source-side (hypothesis 2)",
+        "effort": "low"
+      },
+      {
+        "order": 3,
+        "action": "Take a thread dump of the listener pods",
+        "command": "kubectl exec -n hip-cloud-esb hip-pi7-idoc-listener-1cfe69370-vjvwp -- jcmd 1 Thread.print | grep -c BLOCKED",
+        "if_result_a": "Consumer threads BLOCKED on socket read: confirms a hung listener (hypothesis 1)",
+        "if_result_b": "Threads idle/waiting on an empty queue: points at no data arriving (hypothesis 2)",
+        "effort": "medium"
+      }
+    ],
+    "blast_radius": {
+      "business_flows": [
+        "EMEA_SAPCE_PI7_IDOC_DELVRY07_TO_MANH (SAP CE deliveries to Manhattan)"
+      ],
+      "exchanges_stuck": 0,
+      "zones": [
+        "EMEA"
+      ],
+      "downstream_degraded": [
+        "Manhattan WMS delivery receipt (CZ01 and a second warehouse)",
+        "Warehouse picking and dispatch (INC10790202, Major incident declared 17:17)"
+      ],
+      "business_objects_at_risk": "Deliveries from SAP hub CE not received since 13:30. Nothing is stuck inside HIP (0 exchanges); the IDocs are waiting outside it."
+    },
+    "recovery": {
+      "proposal": "Restart the AN_COMMON_PI7IDOCListner deployment one pod at a time, confirm the heartbeat resumes and inbound exchanges return, then ask SAP Basis to resend the hub CE IDocs queued since 13:30. Do not use HIP replay: there is nothing failed inside HIP (e-0128).",
+      "risk": "IDocs in flight at the moment of restart may be lost or duplicated; the SAP resend can duplicate deliveries already processed around 13:29:48, so de-duplicate on IDoc number; the deployment may also serve other hubs, so watch hub UK during the restart.",
+      "rollback": "If the heartbeat does not resume within 2 minutes, roll back to the previous ReplicaSet and escalate to Azure/Platform; SAP can keep IDocs queued, so no data is lost while the listener is down.",
+      "requires_approval": true
+    },
+    "post_incident_note": "#01 -Analysis/Root cause: [Hypothesis, pending thread dump / SAP queue check] AN_COMMON_PI7IDOCListner stopped consuming from hub CE at 13:30:12 UTC (heartbeat absent since, JVM health UP, heap/CPU flat); zero inbound exchanges from hub CE since 13:29:48; consumer lag 0 on all groups; HIP replay matched 0 exchanges. #02-Resolution/Flow state: [Proposed, awaiting approval] rolling restart of the listener, then SAP resend of queued hub CE IDocs from 13:30. #03-Doc used: NA #04- Related records (PRB, Change, Incident, RITM...): INC10790202 with INC10790321, INC10790322; no related change record found."
+  },
+  "lateEvidence": {
+    "diff": {
+      "changed_summary": "SAP reports 214 IDocs queued for hub CE with delivery attempts timing out, and a listener thread dump shows every consumer thread blocked on socket read: the source is not silent, the listener is hung. Hypothesis 1 moves from Moderate to High and the source-side outage is closed out.",
+      "rank_before": [
+        {
+          "cause": "IDoc listener hung",
+          "rank": 1
+        },
+        {
+          "cause": "SAP hub CE stopped sending",
+          "rank": 2
+        },
+        {
+          "cause": "Manhattan-side receipt problem",
+          "rank": 3
+        }
+      ],
+      "rank_after": [
+        {
+          "cause": "IDoc listener hung",
+          "rank": 1
+        },
+        {
+          "cause": "SAP hub CE stopped sending",
+          "rank": 2
+        },
+        {
+          "cause": "Manhattan-side receipt problem",
+          "rank": 3
+        }
+      ],
+      "what_changed": [
+        "e-late-0001 answers the discriminating check: SAP holds 214 IDocs for hub CE and its delivery attempts time out with no ACK. The source is generating and trying to send, which directly contradicts hypothesis 2.",
+        "The thread dump (all consumer threads BLOCKED on socket read) explains the puzzle in hypothesis 1's contradicts column: a listener can report health UP and normal heap/CPU while its consumer threads are stuck.",
+        "Recovery gains a safe follow-up: the 214 IDocs are preserved on the SAP side, so a listener restart followed by an SAP resend should lose no deliveries.",
+        "Hypothesis 3 is unchanged: still no failed exchange on the Manhattan hop."
+      ]
+    },
+    "diagnosisAfterOverrides": {
+      "incident_summary": "Deliveries from SAP PI7 hub CE have not entered HIP since 13:30 UTC because the IDoc listener AN_COMMON_PI7IDOCListner is hung (its consumer threads are blocked and SAP holds 214 undelivered IDocs) while JVM health still reports UP; CZ01 and a second warehouse are blocked (INC10790202).",
+      "hypothesisPatches": {
+        "1": {
+          "confidence": "High",
+          "what_would_change_this": "Only resumed heartbeats without any intervention, or a thread dump showing idle consumer threads, would lower it now."
+        },
+        "2": {
+          "confidence": "Low",
+          "what_would_change_this": "Effectively closed: SAP is generating IDocs and attempting delivery (214 queued); would reopen only if SAP reports the queue was created by a retry of stale messages."
+        }
+      }
+    }
+  }
+}

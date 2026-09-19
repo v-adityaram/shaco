@@ -1,0 +1,4170 @@
+{
+  "meta": {
+    "slug": "s4-stalled-exchange",
+    "title": "Silent stalled exchange after the EMEA patching window",
+    "incidentNumber": "INC10790404",
+    "duplicateIncidents": [
+      "INC10790341",
+      "INC10790342",
+      "INC10790343"
+    ],
+    "faultOneLine": "BPM_to_FM_0200.csv delivered by SFG but the ESB half-flow never started; exchange stuck INPROGRESS at 2/4",
+    "mode": "ai-live"
+  },
+  "events": [
+    {
+      "event_id": "e-0001",
+      "ts": "2026-09-18T00:00:00+00:00",
+      "source": "SONAR",
+      "component": "SONAR-OPS",
+      "severity": 4,
+      "description": "[SONAR-OPS][PRD] HLTH_CHK 00:00Z critical exchanges: InProgress=497 Failed=0 Warning=7; InProgress: GLBL_SCHEDULER_WAITFORFILE (437), GLBL_CTRLM_MASTERDATA_BATCH (3)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 1
+      }
+    },
+    {
+      "event_id": "e-0002",
+      "ts": "2026-09-18T00:00:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 2
+      }
+    },
+    {
+      "event_id": "e-0003",
+      "ts": "2026-09-18T00:00:03+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPRMFTSI02",
+      "severity": 4,
+      "description": "BPM_to_FM_0000.csv FRHIPGPRMFTSI02->FM_FRCPD status=SUCCESS bytes=6,808,001 declared_rows=128,400 actual_rows=128,400",
+      "correlation_id": "202609180000071297902872",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 2
+      }
+    },
+    {
+      "event_id": "e-0004",
+      "ts": "2026-09-18T00:04:21+00:00",
+      "source": "SONAR",
+      "component": "eConsent",
+      "severity": 2,
+      "description": "EMEA_eCONSENT_HIPESB_CustomerEnrollment / EMEA_eCONSENT_HIPESB_CustomerEnrollment_01_API FAILED at halfflow 1/4: No route found for message [CONSENT 5354509591, exchange.id 57ec96d6-b93f-441f-a006-bf77f542eb5c]",
+      "correlation_id": "57ec96d6-b93f-441f-a006-bf77f542eb5c",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 30
+      }
+    },
+    {
+      "event_id": "e-0005",
+      "ts": "2026-09-18T00:04:58+00:00",
+      "source": "HIPMON",
+      "component": "eConsent",
+      "severity": 2,
+      "description": "[AUTO]|eConsent|EMEA_eCONSENT_HIPESB_CustomerEnrollment_01_API|RTG003|ETP_RTG003 -- No route found for message (priority 3 - High)",
+      "correlation_id": "57ec96d6-b93f-441f-a006-bf77f542eb5c",
+      "kind": "rule_hit",
+      "rule_id": "HIPMON-RTG003",
+      "raw_ref": {
+        "file": "hipmon-alerts.json",
+        "index": 0
+      }
+    },
+    {
+      "event_id": "e-0006",
+      "ts": "2026-09-18T00:05:09+00:00",
+      "source": "MFT",
+      "component": "SGLORHIPPMFTSI1",
+      "severity": 4,
+      "description": "OR_EXPORT_0005.csv SGLORHIPPMFTSI1->AZURE_BLOB status=SUCCESS bytes=3,444,181 declared_rows=41,079 actual_rows=41,079",
+      "correlation_id": "202609180005094572037256",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 3
+      }
+    },
+    {
+      "event_id": "e-0007",
+      "ts": "2026-09-18T00:09:00+00:00",
+      "source": "Splunk",
+      "component": "SGLORHIPQETLPC1",
+      "severity": 4,
+      "description": "Linux Host: SGLORHIPQETLPC1 has more than 90% swap space usage over last 30 mins  [x11 identical hits in total; first 00:09:00, last 07:53:00 UTC]",
+      "correlation_id": null,
+      "kind": "rule_hit",
+      "rule_id": "SPL-CAPLINERR002",
+      "raw_ref": {
+        "file": "splunk-hosts.ndjson",
+        "line": 46
+      }
+    },
+    {
+      "event_id": "e-0008",
+      "ts": "2026-09-18T00:10:49+00:00",
+      "source": "Change",
+      "component": "eConsent",
+      "severity": 4,
+      "description": "CHG4400504 (Normal): Apigee proxy eConsent v3: quota policy update (200 -> 250 rpm) [component eConsent, implementer Apigee team, approval: Approved]",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "change-records.json",
+        "index": 0
+      }
+    },
+    {
+      "event_id": "e-0009",
+      "ts": "2026-09-18T00:15:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 422
+      }
+    },
+    {
+      "event_id": "e-0010",
+      "ts": "2026-09-18T00:22:00+00:00",
+      "source": "Splunk",
+      "component": "FRHIPGQAMFTSI01",
+      "severity": 4,
+      "description": "CAPLINERR001-Linux Host - FRHIPGQAMFTSI01 has more than 98% of CPU over last 1 h  [x8 identical hits in total; first 00:22:00, last 07:33:00 UTC]",
+      "correlation_id": null,
+      "kind": "rule_hit",
+      "rule_id": "SPL-CAPLINERR001",
+      "raw_ref": {
+        "file": "splunk-hosts.ndjson",
+        "line": 112
+      }
+    },
+    {
+      "event_id": "e-0011",
+      "ts": "2026-09-18T00:30:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 842
+      }
+    },
+    {
+      "event_id": "e-0012",
+      "ts": "2026-09-18T00:35:18+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPPMFTSI01",
+      "severity": 4,
+      "description": "FCST_0035.csv FRHIPGPPMFTSI01->ANAPLAN status=SUCCESS bytes=4,069,281 declared_rows=41,557 actual_rows=41,557",
+      "correlation_id": "202609180035181948005354",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 4
+      }
+    },
+    {
+      "event_id": "e-0013",
+      "ts": "2026-09-18T00:45:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 1262
+      }
+    },
+    {
+      "event_id": "e-0015",
+      "ts": "2026-09-18T01:00:00+00:00",
+      "source": "SONAR",
+      "component": "SONAR-OPS",
+      "severity": 4,
+      "description": "[SONAR-OPS][PRD] HLTH_CHK 01:00Z critical exchanges: InProgress=458 Failed=0 Warning=18; InProgress: GLBL_SCHEDULER_WAITFORFILE (398), GLBL_CTRLM_MASTERDATA_BATCH (3)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 161
+      }
+    },
+    {
+      "event_id": "e-0016",
+      "ts": "2026-09-18T01:00:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 1682
+      }
+    },
+    {
+      "event_id": "e-0017",
+      "ts": "2026-09-18T01:05:03+00:00",
+      "source": "MFT",
+      "component": "SGLORHIPPMFTSI1",
+      "severity": 4,
+      "description": "OR_EXPORT_0105.csv SGLORHIPPMFTSI1->AZURE_BLOB status=SUCCESS bytes=3,403,675 declared_rows=41,576 actual_rows=41,576",
+      "correlation_id": "202609180105033088911263",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 5
+      }
+    },
+    {
+      "event_id": "e-0018",
+      "ts": "2026-09-18T01:08:46+00:00",
+      "source": "SONAR",
+      "component": "SAPTR_FOM",
+      "severity": 2,
+      "description": "EMEA_FOM_TRAM_SAPTR_CONFIG_PROD_HIER / EMEA_FOM_TRAM_SAPTR_CONFIG_PROD_HIER_03_ESB FAILED at halfflow 3/4: Invoke failed: SOAP fault from target service [PRODUCT_HIERARCHY 3559429057, exchange.id 202609180108432043653538]",
+      "correlation_id": "202609180108432043653538",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 201
+      }
+    },
+    {
+      "event_id": "e-0019",
+      "ts": "2026-09-18T01:09:16+00:00",
+      "source": "HIPMON",
+      "component": "SAPTR_FOM",
+      "severity": 2,
+      "description": "[AUTO]|SAPTR_FOM|EMEA_FOM_TRAM_SAPTR_CONFIG_PROD_HIER_03_ESB|IVK003|ETP_IVK003 -- Invoke failed: SOAP fault from target service (priority 3 - High)",
+      "correlation_id": "202609180108432043653538",
+      "kind": "rule_hit",
+      "rule_id": "HIPMON-IVK003",
+      "raw_ref": {
+        "file": "hipmon-alerts.json",
+        "index": 1
+      }
+    },
+    {
+      "event_id": "e-0020",
+      "ts": "2026-09-18T01:15:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 2102
+      }
+    },
+    {
+      "event_id": "e-0022",
+      "ts": "2026-09-18T01:30:00+00:00",
+      "source": "Change",
+      "component": "FRHIPGPRMFTSI02",
+      "severity": 3,
+      "description": "CHG0044901 (Standard): EMEA monthly patching window: OS patching and reboot of MFT hosts FRHIPGPRMFTSI01/02 (01:30-02:15) [component FRHIPGPRMFTSI02, implementer MFT team, approval: Approved]",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "change-records.json",
+        "index": 1
+      }
+    },
+    {
+      "event_id": "e-0023",
+      "ts": "2026-09-18T01:30:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 2522
+      }
+    },
+    {
+      "event_id": "e-0024",
+      "ts": "2026-09-18T01:32:10+00:00",
+      "source": "Splunk",
+      "component": "FRHIPGPRMFTSI01",
+      "severity": 4,
+      "description": "FRHIPGPRMFTSI01: FRHIPGPRMFTSI01 reboot for patching (uptime reset)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "splunk-hosts.ndjson",
+        "line": 470
+      }
+    },
+    {
+      "event_id": "e-0025",
+      "ts": "2026-09-18T01:35:11+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPPMFTSI01",
+      "severity": 4,
+      "description": "FCST_0135.csv FRHIPGPPMFTSI01->ANAPLAN status=SUCCESS bytes=4,050,508 declared_rows=40,314 actual_rows=40,314",
+      "correlation_id": "202609180135111142035235",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 6
+      }
+    },
+    {
+      "event_id": "e-0026",
+      "ts": "2026-09-18T01:38:10+00:00",
+      "source": "Change",
+      "component": "FRHIPGQAMFTSI01",
+      "severity": 4,
+      "description": "CHG4400503 (Normal): OS patch level update on QA MFT host [component FRHIPGQAMFTSI01, implementer MFT team, approval: Approved]",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "change-records.json",
+        "index": 2
+      }
+    },
+    {
+      "event_id": "e-0027",
+      "ts": "2026-09-18T01:38:40+00:00",
+      "source": "Splunk",
+      "component": "FRHIPGPRMFTSI02",
+      "severity": 4,
+      "description": "FRHIPGPRMFTSI02: FRHIPGPRMFTSI02 reboot for patching (uptime reset)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "splunk-hosts.ndjson",
+        "line": 501
+      }
+    },
+    {
+      "event_id": "e-0028",
+      "ts": "2026-09-18T01:41:05+00:00",
+      "source": "Splunk",
+      "component": "FRHIPGPRMFTSI02",
+      "severity": 3,
+      "description": "FRHIPGPRMFTSI02: SFG ESB adapter: 0 of 4 sessions active after reboot, reconnect attempt 3",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "splunk-hosts.ndjson",
+        "line": 517
+      }
+    },
+    {
+      "event_id": "e-0030",
+      "ts": "2026-09-18T01:45:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 2942
+      }
+    },
+    {
+      "event_id": "e-0031",
+      "ts": "2026-09-18T01:58:12+00:00",
+      "source": "Splunk",
+      "component": "SGLORHIPPETLPC1",
+      "severity": 4,
+      "description": "SGLORHIPPETLPC1: Control-M job ANAPLAN_BPM_EXPORT ended OK: file BPM_to_FM_0200.csv written, 128400 rows, trailer OK",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "splunk-hosts.ndjson",
+        "line": 604
+      }
+    },
+    {
+      "event_id": "e-0032",
+      "ts": "2026-09-18T02:00:00+00:00",
+      "source": "SONAR",
+      "component": "SONAR-OPS",
+      "severity": 4,
+      "description": "[SONAR-OPS][PRD] HLTH_CHK 02:00Z critical exchanges: InProgress=448 Failed=0 Warning=15; InProgress: GLBL_SCHEDULER_WAITFORFILE (388), GLBL_CTRLM_MASTERDATA_BATCH (3)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 329
+      }
+    },
+    {
+      "event_id": "e-0033",
+      "ts": "2026-09-18T02:00:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 3362
+      }
+    },
+    {
+      "event_id": "e-0034",
+      "ts": "2026-09-18T02:00:03+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPRMFTSI02",
+      "severity": 3,
+      "description": "BPM_to_FM_0200.csv FRHIPGPRMFTSI02->FM_FRCPD status=SUCCESS bytes=4,103,312 declared_rows=128,400 actual_rows=77,032  ** ROW COUNT MISMATCH: declared 128,400 != actual 77,032 while status is SUCCESS **",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 7
+      }
+    },
+    {
+      "event_id": "e-0035",
+      "ts": "2026-09-18T02:00:07+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM / GLBL_OPSF_ANAPLAN_BPM_to_FM_01_MFT ENTRYINFO status INPROGRESS, halfflow.count 1, halfflow.missing 2/4: Half-flow 1/4 started: file BPM_to_FM_0200.csv received from SFG [exchange.id 202609180200044648586021]",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 330
+      }
+    },
+    {
+      "event_id": "e-0036",
+      "ts": "2026-09-18T02:00:07+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM / GLBL_OPSF_ANAPLAN_BPM_to_FM_01_MFT INFO status INPROGRESS, halfflow.count 1, halfflow.missing 2/4: SFG business process BPM_to_FM_0200 delivered file, size 4,103,312 bytes [exchange.id 202609180200044648586021]",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 331
+      }
+    },
+    {
+      "event_id": "e-0037",
+      "ts": "2026-09-18T02:00:07+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM / GLBL_OPSF_ANAPLAN_BPM_to_FM_01_MFT INFO status INPROGRESS, halfflow.count 1, halfflow.missing 2/4: Connector session ESB-adapter-2: file accepted, spooling to HIP staging [exchange.id 202609180200044648586021]",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 332
+      }
+    },
+    {
+      "event_id": "e-0038",
+      "ts": "2026-09-18T02:00:07+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM / GLBL_OPSF_ANAPLAN_BPM_to_FM_01_MFT INFO status INPROGRESS, halfflow.count 1, halfflow.missing 2/4: Staging complete: 4,103,312 bytes written [exchange.id 202609180200044648586021]",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 333
+      }
+    },
+    {
+      "event_id": "e-0039",
+      "ts": "2026-09-18T02:00:08+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM / GLBL_OPSF_ANAPLAN_BPM_to_FM_01_MFT INFO status INPROGRESS, halfflow.count 1, halfflow.missing 2/4: Exchange event published to ESB adapter queue hip.mft.in.anaplan [exchange.id 202609180200044648586021]",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 334
+      }
+    },
+    {
+      "event_id": "e-0040",
+      "ts": "2026-09-18T02:00:08+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM / GLBL_OPSF_ANAPLAN_BPM_to_FM_01_MFT INFO status INPROGRESS, halfflow.count 1, halfflow.missing 2/4: Publish acknowledged by MFT adapter (no consumer response awaited) [exchange.id 202609180200044648586021]",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 335
+      }
+    },
+    {
+      "event_id": "e-0041",
+      "ts": "2026-09-18T02:00:09+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM / GLBL_OPSF_ANAPLAN_BPM_to_FM_01_MFT EXITINFO status INPROGRESS, halfflow.count 1, halfflow.missing 2/4: Half-flow 1/4 completed: file handed to ESB adapter [exchange.id 202609180200044648586021]",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 336
+      }
+    },
+    {
+      "event_id": "e-0042",
+      "ts": "2026-09-18T02:05:17+00:00",
+      "source": "MFT",
+      "component": "SGLORHIPPMFTSI1",
+      "severity": 4,
+      "description": "OR_EXPORT_0205.csv SGLORHIPPMFTSI1->AZURE_BLOB status=SUCCESS bytes=3,435,783 declared_rows=40,534 actual_rows=40,534",
+      "correlation_id": "202609180205178419454226",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 8
+      }
+    },
+    {
+      "event_id": "e-0043",
+      "ts": "2026-09-18T02:14:22+00:00",
+      "source": "Splunk",
+      "component": "FRHIPGPRMFTSI02",
+      "severity": 4,
+      "description": "FRHIPGPRMFTSI02: SFG ESB adapter: 4 of 4 sessions re-established",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "splunk-hosts.ndjson",
+        "line": 685
+      }
+    },
+    {
+      "event_id": "e-0044",
+      "ts": "2026-09-18T02:15:00+00:00",
+      "source": "Splunk",
+      "component": "FRHIPGPRMFTSI02",
+      "severity": 4,
+      "description": "FRHIPGPRMFTSI02: Patching complete on FRHIPGPRMFTSI02 (uptime 36 min)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "splunk-hosts.ndjson",
+        "line": 686
+      }
+    },
+    {
+      "event_id": "e-0045",
+      "ts": "2026-09-18T02:15:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 3782
+      }
+    },
+    {
+      "event_id": "e-0046",
+      "ts": "2026-09-18T02:19:26+00:00",
+      "source": "Change",
+      "component": "MANHATTAN_WMS",
+      "severity": 4,
+      "description": "CHG4400501 (Standard): Manhattan EMEA scheduled stock report time change [component MANHATTAN_WMS, implementer ESB team, approval: Approved]",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "change-records.json",
+        "index": 3
+      }
+    },
+    {
+      "event_id": "e-0048",
+      "ts": "2026-09-18T02:27:33+00:00",
+      "source": "SONAR",
+      "component": "SAPTR_FOM",
+      "severity": 2,
+      "description": "EMEA_SAPTR_FOM_INVENTORY_SG / EMEA_SAPTR_FOM_INVENTORY_SG_02_ESB FAILED at halfflow 2/4: Mapping error: required field 'Plant' missing in source payload [INVENTORY 3408211246, exchange.id 4e7ab5ae-76b8-449d-acba-826cbbadb9c1]",
+      "correlation_id": "4e7ab5ae-76b8-449d-acba-826cbbadb9c1",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 408
+      }
+    },
+    {
+      "event_id": "e-0049",
+      "ts": "2026-09-18T02:27:43+00:00",
+      "source": "HIPMON",
+      "component": "SAPTR_FOM",
+      "severity": 2,
+      "description": "[AUTO]|SAPTR_FOM|EMEA_SAPTR_FOM_INVENTORY_SG_02_ESB|MAP002|ETP_MAP002 -- Mapping error: required field 'Plant' missing in source payload (priority 3 - High)",
+      "correlation_id": "4e7ab5ae-76b8-449d-acba-826cbbadb9c1",
+      "kind": "rule_hit",
+      "rule_id": "HIPMON-MAP002",
+      "raw_ref": {
+        "file": "hipmon-alerts.json",
+        "index": 2
+      }
+    },
+    {
+      "event_id": "e-0051",
+      "ts": "2026-09-18T02:30:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 0h29m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0052",
+      "ts": "2026-09-18T02:30:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 4202
+      }
+    },
+    {
+      "event_id": "e-0053",
+      "ts": "2026-09-18T02:35:03+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPPMFTSI01",
+      "severity": 4,
+      "description": "FCST_0235.csv FRHIPGPPMFTSI01->ANAPLAN status=SUCCESS bytes=4,083,148 declared_rows=40,084 actual_rows=40,084",
+      "correlation_id": "202609180235033050284514",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 9
+      }
+    },
+    {
+      "event_id": "e-0054",
+      "ts": "2026-09-18T02:40:24+00:00",
+      "source": "SONAR",
+      "component": "eConsent",
+      "severity": 2,
+      "description": "EMEA_eCONSENT_HIPESB_CustomerEnrollment / EMEA_eCONSENT_HIPESB_CustomerEnrollment_02_ESB FAILED at halfflow 2/4: Duplicate message detected for business key [CONSENT 5327313609, exchange.id 8ecc0f9c-9eac-4380-a0ce-b37ed4877086]",
+      "correlation_id": "8ecc0f9c-9eac-4380-a0ce-b37ed4877086",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 439
+      }
+    },
+    {
+      "event_id": "e-0055",
+      "ts": "2026-09-18T02:41:02+00:00",
+      "source": "HIPMON",
+      "component": "eConsent",
+      "severity": 2,
+      "description": "[AUTO]|eConsent|EMEA_eCONSENT_HIPESB_CustomerEnrollment_02_ESB|PRC003|ETP_PRC003 -- Duplicate message detected for business key (priority 3 - High)",
+      "correlation_id": "8ecc0f9c-9eac-4380-a0ce-b37ed4877086",
+      "kind": "rule_hit",
+      "rule_id": "HIPMON-PRC003",
+      "raw_ref": {
+        "file": "hipmon-alerts.json",
+        "index": 3
+      }
+    },
+    {
+      "event_id": "e-0056",
+      "ts": "2026-09-18T02:45:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 4622
+      }
+    },
+    {
+      "event_id": "e-0057",
+      "ts": "2026-09-18T02:48:50+00:00",
+      "source": "SONAR",
+      "component": "SFDC_CX",
+      "severity": 2,
+      "description": "EMEA_SFDC_CUSTOMER_SYNC / EMEA_SFDC_CUSTOMER_SYNC_02_ESB FAILED at halfflow 2/4: Duplicate message detected for business key [CUSTOMER 5286597601, exchange.id ded784fd-ccdf-4ec1-a883-44f698d1269b]",
+      "correlation_id": "ded784fd-ccdf-4ec1-a883-44f698d1269b",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 460
+      }
+    },
+    {
+      "event_id": "e-0058",
+      "ts": "2026-09-18T02:48:58+00:00",
+      "source": "HIPMON",
+      "component": "SFDC_CX",
+      "severity": 2,
+      "description": "[AUTO]|SFDC_CX|EMEA_SFDC_CUSTOMER_SYNC_02_ESB|PRC003|ETP_PRC003 -- Duplicate message detected for business key (priority 3 - High)  [x2 identical hits in total; first 02:48:58, last 05:31:52 UTC]",
+      "correlation_id": "ded784fd-ccdf-4ec1-a883-44f698d1269b",
+      "kind": "rule_hit",
+      "rule_id": "HIPMON-PRC003",
+      "raw_ref": {
+        "file": "hipmon-alerts.json",
+        "index": 4
+      }
+    },
+    {
+      "event_id": "e-0059",
+      "ts": "2026-09-18T03:00:00+00:00",
+      "source": "SONAR",
+      "component": "SONAR-OPS",
+      "severity": 4,
+      "description": "[SONAR-OPS][PRD] HLTH_CHK 03:00Z critical exchanges: InProgress=372 Failed=0 Warning=10; InProgress: GLBL_SCHEDULER_WAITFORFILE (311), GLBL_CTRLM_MASTERDATA_BATCH (3), GLBL_OPSF_ANAPLAN_BPM_to_FM (1, oldest 0h59m)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 484
+      }
+    },
+    {
+      "event_id": "e-0060",
+      "ts": "2026-09-18T03:00:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 0h59m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0061",
+      "ts": "2026-09-18T03:00:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 5042
+      }
+    },
+    {
+      "event_id": "e-0062",
+      "ts": "2026-09-18T03:05:12+00:00",
+      "source": "MFT",
+      "component": "SGLORHIPPMFTSI1",
+      "severity": 4,
+      "description": "OR_EXPORT_0305.csv SGLORHIPPMFTSI1->AZURE_BLOB status=SUCCESS bytes=3,433,463 declared_rows=40,456 actual_rows=40,456",
+      "correlation_id": "202609180305124274430721",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 10
+      }
+    },
+    {
+      "event_id": "e-0064",
+      "ts": "2026-09-18T03:15:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 5462
+      }
+    },
+    {
+      "event_id": "e-0065",
+      "ts": "2026-09-18T03:27:07+00:00",
+      "source": "Change",
+      "component": "AKS-HIP-EMEA-PRD",
+      "severity": 4,
+      "description": "CHG4400500 (Standard): Autoscaler max nodes 12 -> 14 for the batch node pool [component AKS-HIP-EMEA-PRD, implementer Azure/Platform team, approval: Approved]",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "change-records.json",
+        "index": 4
+      }
+    },
+    {
+      "event_id": "e-0067",
+      "ts": "2026-09-18T03:30:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 1h29m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0068",
+      "ts": "2026-09-18T03:30:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 5882
+      }
+    },
+    {
+      "event_id": "e-0069",
+      "ts": "2026-09-18T03:35:14+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPPMFTSI01",
+      "severity": 4,
+      "description": "FCST_0335.csv FRHIPGPPMFTSI01->ANAPLAN status=SUCCESS bytes=4,062,007 declared_rows=41,655 actual_rows=41,655",
+      "correlation_id": "202609180335142834327027",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 11
+      }
+    },
+    {
+      "event_id": "e-0070",
+      "ts": "2026-09-18T03:45:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 6302
+      }
+    },
+    {
+      "event_id": "e-0072",
+      "ts": "2026-09-18T04:00:00+00:00",
+      "source": "SONAR",
+      "component": "SONAR-OPS",
+      "severity": 4,
+      "description": "[SONAR-OPS][PRD] HLTH_CHK 04:00Z critical exchanges: InProgress=426 Failed=0 Warning=6; InProgress: GLBL_SCHEDULER_WAITFORFILE (365), GLBL_CTRLM_MASTERDATA_BATCH (3), GLBL_OPSF_ANAPLAN_BPM_to_FM (1, oldest 1h59m)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 634
+      }
+    },
+    {
+      "event_id": "e-0073",
+      "ts": "2026-09-18T04:00:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 1h59m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0074",
+      "ts": "2026-09-18T04:00:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 6722
+      }
+    },
+    {
+      "event_id": "e-0075",
+      "ts": "2026-09-18T04:00:00+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPRMFTSI02",
+      "severity": 4,
+      "description": "BPM_to_FM_0400.csv FRHIPGPRMFTSI02->FM_FRCPD status=SUCCESS bytes=6,805,066 declared_rows=128,400 actual_rows=128,400",
+      "correlation_id": "202609180400048428944674",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 12
+      }
+    },
+    {
+      "event_id": "e-0076",
+      "ts": "2026-09-18T04:05:13+00:00",
+      "source": "MFT",
+      "component": "SGLORHIPPMFTSI1",
+      "severity": 4,
+      "description": "OR_EXPORT_0405.csv SGLORHIPPMFTSI1->AZURE_BLOB status=SUCCESS bytes=3,429,605 declared_rows=41,135 actual_rows=41,135",
+      "correlation_id": "202609180405139583263594",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 13
+      }
+    },
+    {
+      "event_id": "e-0077",
+      "ts": "2026-09-18T04:15:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 7142
+      }
+    },
+    {
+      "event_id": "e-0078",
+      "ts": "2026-09-18T04:19:36+00:00",
+      "source": "Change",
+      "component": "SAPTR_FOM",
+      "severity": 4,
+      "description": "CHG4400505 (Normal): Deploy mapping v3.4.1 minor fix for FOM inventory SG flow [component SAPTR_FOM, implementer ESB team, approval: Approved]",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "change-records.json",
+        "index": 5
+      }
+    },
+    {
+      "event_id": "e-0079",
+      "ts": "2026-09-18T04:22:45+00:00",
+      "source": "SONAR",
+      "component": "SAPTR_FOM",
+      "severity": 2,
+      "description": "EMEA_SAPTR_FOM_INVENTORY_SG / EMEA_SAPTR_FOM_INVENTORY_SG_02_ESB FAILED at halfflow 2/4: Duplicate message detected for business key [INVENTORY 3463254023, exchange.id 62becd34-fe35-45a0-a7ef-9edd99b65d10]",
+      "correlation_id": "62becd34-fe35-45a0-a7ef-9edd99b65d10",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 705
+      }
+    },
+    {
+      "event_id": "e-0080",
+      "ts": "2026-09-18T04:23:03+00:00",
+      "source": "HIPMON",
+      "component": "SAPTR_FOM",
+      "severity": 2,
+      "description": "[AUTO]|SAPTR_FOM|EMEA_SAPTR_FOM_INVENTORY_SG_02_ESB|PRC003|ETP_PRC003 -- Duplicate message detected for business key (priority 3 - High)",
+      "correlation_id": "62becd34-fe35-45a0-a7ef-9edd99b65d10",
+      "kind": "rule_hit",
+      "rule_id": "HIPMON-PRC003",
+      "raw_ref": {
+        "file": "hipmon-alerts.json",
+        "index": 5
+      }
+    },
+    {
+      "event_id": "e-0082",
+      "ts": "2026-09-18T04:30:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 2h29m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0083",
+      "ts": "2026-09-18T04:30:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 7562
+      }
+    },
+    {
+      "event_id": "e-0084",
+      "ts": "2026-09-18T04:35:19+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPPMFTSI01",
+      "severity": 4,
+      "description": "FCST_0435.csv FRHIPGPPMFTSI01->ANAPLAN status=SUCCESS bytes=4,071,388 declared_rows=40,498 actual_rows=40,498",
+      "correlation_id": "202609180435192559737875",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 14
+      }
+    },
+    {
+      "event_id": "e-0086",
+      "ts": "2026-09-18T04:42:49+00:00",
+      "source": "SONAR",
+      "component": "SAPTR_FOM",
+      "severity": 2,
+      "description": "EMEA_FOM_TRAM_SAPTR_CONFIG_PROD_HIER / EMEA_FOM_TRAM_SAPTR_CONFIG_PROD_HIER_01_ESB FAILED at halfflow 1/4: No route found for message [PRODUCT_HIERARCHY 3563843040, exchange.id 202609180442468058505095]",
+      "correlation_id": "202609180442468058505095",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 763
+      }
+    },
+    {
+      "event_id": "e-0087",
+      "ts": "2026-09-18T04:43:04+00:00",
+      "source": "HIPMON",
+      "component": "SAPTR_FOM",
+      "severity": 2,
+      "description": "[AUTO]|SAPTR_FOM|EMEA_FOM_TRAM_SAPTR_CONFIG_PROD_HIER_01_ESB|RTG003|ETP_RTG003 -- No route found for message (priority 3 - High)",
+      "correlation_id": "202609180442468058505095",
+      "kind": "rule_hit",
+      "rule_id": "HIPMON-RTG003",
+      "raw_ref": {
+        "file": "hipmon-alerts.json",
+        "index": 6
+      }
+    },
+    {
+      "event_id": "e-0088",
+      "ts": "2026-09-18T04:45:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 7982
+      }
+    },
+    {
+      "event_id": "e-0089",
+      "ts": "2026-09-18T04:50:13+00:00",
+      "source": "SONAR",
+      "component": "SFDC_CX",
+      "severity": 2,
+      "description": "EMEA_SFDC_CUSTOMER_SYNC / EMEA_SFDC_CUSTOMER_SYNC_01_ESB FAILED at halfflow 1/4: No route found for message [CUSTOMER 5274009918, exchange.id dd74daec-50a1-4714-ade3-4161ce736e4d]",
+      "correlation_id": "dd74daec-50a1-4714-ade3-4161ce736e4d",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 781
+      }
+    },
+    {
+      "event_id": "e-0090",
+      "ts": "2026-09-18T04:50:39+00:00",
+      "source": "HIPMON",
+      "component": "SFDC_CX",
+      "severity": 2,
+      "description": "[AUTO]|SFDC_CX|EMEA_SFDC_CUSTOMER_SYNC_01_ESB|RTG003|ETP_RTG003 -- No route found for message (priority 3 - High)",
+      "correlation_id": "dd74daec-50a1-4714-ade3-4161ce736e4d",
+      "kind": "rule_hit",
+      "rule_id": "HIPMON-RTG003",
+      "raw_ref": {
+        "file": "hipmon-alerts.json",
+        "index": 7
+      }
+    },
+    {
+      "event_id": "e-0091",
+      "ts": "2026-09-18T04:54:00+00:00",
+      "source": "SONAR",
+      "component": "SAPTR_FOM",
+      "severity": 2,
+      "description": "EMEA_FOM_TRAM_SAPTR_CONFIG_PROD_HIER / EMEA_FOM_TRAM_SAPTR_CONFIG_PROD_HIER_01_ESB FAILED at halfflow 1/4: No route found for message [PRODUCT_HIERARCHY 3553367195, exchange.id 202609180453584493887693]",
+      "correlation_id": "202609180453584493887693",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 787
+      }
+    },
+    {
+      "event_id": "e-0092",
+      "ts": "2026-09-18T05:00:00+00:00",
+      "source": "SONAR",
+      "component": "SONAR-OPS",
+      "severity": 4,
+      "description": "[SONAR-OPS][PRD] HLTH_CHK 05:00Z critical exchanges: InProgress=377 Failed=0 Warning=6; InProgress: GLBL_SCHEDULER_WAITFORFILE (316), GLBL_CTRLM_MASTERDATA_BATCH (3), GLBL_OPSF_ANAPLAN_BPM_to_FM (1, oldest 2h59m)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 803
+      }
+    },
+    {
+      "event_id": "e-0093",
+      "ts": "2026-09-18T05:00:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 2h59m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0094",
+      "ts": "2026-09-18T05:00:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 8402
+      }
+    },
+    {
+      "event_id": "e-0095",
+      "ts": "2026-09-18T05:04:52+00:00",
+      "source": "Change",
+      "component": "SGLORHIPPETLPC1",
+      "severity": 4,
+      "description": "CHG4400502 (Standard): Extend Control-M calendar for month-end ETL jobs [component SGLORHIPPETLPC1, implementer ETL team, approval: Approved]",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "change-records.json",
+        "index": 6
+      }
+    },
+    {
+      "event_id": "e-0096",
+      "ts": "2026-09-18T05:05:08+00:00",
+      "source": "MFT",
+      "component": "SGLORHIPPMFTSI1",
+      "severity": 4,
+      "description": "OR_EXPORT_0505.csv SGLORHIPPMFTSI1->AZURE_BLOB status=SUCCESS bytes=3,438,170 declared_rows=41,429 actual_rows=41,429",
+      "correlation_id": "202609180505083551479205",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 15
+      }
+    },
+    {
+      "event_id": "e-0097",
+      "ts": "2026-09-18T05:15:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 8822
+      }
+    },
+    {
+      "event_id": "e-0100",
+      "ts": "2026-09-18T05:30:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 3h29m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0101",
+      "ts": "2026-09-18T05:30:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 9242
+      }
+    },
+    {
+      "event_id": "e-0102",
+      "ts": "2026-09-18T05:31:27+00:00",
+      "source": "SONAR",
+      "component": "SFDC_CX",
+      "severity": 2,
+      "description": "EMEA_SFDC_CUSTOMER_SYNC / EMEA_SFDC_CUSTOMER_SYNC_02_ESB FAILED at halfflow 2/4: Duplicate message detected for business key [CUSTOMER 5263693593, exchange.id c30d46cd-dd23-496b-a766-956b01850105]",
+      "correlation_id": "c30d46cd-dd23-496b-a766-956b01850105",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 885
+      }
+    },
+    {
+      "event_id": "e-0104",
+      "ts": "2026-09-18T05:35:14+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPPMFTSI01",
+      "severity": 4,
+      "description": "FCST_0535.csv FRHIPGPPMFTSI01->ANAPLAN status=SUCCESS bytes=4,108,517 declared_rows=40,166 actual_rows=40,166",
+      "correlation_id": "202609180535143545125995",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 16
+      }
+    },
+    {
+      "event_id": "e-0105",
+      "ts": "2026-09-18T05:45:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 9662
+      }
+    },
+    {
+      "event_id": "e-0106",
+      "ts": "2026-09-18T06:00:00+00:00",
+      "source": "SONAR",
+      "component": "SONAR-OPS",
+      "severity": 4,
+      "description": "[SONAR-OPS][PRD] HLTH_CHK 06:00Z critical exchanges: InProgress=343 Failed=0 Warning=12; InProgress: GLBL_SCHEDULER_WAITFORFILE (282), GLBL_CTRLM_MASTERDATA_BATCH (3), GLBL_OPSF_ANAPLAN_BPM_to_FM (1, oldest 3h59m)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 971
+      }
+    },
+    {
+      "event_id": "e-0107",
+      "ts": "2026-09-18T06:00:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 3h59m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0108",
+      "ts": "2026-09-18T06:00:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 10082
+      }
+    },
+    {
+      "event_id": "e-0109",
+      "ts": "2026-09-18T06:00:01+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPRMFTSI02",
+      "severity": 4,
+      "description": "BPM_to_FM_0600.csv FRHIPGPRMFTSI02->FM_FRCPD status=SUCCESS bytes=6,834,575 declared_rows=128,400 actual_rows=128,400",
+      "correlation_id": "202609180600059814699634",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 17
+      }
+    },
+    {
+      "event_id": "e-0110",
+      "ts": "2026-09-18T06:05:05+00:00",
+      "source": "MFT",
+      "component": "SGLORHIPPMFTSI1",
+      "severity": 4,
+      "description": "OR_EXPORT_0605.csv SGLORHIPPMFTSI1->AZURE_BLOB status=SUCCESS bytes=3,452,008 declared_rows=41,484 actual_rows=41,484",
+      "correlation_id": "202609180605055898244571",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 18
+      }
+    },
+    {
+      "event_id": "e-0112",
+      "ts": "2026-09-18T06:15:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 10502
+      }
+    },
+    {
+      "event_id": "e-0114",
+      "ts": "2026-09-18T06:30:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 4h29m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0115",
+      "ts": "2026-09-18T06:30:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 10922
+      }
+    },
+    {
+      "event_id": "e-0116",
+      "ts": "2026-09-18T06:35:16+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPPMFTSI01",
+      "severity": 4,
+      "description": "FCST_0635.csv FRHIPGPPMFTSI01->ANAPLAN status=SUCCESS bytes=4,065,719 declared_rows=40,529 actual_rows=40,529",
+      "correlation_id": "202609180635161028243932",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 19
+      }
+    },
+    {
+      "event_id": "e-0117",
+      "ts": "2026-09-18T06:45:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 11342
+      }
+    },
+    {
+      "event_id": "e-0118",
+      "ts": "2026-09-18T07:00:00+00:00",
+      "source": "SONAR",
+      "component": "SONAR-OPS",
+      "severity": 4,
+      "description": "[SONAR-OPS][PRD] HLTH_CHK 07:00Z critical exchanges: InProgress=388 Failed=0 Warning=8; InProgress: GLBL_SCHEDULER_WAITFORFILE (327), GLBL_CTRLM_MASTERDATA_BATCH (3), GLBL_OPSF_ANAPLAN_BPM_to_FM (1, oldest 4h59m)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 1127
+      }
+    },
+    {
+      "event_id": "e-0119",
+      "ts": "2026-09-18T07:00:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 4h59m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0120",
+      "ts": "2026-09-18T07:00:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 11762
+      }
+    },
+    {
+      "event_id": "e-0122",
+      "ts": "2026-09-18T07:05:11+00:00",
+      "source": "MFT",
+      "component": "SGLORHIPPMFTSI1",
+      "severity": 4,
+      "description": "OR_EXPORT_0705.csv SGLORHIPPMFTSI1->AZURE_BLOB status=SUCCESS bytes=3,442,287 declared_rows=41,889 actual_rows=41,889",
+      "correlation_id": "202609180705114751595698",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 20
+      }
+    },
+    {
+      "event_id": "e-0123",
+      "ts": "2026-09-18T07:15:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 12182
+      }
+    },
+    {
+      "event_id": "e-0124",
+      "ts": "2026-09-18T07:30:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 5h29m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0125",
+      "ts": "2026-09-18T07:30:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 12602
+      }
+    },
+    {
+      "event_id": "e-0127",
+      "ts": "2026-09-18T07:35:06+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPPMFTSI01",
+      "severity": 4,
+      "description": "FCST_0735.csv FRHIPGPPMFTSI01->ANAPLAN status=SUCCESS bytes=4,090,163 declared_rows=40,151 actual_rows=40,151",
+      "correlation_id": "202609180735064069683657",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 21
+      }
+    },
+    {
+      "event_id": "e-0128",
+      "ts": "2026-09-18T07:41:10+00:00",
+      "source": "SONAR",
+      "component": "FRCPD",
+      "severity": 2,
+      "description": "GLBL_FRCPD_FM_FKF_GENERATION / GLBL_FRCPD_FM_FKF_GENERATION_02_ESB FAILED at halfflow 2/4: Database lock: unable to acquire lock on FM_STAGING_TBL (waited 3600 s) [FKF FKF89398986, exchange.id 202609180641109325500282]",
+      "correlation_id": "202609180641109325500282",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 1224
+      }
+    },
+    {
+      "event_id": "e-0129",
+      "ts": "2026-09-18T07:45:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 13022
+      }
+    },
+    {
+      "event_id": "e-0130",
+      "ts": "2026-09-18T07:47:32+00:00",
+      "source": "SONAR",
+      "component": "FRCPD",
+      "severity": 2,
+      "description": "GLBL_FRCPD_FM_FKF_GENERATION / GLBL_FRCPD_FM_FKF_GENERATION_02_ESB FAILED at halfflow 2/4: Database lock: unable to acquire lock on FM_STAGING_TBL (waited 3600 s) [FKF FKF58958015, exchange.id 202609180647325039244647]",
+      "correlation_id": "202609180647325039244647",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 1239
+      }
+    },
+    {
+      "event_id": "e-0131",
+      "ts": "2026-09-18T07:49:00+00:00",
+      "source": "Splunk",
+      "component": "SGLORHIPPETLPC1",
+      "severity": 3,
+      "description": "FRCPD FM database session lock wait > 3000 s",
+      "correlation_id": null,
+      "kind": "rule_hit",
+      "rule_id": "SPL-DBLOCK001",
+      "raw_ref": {
+        "file": "splunk-hosts.ndjson",
+        "line": 2370
+      }
+    },
+    {
+      "event_id": "e-0132",
+      "ts": "2026-09-18T07:52:05+00:00",
+      "source": "SONAR",
+      "component": "FRCPD",
+      "severity": 2,
+      "description": "GLBL_FRCPD_FM_FKF_GENERATION / GLBL_FRCPD_FM_FKF_GENERATION_02_ESB FAILED at halfflow 2/4: Database lock: unable to acquire lock on FM_STAGING_TBL (waited 3600 s) [FKF FKF73983712, exchange.id 202609180652050808084768]",
+      "correlation_id": "202609180652050808084768",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 1245
+      }
+    },
+    {
+      "event_id": "e-0133",
+      "ts": "2026-09-18T07:52:20+00:00",
+      "source": "HIPMON",
+      "component": "FRCPD",
+      "severity": 2,
+      "description": "[AUTO]|FRCPD|GLBL_FRCPD_FM_FKF_GENERATION_02_ESB|TEC01|ETP_TEC01 -- Database lock: unable to acquire lock on FM_STAGING_TBL (waited 3600 s) (priority 3 - High)",
+      "correlation_id": "202609180641109325500282",
+      "kind": "rule_hit",
+      "rule_id": "HIPMON-TEC01",
+      "raw_ref": {
+        "file": "hipmon-alerts.json",
+        "index": 9
+      }
+    },
+    {
+      "event_id": "e-0135",
+      "ts": "2026-09-18T07:55:40+00:00",
+      "source": "SONAR",
+      "component": "FRCPD",
+      "severity": 2,
+      "description": "GLBL_FRCPD_FM_FKF_GENERATION / GLBL_FRCPD_FM_FKF_GENERATION_02_ESB FAILED at halfflow 2/4: Database lock: unable to acquire lock on FM_STAGING_TBL (waited 3600 s) [FKF FKF15078586, exchange.id 202609180655401026426704]",
+      "correlation_id": "202609180655401026426704",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 1253
+      }
+    },
+    {
+      "event_id": "e-0136",
+      "ts": "2026-09-18T07:56:05+00:00",
+      "source": "HIPMON",
+      "component": "FRCPD",
+      "severity": 2,
+      "description": "[AUTO]|FRCPD|GLBL_FRCPD_FM_FKF_GENERATION_02_ESB|TEC01|ETP_TEC01 -- Database lock: unable to acquire lock on FM_STAGING_TBL (waited 3600 s) (priority 3 - High)  [x2 identical hits in total; first 07:52:20, last 07:56:05 UTC]",
+      "correlation_id": "202609180652050808084768",
+      "kind": "rule_hit",
+      "rule_id": "HIPMON-TEC01",
+      "raw_ref": {
+        "file": "hipmon-alerts.json",
+        "index": 10
+      }
+    },
+    {
+      "event_id": "e-0137",
+      "ts": "2026-09-18T07:57:20+00:00",
+      "source": "ServiceNow",
+      "component": "HIP-INCIDENT-L2",
+      "severity": 2,
+      "description": "INC10790404 (user, priority 2, TECH FNDN - WW - HIP INCIDENT L2): FRCPD database locked, FKF not generated -- FRCPD database is locked and the FKF file was not generated this morning. FM load appears incomplete.",
+      "correlation_id": null,
+      "kind": "rule_hit",
+      "rule_id": "SNOW-USER",
+      "raw_ref": {
+        "file": "servicenow-incidents.json",
+        "index": 0
+      }
+    },
+    {
+      "event_id": "e-0138",
+      "ts": "2026-09-18T07:58:30+00:00",
+      "source": "HIPMON",
+      "component": "FRCPD",
+      "severity": 2,
+      "description": "[AUTO]|FRCPD|GLBL_FRCPD_FM_FKF_GENERATION_03_ESB|COM01|ETP_COM01 -- FKF file not generated: upstream FM staging incomplete (priority 3 - High)",
+      "correlation_id": "202609180655401026426704",
+      "kind": "rule_hit",
+      "rule_id": "HIPMON-COM01",
+      "raw_ref": {
+        "file": "hipmon-alerts.json",
+        "index": 11
+      }
+    },
+    {
+      "event_id": "e-0139",
+      "ts": "2026-09-18T07:59:10+00:00",
+      "source": "ServiceNow",
+      "component": "HIP-INCIDENT-L2",
+      "severity": 3,
+      "description": "INC10790341 (auto, priority 3, TECH FNDN - WW - HIP INCIDENT L2, child of INC10790404): [AUTO]|FRCPD|GLBL_FRCPD_FM_FKF_GENERATION_02_ESB|TEC01|ETP_TEC01 -- Database lock: unable to acquire lock on FM_STAGING_TBL (exchange.id 202609180641109325500282)",
+      "correlation_id": "202609180641109325500282",
+      "kind": "rule_hit",
+      "rule_id": "SNOW-AUTO",
+      "raw_ref": {
+        "file": "servicenow-incidents.json",
+        "index": 1
+      }
+    },
+    {
+      "event_id": "e-0140",
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "SONAR",
+      "component": "SONAR-OPS",
+      "severity": 4,
+      "description": "[SONAR-OPS][PRD] HLTH_CHK 08:00Z critical exchanges: InProgress=368 Failed=0 Warning=9; InProgress: GLBL_SCHEDULER_WAITFORFILE (307), GLBL_CTRLM_MASTERDATA_BATCH (3), GLBL_OPSF_ANAPLAN_BPM_to_FM (1, oldest 5h59m)",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "line": 1266
+      }
+    },
+    {
+      "event_id": "e-0141",
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "SONAR",
+      "component": "ANAPLAN_BPM",
+      "severity": 3,
+      "description": "GLBL_OPSF_ANAPLAN_BPM_to_FM: exchange 202609180200044648586021 INPROGRESS at halfflow 2/4 for 5h59m; expected half-flow GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB has NO event (last event of this exchange 02:00:09 UTC); exchange never turned FAILED",
+      "correlation_id": "202609180200044648586021",
+      "kind": "context",
+      "raw_ref": {
+        "file": "sonar-exchanges.ndjson",
+        "computed": "stalled-exchange"
+      }
+    },
+    {
+      "event_id": "e-0142",
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Kafka",
+      "component": "CONFLUENT_EMEA",
+      "severity": 4,
+      "description": "consumer lag 0 on all 7 processing groups; no growth on any topic",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "kafka-lag.csv",
+        "row": 13442
+      }
+    },
+    {
+      "event_id": "e-0143",
+      "ts": "2026-09-18T08:00:03+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPRMFTSI02",
+      "severity": 4,
+      "description": "BPM_to_FM_0800.csv FRHIPGPRMFTSI02->FM_FRCPD status=SUCCESS bytes=6,800,632 declared_rows=128,400 actual_rows=128,400",
+      "correlation_id": "202609180800074578614238",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 22
+      }
+    },
+    {
+      "event_id": "e-0144",
+      "ts": "2026-09-18T08:00:05+00:00",
+      "source": "ServiceNow",
+      "component": "HIP-INCIDENT-L2",
+      "severity": 3,
+      "description": "INC10790342 (auto, priority 3, TECH FNDN - WW - HIP INCIDENT L2, child of INC10790404): [AUTO]|FRCPD|GLBL_FRCPD_FM_FKF_GENERATION_03_ESB|COM01|ETP_COM01 -- FKF file not generated: upstream FM staging incomplete (exchange.id 202609180655401026426704)",
+      "correlation_id": "202609180655401026426704",
+      "kind": "rule_hit",
+      "rule_id": "SNOW-AUTO",
+      "raw_ref": {
+        "file": "servicenow-incidents.json",
+        "index": 2
+      }
+    },
+    {
+      "event_id": "e-0145",
+      "ts": "2026-09-18T08:02:40+00:00",
+      "source": "ServiceNow",
+      "component": "HIP-INCIDENT-L2",
+      "severity": 3,
+      "description": "INC10790343 (auto, priority 3, TECH FNDN - WW - HIP INCIDENT L2, child of INC10790404): CAPLINERR-DBLOCK FRCPD FM database session lock wait -- Splunk rule SPL-DBLOCK001 fired: lock wait > 3000 s",
+      "correlation_id": null,
+      "kind": "rule_hit",
+      "rule_id": "SNOW-AUTO",
+      "raw_ref": {
+        "file": "servicenow-incidents.json",
+        "index": 3
+      }
+    },
+    {
+      "event_id": "e-0146",
+      "ts": "2026-09-18T08:05:00+00:00",
+      "source": "ServiceNow",
+      "component": "HIP-INCIDENT-L2",
+      "severity": 4,
+      "description": "INC10790404 work note: L1: FM DBA confirmed lock held by the 07:30 FM load; load input looks incomplete.",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "servicenow-incidents.json",
+        "index": 0
+      }
+    },
+    {
+      "event_id": "e-0147",
+      "ts": "2026-09-18T08:05:19+00:00",
+      "source": "MFT",
+      "component": "SGLORHIPPMFTSI1",
+      "severity": 4,
+      "description": "OR_EXPORT_0805.csv SGLORHIPPMFTSI1->AZURE_BLOB status=SUCCESS bytes=3,409,990 declared_rows=40,053 actual_rows=40,053",
+      "correlation_id": "202609180805198552683055",
+      "kind": "context",
+      "raw_ref": {
+        "file": "mft-transfers.csv",
+        "row": 23
+      }
+    }
+  ],
+  "alertRows": [
+    {
+      "ts": "2026-09-18T08:02:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:02:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPMFTSI1",
+      "message": "cpu_pct 30%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:02:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/deliveries",
+      "message": "404 x2, p99 597 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:02:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGQAMFTSI01",
+      "message": "cpu_pct 12%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:02:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPETLPC1",
+      "message": "cpu_pct 46%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:02:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGPPMFTSI01",
+      "message": "cpu_pct 14%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:02:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPQETLPC1",
+      "message": "cpu_pct 28%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-neo-odes-large",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-kepler-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-neo-odes-large",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:06+00:00",
+      "source": "Workato",
+      "ruleId": "—",
+      "component": "Warehouse Capacity Notify",
+      "message": "job WJ0000700 succeeded (5729 ms)",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-neo-odes-large",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGQAMFTSI01",
+      "message": "cpu_pct 33%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPETLPC1",
+      "message": "cpu_pct 21%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGPPMFTSI01",
+      "message": "cpu_pct 36%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/shipments",
+      "message": "500 x4, p99 567 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPQETLPC1",
+      "message": "cpu_pct 26%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPMFTSI1",
+      "message": "cpu_pct 25%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:01:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:53+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "GLBL_OPSF_ANAPLAN_BPM_to_FM_04_MFT",
+      "message": "COMPLETE 46000 ms",
+      "severity": "P4",
+      "correlationId": "202609180800074578614238",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-quick",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:43+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "EMEA_SAPIT_DELIVERY_STATUS_04_API",
+      "message": "COMPLETE 2403 ms",
+      "severity": "P4",
+      "correlationId": "202609180800405263739249",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-neo-odes-large",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-quick",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-kepler-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-neo-odes-large",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-quick",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-neo-odes-large",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/consent/enrol",
+      "message": "404 x1, p99 382 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGQAMFTSI01",
+      "message": "cpu_pct 22%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGPPMFTSI01",
+      "message": "cpu_pct 44%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPETLPC1",
+      "message": "cpu_pct 29%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/returns",
+      "message": "502 x2, p99 414 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPMFTSI1",
+      "message": "cpu_pct 44%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/stock",
+      "message": "404 x3, p99 750 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPQETLPC1",
+      "message": "cpu_pct 33%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T08:00:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:46+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "EMEA_AMAZON_STOCK_FEED_04_API",
+      "message": "COMPLETE 2361 ms",
+      "severity": "P4",
+      "correlationId": "202609180759443092767840",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-quick",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-neo-odes-large",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-kepler-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-quick",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:28+00:00",
+      "source": "Workato",
+      "ruleId": "—",
+      "component": "Warehouse Capacity Notify",
+      "message": "job WJ0000699 succeeded (5964 ms)",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:19+00:00",
+      "source": "Workato",
+      "ruleId": "—",
+      "component": "Salesforce Case Sync",
+      "message": "job WJ0000697 succeeded (4692 ms)",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:19+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "EMEA_SAPIT_RETURNS_IN_04_API",
+      "message": "COMPLETE 2335 ms",
+      "severity": "P4",
+      "correlationId": "202609180759175981724385",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:19+00:00",
+      "source": "Workato",
+      "ruleId": "—",
+      "component": "Returns Label Generator",
+      "message": "job WJ0000698 succeeded (3703 ms)",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-kepler-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGQAMFTSI01",
+      "message": "cpu_pct 34%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/asn",
+      "message": "404 x2, p99 574 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPETLPC1",
+      "message": "cpu_pct 37%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPMFTSI1",
+      "message": "cpu_pct 40%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGPPMFTSI01",
+      "message": "cpu_pct 36%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPQETLPC1",
+      "message": "cpu_pct 46%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/salesorders",
+      "message": "401 x3, p99 346 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/shipments",
+      "message": "500 x2, p99 840 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-quick",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:59:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:52+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "EMEA_SAPIT_PI7_IDOC_DELVRY07_TO_MANH_04_ESB",
+      "message": "COMPLETE 2129 ms",
+      "severity": "P4",
+      "correlationId": "202609180758508485247546",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:43+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "EURO_0004_04_ProcessOutNotification_to_SAPCE_ESB_04",
+      "message": "COMPLETE 2700 ms",
+      "severity": "P4",
+      "correlationId": "202609180758415463273986",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:31+00:00",
+      "source": "Workato",
+      "ruleId": "—",
+      "component": "Customer Master Enrich",
+      "message": "job WJ0000696 succeeded (5094 ms)",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:30+00:00",
+      "source": "HIPMON",
+      "ruleId": "HIPMON-COM01",
+      "component": "GLBL_FRCPD_FM_FKF_GENERATION_03_ESB",
+      "message": "FKF file not generated: upstream FM staging incomplete",
+      "severity": "P3",
+      "correlationId": "202609180655401026426704",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-quick",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:23+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "EMEA_SAPIT_DELIVERY_STATUS_04_API",
+      "message": "COMPLETE 2687 ms",
+      "severity": "P4",
+      "correlationId": "202609180758208869854107",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:17+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "EURO_0006_04_ProcessOutHandlingUnit_to_SAPCE_ESB_04",
+      "message": "COMPLETE 2348 ms",
+      "severity": "P4",
+      "correlationId": "202609180758150984108549",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPQETLPC1",
+      "message": "cpu_pct 19%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGQAMFTSI01",
+      "message": "cpu_pct 31%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPMFTSI1",
+      "message": "cpu_pct 32%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/deliveries",
+      "message": "401 x3, p99 431 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPETLPC1",
+      "message": "cpu_pct 21%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/salesorders",
+      "message": "404 x2, p99 283 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGPPMFTSI01",
+      "message": "cpu_pct 45%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:58:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:52+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "EMEA_AMAZON_STOCK_FEED_04_API",
+      "message": "COMPLETE 3568 ms",
+      "severity": "P4",
+      "correlationId": "202609180757486594974121",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-neo-odes-large",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-quick",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:39+00:00",
+      "source": "Workato",
+      "ruleId": "—",
+      "component": "3PL Shipment Status Poll",
+      "message": "job WJ0000695 succeeded (1278 ms)",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-quick",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-quick",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGQAMFTSI01",
+      "message": "cpu_pct 37%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/returns",
+      "message": "401 x3, p99 463 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/shipments",
+      "message": "401 x3, p99 815 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGPPMFTSI01",
+      "message": "cpu_pct 25%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPMFTSI1",
+      "message": "cpu_pct 19%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPETLPC1",
+      "message": "cpu_pct 29%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPQETLPC1",
+      "message": "cpu_pct 33%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/invoices",
+      "message": "502 x1, p99 273 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-quick",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:57:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-kepler-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-kepler-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:45+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:33+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "EMEA_SAPIT_INVOICE_OUT_04_API",
+      "message": "COMPLETE 4132 ms",
+      "severity": "P4",
+      "correlationId": "202609180756285171755640",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:30+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "EMEA_SAPIT_INVOICE_OUT_04_API",
+      "message": "COMPLETE 1756 ms",
+      "severity": "P4",
+      "correlationId": "202609180756292818820937",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:30+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-neo-odes-large",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-amazon-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-kepler-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:15+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-procout-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:09+00:00",
+      "source": "SONAR",
+      "ruleId": "—",
+      "component": "EMEA_AMAZON_STOCK_FEED_04_API",
+      "message": "COMPLETE 1837 ms",
+      "severity": "P4",
+      "correlationId": "202609180756074576295611",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:05+00:00",
+      "source": "HIPMON",
+      "ruleId": "HIPMON-TEC01",
+      "component": "GLBL_FRCPD_FM_FKF_GENERATION_02_ESB",
+      "message": "Database lock: unable to acquire lock on FM_STAGING_TBL (waited 3600 s)",
+      "severity": "P3",
+      "correlationId": "202609180652050808084768",
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-opsfin-01-neo-odes-large",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPMFTSI1",
+      "message": "cpu_pct 36%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGPPMFTSI01",
+      "message": "cpu_pct 22%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPQETLPC1",
+      "message": "cpu_pct 17%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/stock",
+      "message": "404 x2, p99 203 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:00+00:00",
+      "source": "Apigee",
+      "ruleId": "—",
+      "component": "/hip/v1/returns",
+      "message": "500 x4, p99 187 ms",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "FRHIPGQAMFTSI01",
+      "message": "cpu_pct 45%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:00+00:00",
+      "source": "Splunk",
+      "ruleId": "—",
+      "component": "SGLORHIPPETLPC1",
+      "message": "cpu_pct 19%",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-kepler-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:56:00+00:00",
+      "source": "Kafka",
+      "ruleId": "—",
+      "component": "process-int-sapit-01-default",
+      "message": "lag 0",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": false
+    },
+    {
+      "ts": "2026-09-18T07:53:00+00:00",
+      "source": "Splunk",
+      "ruleId": "SPL-CAPLINERR002",
+      "component": "SGLORHIPQETLPC1",
+      "message": "Linux Host: SGLORHIPQETLPC1 has more than 90% swap space usage over last 30 mins",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": true
+    },
+    {
+      "ts": "2026-09-18T07:33:00+00:00",
+      "source": "Splunk",
+      "ruleId": "SPL-CAPLINERR001",
+      "component": "FRHIPGQAMFTSI01",
+      "message": "CAPLINERR001-Linux Host - FRHIPGQAMFTSI01 has more than 98% of CPU over last 1 h",
+      "severity": "P4",
+      "correlationId": null,
+      "isNoise": true
+    },
+    {
+      "ts": "2026-09-18T02:00:03+00:00",
+      "source": "MFT",
+      "ruleId": "—",
+      "component": "FRHIPGPRMFTSI02",
+      "message": "BPM_to_FM_0200.csv FRHIPGPRMFTSI02->FM_FRCPD status=SUCCESS bytes=4,103,312 declared_rows=128,400 actual_rows=77,032  ** ROW COUNT MISMATCH: declared 128,400 != actual 77,032 while status is SUCCESS **",
+      "severity": "P4",
+      "correlationId": "202609180200044648586021",
+      "isNoise": false,
+      "isFirstSymptom": true
+    }
+  ],
+  "dashboard": {
+    "windowLabel": "Last 24 hours",
+    "exchangeKpis": {
+      "exchanges": 972015,
+      "inprogress": 368,
+      "complete": 939437,
+      "warning": 6999,
+      "failed": 22198,
+      "replayed": 3013,
+      "failurePct": 2.28,
+      "durationAvg": "2.14 s",
+      "durationMax": "6.0 h"
+    },
+    "halfflowKpis": {
+      "exchanges": 3751977,
+      "inprogress": 382,
+      "complete": 3714473,
+      "warning": 9098,
+      "failed": 24861,
+      "replayed": 3163,
+      "failurePct": 0.66,
+      "durationAvg": "449 ms",
+      "durationMax": "6.0 h"
+    },
+    "exchangeRows": [
+      {
+        "ts": "2026-09-18T08:00:53.000+00:00",
+        "status": "COMPLETE",
+        "project": "ANAPLAN_BPM",
+        "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+        "exchangeId": "202609180800074578614238",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 46000,
+        "source": "ANAPLAN",
+        "destination": "FM_FRCPD",
+        "objectId": "BPM_to_FM_0800.csv",
+        "objectName": "FILE",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "GB03",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T08:00:43.298+00:00",
+        "status": "COMPLETE",
+        "project": "SAPITCOMMON",
+        "exchange": "EMEA_SAPIT_DELIVERY_STATUS",
+        "exchangeId": "202609180800405263739249",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2403,
+        "source": "SFDC_CX",
+        "destination": "SAPIT",
+        "objectId": "8048050925",
+        "objectName": "DELIVERY",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "GB03",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:59:46.496+00:00",
+        "status": "COMPLETE",
+        "project": "AMAZONCOMMON",
+        "exchange": "EMEA_AMAZON_STOCK_FEED",
+        "exchangeId": "202609180759443092767840",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2361,
+        "source": "SAPIT",
+        "destination": "AMAZON_SC",
+        "objectId": "7319037790",
+        "objectName": "STOCK_LEVEL",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "IT10",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:59:19.447+00:00",
+        "status": "COMPLETE",
+        "project": "SAPITCOMMON",
+        "exchange": "EMEA_SAPIT_RETURNS_IN",
+        "exchangeId": "202609180759175981724385",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2335,
+        "source": "SFDC_CX",
+        "destination": "SAPIT",
+        "objectId": "8055231948",
+        "objectName": "RETURN_ORDER",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "ES05",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:58:52.246+00:00",
+        "status": "COMPLETE",
+        "project": "SAPIT_PI7_INBOUND",
+        "exchange": "EMEA_SAPIT_PI7_IDOC_DELVRY07_TO_MANH",
+        "exchangeId": "202609180758508485247546",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2129,
+        "source": "SAPIT_PI7",
+        "destination": "MANH_MAWM",
+        "objectId": "000000031350000",
+        "objectName": "DELVRY07",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "IT10",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:58:43.851+00:00",
+        "status": "COMPLETE",
+        "project": "PROCESSOUT",
+        "exchange": "EURO_0004_ProcessOutNotification_to_SAPCE",
+        "exchangeId": "202609180758415463273986",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2700,
+        "source": "PROCESSOUT",
+        "destination": "SAPCE",
+        "objectId": "6079272405",
+        "objectName": "NOTIFICATION",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "CZ01",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:58:23.635+00:00",
+        "status": "COMPLETE",
+        "project": "SAPITCOMMON",
+        "exchange": "EMEA_SAPIT_DELIVERY_STATUS",
+        "exchangeId": "202609180758208869854107",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2687,
+        "source": "SFDC_CX",
+        "destination": "SAPIT",
+        "objectId": "8063665090",
+        "objectName": "DELIVERY",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "GB03",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:58:17.409+00:00",
+        "status": "COMPLETE",
+        "project": "PROCESSOUT",
+        "exchange": "EURO_0006_ProcessOutHandlingUnit_to_SAPCE",
+        "exchangeId": "202609180758150984108549",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2348,
+        "source": "PROCESSOUT",
+        "destination": "SAPCE",
+        "objectId": "6255743433",
+        "objectName": "HANDLING_UNIT",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "GB03",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:57:56.345+00:00",
+        "status": "INPROGRESS",
+        "project": "SAPTR_FOM",
+        "exchange": "GLBL_CTRLM_MASTERDATA_BATCH",
+        "exchangeId": "202609180757561050789283",
+        "halfflowCount": 2,
+        "halfflowMissing": "2/4",
+        "durationMs": 244555,
+        "source": "CONTROL-M",
+        "destination": "SAPS4HANA_NEO",
+        "objectId": "B94125026",
+        "objectName": "BATCH",
+        "eventCode": "IFP_PUB001",
+        "businessValue": "GB03",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:57:52.031+00:00",
+        "status": "COMPLETE",
+        "project": "AMAZONCOMMON",
+        "exchange": "EMEA_AMAZON_STOCK_FEED",
+        "exchangeId": "202609180757486594974121",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 3568,
+        "source": "SAPIT",
+        "destination": "AMAZON_SC",
+        "objectId": "7349431750",
+        "objectName": "STOCK_LEVEL",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "ES05",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:56:33.123+00:00",
+        "status": "COMPLETE",
+        "project": "SAPITCOMMON",
+        "exchange": "EMEA_SAPIT_INVOICE_OUT",
+        "exchangeId": "202609180756285171755640",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 4132,
+        "source": "SFDC_CX",
+        "destination": "SAPIT",
+        "objectId": "8026850150",
+        "objectName": "INVOICE",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "ES05",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:56:30.760+00:00",
+        "status": "COMPLETE",
+        "project": "SAPITCOMMON",
+        "exchange": "EMEA_SAPIT_INVOICE_OUT",
+        "exchangeId": "202609180756292818820937",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 1756,
+        "source": "SFDC_CX",
+        "destination": "SAPIT",
+        "objectId": "8008900487",
+        "objectName": "INVOICE",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "CZ01",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:56:09.623+00:00",
+        "status": "COMPLETE",
+        "project": "AMAZONCOMMON",
+        "exchange": "EMEA_AMAZON_STOCK_FEED",
+        "exchangeId": "202609180756074576295611",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 1837,
+        "source": "SAPIT",
+        "destination": "AMAZON_SC",
+        "objectId": "7302948890",
+        "objectName": "STOCK_LEVEL",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "NL02",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:55:40.000+00:00",
+        "status": "FAILED",
+        "project": "FRCPD",
+        "exchange": "GLBL_FRCPD_FM_FKF_GENERATION",
+        "exchangeId": "202609180655401026426704",
+        "halfflowCount": 2,
+        "halfflowMissing": "2/4",
+        "durationMs": 3600000,
+        "source": "FM_FRCPD",
+        "destination": "FRCPD",
+        "objectId": "FKF15078586",
+        "objectName": "FKF",
+        "eventCode": "IFP_RTG001",
+        "businessValue": "NL02",
+        "frameworkVersion": "4.12.3",
+        "isAnomalous": true
+      },
+      {
+        "ts": "2026-09-18T07:55:24.042+00:00",
+        "status": "COMPLETE",
+        "project": "KEPLER_NEXTGEN",
+        "exchange": "EMEA_KEPLERNG_INVOICE_OUT",
+        "exchangeId": "202609180755216850639205",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2090,
+        "source": "KEPLER_NG",
+        "destination": "SAPIT",
+        "objectId": "7254524779",
+        "objectName": "INVOICE",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "PL04",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:53:46.652+00:00",
+        "status": "COMPLETE",
+        "project": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04",
+        "exchange": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04",
+        "exchangeId": "202609180753414810612247",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 5386,
+        "source": "MANH_MAWM",
+        "destination": "SAPIT",
+        "objectId": "9478641009565937",
+        "objectName": "YHIP-BOMMAT04",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "ES05",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:53:39.846+00:00",
+        "status": "COMPLETE",
+        "project": "SAPNE_PI7_INBOUND",
+        "exchange": "EMEA_SAPNE_PI7_IDOC_DELVRY07_TO_MANH",
+        "exchangeId": "202609180753378406945129",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2758,
+        "source": "SAPNE_PI7",
+        "destination": "MANH_MAWM",
+        "objectId": "000000059814476",
+        "objectName": "DELVRY07",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "GB03",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:53:31.107+00:00",
+        "status": "COMPLETE",
+        "project": "KEPLER_NEXTGEN",
+        "exchange": "EMEA_KEPLERNG_SALESORDER_OUT",
+        "exchangeId": "202609180753273406478794",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 3496,
+        "source": "KEPLER_NG",
+        "destination": "SAPIT",
+        "objectId": "7138119962",
+        "objectName": "SALES_ORDER",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "CZ01",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:53:28.916+00:00",
+        "status": "COMPLETE",
+        "project": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04",
+        "exchange": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04",
+        "exchangeId": "202609180753267736511032",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2763,
+        "source": "MANH_MAWM",
+        "destination": "SAPIT",
+        "objectId": "4189736479947405",
+        "objectName": "YHIP-BOMMAT04",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "FR22",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:53:21.462+00:00",
+        "status": "COMPLETE",
+        "project": "SAPNE_PI7_INBOUND",
+        "exchange": "EMEA_SAPNE_PI7_IDOC_DELVRY07_TO_MANH",
+        "exchangeId": "202609180753194342444426",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2131,
+        "source": "SAPNE_PI7",
+        "destination": "MANH_MAWM",
+        "objectId": "000000042593235",
+        "objectName": "DELVRY07",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "PL04",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:53:00.690+00:00",
+        "status": "COMPLETE",
+        "project": "SAPTR_FOM",
+        "exchange": "EMEA_SAPTR_FOM_INVENTORY_SG",
+        "exchangeId": "00f32e4b-3652-4568-ae8d-11e2811173f2",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2088,
+        "source": "SAPTR",
+        "destination": "FOM",
+        "objectId": "3468686366",
+        "objectName": "INVENTORY",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "DE07",
+        "frameworkVersion": "5.0.2"
+      },
+      {
+        "ts": "2026-09-18T07:52:05.000+00:00",
+        "status": "FAILED",
+        "project": "FRCPD",
+        "exchange": "GLBL_FRCPD_FM_FKF_GENERATION",
+        "exchangeId": "202609180652050808084768",
+        "halfflowCount": 2,
+        "halfflowMissing": "2/4",
+        "durationMs": 3600000,
+        "source": "FM_FRCPD",
+        "destination": "FRCPD",
+        "objectId": "FKF73983712",
+        "objectName": "FKF",
+        "eventCode": "IFP_RTG001",
+        "businessValue": "IT10",
+        "frameworkVersion": "4.12.3",
+        "isAnomalous": true
+      },
+      {
+        "ts": "2026-09-18T07:49:58.559+00:00",
+        "status": "COMPLETE (F)",
+        "project": "eConsent",
+        "exchange": "EMEA_eCONSENT_HIPESB_CustomerEnrollment",
+        "exchangeId": "f4243415-77ce-40bd-a232-a27c376ba716",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 734,
+        "source": "ECONSENT_WEB",
+        "destination": "SFDC_CX",
+        "objectId": "5314287367",
+        "objectName": "CONSENT",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "DE07",
+        "frameworkVersion": "5.0.2"
+      },
+      {
+        "ts": "2026-09-18T07:48:49.133+00:00",
+        "status": "COMPLETE",
+        "project": "SAPITCOMMON",
+        "exchange": "EMEA_SAPIT_RETURNS_IN",
+        "exchangeId": "202609180748477622457112",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 1810,
+        "source": "SFDC_CX",
+        "destination": "SAPIT",
+        "objectId": "8005819603",
+        "objectName": "RETURN_ORDER",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "ES05",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:48:15.095+00:00",
+        "status": "COMPLETE",
+        "project": "SAPIT_PI7_INBOUND",
+        "exchange": "EMEA_SAPIT_PI7_IDOC_DELVRY07_TO_MANH",
+        "exchangeId": "202609180748120548212351",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2254,
+        "source": "SAPIT_PI7",
+        "destination": "MANH_MAWM",
+        "objectId": "000000027272422",
+        "objectName": "DELVRY07",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "NL02",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:48:13.402+00:00",
+        "status": "COMPLETE",
+        "project": "SAPTR_FOM",
+        "exchange": "EMEA_FOM_TRAM_SAPTR_CONFIG_PROD_HIER",
+        "exchangeId": "202609180748109370633017",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2912,
+        "source": "SAPTR",
+        "destination": "FOM",
+        "objectId": "3534560632",
+        "objectName": "PRODUCT_HIERARCHY",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "FR22",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:48:04.661+00:00",
+        "status": "COMPLETE",
+        "project": "SAPTR_FOM",
+        "exchange": "EMEA_FOM_TRAM_SAPTR_CONFIG_PROD_HIER",
+        "exchangeId": "202609180748024907069831",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2310,
+        "source": "SAPTR",
+        "destination": "FOM",
+        "objectId": "3590210859",
+        "objectName": "PRODUCT_HIERARCHY",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "CZ01",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:47:32.000+00:00",
+        "status": "FAILED",
+        "project": "FRCPD",
+        "exchange": "GLBL_FRCPD_FM_FKF_GENERATION",
+        "exchangeId": "202609180647325039244647",
+        "halfflowCount": 2,
+        "halfflowMissing": "2/4",
+        "durationMs": 3600000,
+        "source": "FM_FRCPD",
+        "destination": "FRCPD",
+        "objectId": "FKF58958015",
+        "objectName": "FKF",
+        "eventCode": "IFP_RTG001",
+        "businessValue": "GB03",
+        "frameworkVersion": "4.12.3",
+        "isAnomalous": true
+      },
+      {
+        "ts": "2026-09-18T07:47:28.496+00:00",
+        "status": "COMPLETE",
+        "project": "SAPTR_FOM",
+        "exchange": "EMEA_SAPTR_FOM_INVENTORY_SG",
+        "exchangeId": "61b82044-4d1d-423a-a2ad-1152890e3eb9",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 1124,
+        "source": "SAPTR",
+        "destination": "FOM",
+        "objectId": "3403488458",
+        "objectName": "INVENTORY",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "FR22",
+        "frameworkVersion": "5.0.2"
+      },
+      {
+        "ts": "2026-09-18T07:47:24.274+00:00",
+        "status": "COMPLETE",
+        "project": "KEPLER_NEXTGEN",
+        "exchange": "EMEA_KEPLERNG_CUSTOMER_SYNC",
+        "exchangeId": "202609180747225685923881",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2048,
+        "source": "KEPLER_NG",
+        "destination": "SAPIT",
+        "objectId": "7263573194",
+        "objectName": "CUSTOMER",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "PL04",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:46:46.788+00:00",
+        "status": "COMPLETE",
+        "project": "AMAZONCOMMON",
+        "exchange": "EMEA_AMAZON_STOCK_FEED",
+        "exchangeId": "202609180746435317827212",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2915,
+        "source": "SAPIT",
+        "destination": "AMAZON_SC",
+        "objectId": "7319162739",
+        "objectName": "STOCK_LEVEL",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "DE07",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:46:42.894+00:00",
+        "status": "COMPLETE",
+        "project": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
+        "exchange": "EURO_COMMON_IDOC_SAPCE_YHIP-BOMMAT04",
+        "exchangeId": "202609180746405022938349",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2006,
+        "source": "MANH_MAWM",
+        "destination": "SAPCE",
+        "objectId": "9818080265368837",
+        "objectName": "YHIP-BOMMAT04",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "ES05",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:46:30.898+00:00",
+        "status": "COMPLETE",
+        "project": "EURO_COMMON_IDOC_SAPIT_YLCD01",
+        "exchange": "EURO_COMMON_IDOC_SAPIT_YLCD01",
+        "exchangeId": "202609180746282441025281",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2623,
+        "source": "MANH_MAWM",
+        "destination": "SAPIT",
+        "objectId": "4549132762475211",
+        "objectName": "YLCD01",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "FR22",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:46:27.588+00:00",
+        "status": "COMPLETE",
+        "project": "SAPTR_FOM",
+        "exchange": "EMEA_SAPTR_FOM_INVENTORY_SG",
+        "exchangeId": "43bf9e79-5f7a-4d11-a691-34f2eba038ae",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 2583,
+        "source": "SAPTR",
+        "destination": "FOM",
+        "objectId": "3485225157",
+        "objectName": "INVENTORY",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "GB03",
+        "frameworkVersion": "5.0.2"
+      },
+      {
+        "ts": "2026-09-18T07:46:26.903+00:00",
+        "status": "COMPLETE",
+        "project": "eConsent",
+        "exchange": "EMEA_eCONSENT_HIPESB_CustomerEnrollment",
+        "exchangeId": "ee4e3167-ec81-433b-a42b-e49044ac4ffa",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 1160,
+        "source": "ECONSENT_WEB",
+        "destination": "SFDC_CX",
+        "objectId": "5376822998",
+        "objectName": "CONSENT",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "PL04",
+        "frameworkVersion": "5.0.2"
+      },
+      {
+        "ts": "2026-09-18T07:46:26.794+00:00",
+        "status": "COMPLETE",
+        "project": "MANHATTAN_WMS",
+        "exchange": "EMEA_MANH_SHIPMENT_CONFIRM",
+        "exchangeId": "202609180746257479440206",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 1077,
+        "source": "MANH_MAWM",
+        "destination": "SAPS4HANA_NEO",
+        "objectId": "5179837329",
+        "objectName": "SHIPMENT_CONFIRMATION",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "GB03",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:45:13.822+00:00",
+        "status": "COMPLETE",
+        "project": "KEPLER_NEXTGEN",
+        "exchange": "EMEA_KEPLERNG_RETURNS_IN",
+        "exchangeId": "202609180745123286274783",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 1765,
+        "source": "KEPLER_NG",
+        "destination": "SAPIT",
+        "objectId": "7222386730",
+        "objectName": "RETURN_ORDER",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "NL02",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:44:07.808+00:00",
+        "status": "COMPLETE",
+        "project": "KEPLER_NEXTGEN",
+        "exchange": "EMEA_KEPLERNG_SHIPMENT_OUT",
+        "exchangeId": "202609180744050620968709",
+        "halfflowCount": 4,
+        "halfflowMissing": "0/4",
+        "durationMs": 1864,
+        "source": "KEPLER_NG",
+        "destination": "SAPIT",
+        "objectId": "7201535562",
+        "objectName": "SHIPMENT",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "DE07",
+        "frameworkVersion": "4.12.3"
+      },
+      {
+        "ts": "2026-09-18T07:41:10.000+00:00",
+        "status": "FAILED",
+        "project": "FRCPD",
+        "exchange": "GLBL_FRCPD_FM_FKF_GENERATION",
+        "exchangeId": "202609180641109325500282",
+        "halfflowCount": 2,
+        "halfflowMissing": "2/4",
+        "durationMs": 3600000,
+        "source": "FM_FRCPD",
+        "destination": "FRCPD",
+        "objectId": "FKF89398986",
+        "objectName": "FKF",
+        "eventCode": "IFP_RTG001",
+        "businessValue": "ES05",
+        "frameworkVersion": "4.12.3",
+        "isAnomalous": true
+      },
+      {
+        "ts": "2026-09-18T02:00:09.000+00:00",
+        "status": "INPROGRESS",
+        "project": "ANAPLAN_BPM",
+        "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+        "exchangeId": "202609180200044648586021",
+        "halfflowCount": 1,
+        "halfflowMissing": "2/4",
+        "durationMs": 21713100,
+        "source": "ANAPLAN",
+        "destination": "FM_FRCPD",
+        "objectId": "BPM_to_FM_0200.csv",
+        "objectName": "FILE",
+        "eventCode": "IFP_PUB002",
+        "businessValue": "PL04",
+        "frameworkVersion": "4.12.3",
+        "isAnomalous": true
+      }
+    ],
+    "traceFocus": {
+      "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+      "exchangeId": "202609180800074578614238",
+      "rows": [
+        {
+          "ts": "2026-09-18T08:00:07.000+00:00",
+          "level": "ENTRYINFO",
+          "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+          "exchangeId": "202609180800074578614238",
+          "halfflow": "GLBL_OPSF_ANAPLAN_BPM_to_FM_01_MFT",
+          "halfflowId": "07457861423801",
+          "application": "hip-mft-anaplan-bpm",
+          "eventCode": "IFP_PUB001",
+          "eventReason": "",
+          "message": "Half-flow 1/4 started",
+          "businessValue": "GB03"
+        },
+        {
+          "ts": "2026-09-18T08:00:18.500+00:00",
+          "level": "EXITINFO",
+          "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+          "exchangeId": "202609180800074578614238",
+          "halfflow": "GLBL_OPSF_ANAPLAN_BPM_to_FM_01_MFT",
+          "halfflowId": "07457861423801",
+          "application": "hip-mft-anaplan-bpm",
+          "eventCode": "IFP_PUB002",
+          "eventReason": "",
+          "message": "Half-flow 1/4 completed",
+          "businessValue": "GB03"
+        },
+        {
+          "ts": "2026-09-18T08:00:18.500+00:00",
+          "level": "ENTRYINFO",
+          "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+          "exchangeId": "202609180800074578614238",
+          "halfflow": "GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB",
+          "halfflowId": "07457861423802",
+          "application": "hip-mft-anaplan-bpm",
+          "eventCode": "IFP_PUB001",
+          "eventReason": "",
+          "message": "Half-flow 2/4 started",
+          "businessValue": "GB03"
+        },
+        {
+          "ts": "2026-09-18T08:00:22.333+00:00",
+          "level": "INFO",
+          "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+          "exchangeId": "202609180800074578614238",
+          "halfflow": "GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB",
+          "halfflowId": "07457861423802",
+          "application": "hip-mft-anaplan-bpm",
+          "eventCode": "IFP_MAP001",
+          "eventReason": "",
+          "message": "Mapping applied: FILE BPM_to_FM_0800.csv",
+          "businessValue": "GB03"
+        },
+        {
+          "ts": "2026-09-18T08:00:30.000+00:00",
+          "level": "EXITINFO",
+          "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+          "exchangeId": "202609180800074578614238",
+          "halfflow": "GLBL_OPSF_ANAPLAN_BPM_to_FM_02_ESB",
+          "halfflowId": "07457861423802",
+          "application": "hip-mft-anaplan-bpm",
+          "eventCode": "IFP_PUB002",
+          "eventReason": "",
+          "message": "Half-flow 2/4 completed",
+          "businessValue": "GB03"
+        },
+        {
+          "ts": "2026-09-18T08:00:30.000+00:00",
+          "level": "ENTRYINFO",
+          "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+          "exchangeId": "202609180800074578614238",
+          "halfflow": "GLBL_OPSF_ANAPLAN_BPM_to_FM_03_ESB",
+          "halfflowId": "07457861423803",
+          "application": "hip-mft-anaplan-bpm",
+          "eventCode": "IFP_PUB001",
+          "eventReason": "",
+          "message": "Half-flow 3/4 started",
+          "businessValue": "GB03"
+        },
+        {
+          "ts": "2026-09-18T08:00:41.500+00:00",
+          "level": "EXITINFO",
+          "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+          "exchangeId": "202609180800074578614238",
+          "halfflow": "GLBL_OPSF_ANAPLAN_BPM_to_FM_03_ESB",
+          "halfflowId": "07457861423803",
+          "application": "hip-mft-anaplan-bpm",
+          "eventCode": "IFP_PUB002",
+          "eventReason": "",
+          "message": "Half-flow 3/4 completed",
+          "businessValue": "GB03"
+        },
+        {
+          "ts": "2026-09-18T08:00:41.500+00:00",
+          "level": "ENTRYINFO",
+          "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+          "exchangeId": "202609180800074578614238",
+          "halfflow": "GLBL_OPSF_ANAPLAN_BPM_to_FM_04_MFT",
+          "halfflowId": "07457861423804",
+          "application": "hip-mft-anaplan-bpm",
+          "eventCode": "IFP_PUB001",
+          "eventReason": "",
+          "message": "Half-flow 4/4 started",
+          "businessValue": "GB03"
+        },
+        {
+          "ts": "2026-09-18T08:00:53.000+00:00",
+          "level": "EXITINFO",
+          "exchange": "GLBL_OPSF_ANAPLAN_BPM_to_FM",
+          "exchangeId": "202609180800074578614238",
+          "halfflow": "GLBL_OPSF_ANAPLAN_BPM_to_FM_04_MFT",
+          "halfflowId": "07457861423804",
+          "application": "hip-mft-anaplan-bpm",
+          "eventCode": "IFP_PUB002",
+          "eventReason": "",
+          "message": "Half-flow 4/4 completed",
+          "businessValue": "GB03"
+        }
+      ]
+    }
+  },
+  "diagnosis": null,
+  "lateEvidence": {
+    "event": {
+      "event_id": "e-late-0001",
+      "ts": "2026-09-18T02:00:06+00:00",
+      "source": "MFT",
+      "component": "FRHIPGPRMFTSI02",
+      "severity": 2,
+      "description": "Delayed SFG trailer for BPM_to_FM_0200.csv: ESB adapter session reset at 02:00:06 during delivery; partial delivery acknowledged at 77,032 of 128,400 rows; delivery marked SUCCESS by the SFG business process without row validation",
+      "correlation_id": null,
+      "kind": "context",
+      "raw_ref": {
+        "file": "late-evidence.ndjson",
+        "line": 1
+      }
+    },
+    "diff": null,
+    "diagnosisAfter": null
+  },
+  "rulesFired": 3,
+  "rulesTotal": 412,
+  "noiseRulesFired": 2
+}

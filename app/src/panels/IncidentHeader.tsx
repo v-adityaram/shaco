@@ -5,7 +5,7 @@ export function IncidentHeader({
   summary,
 }: {
   meta: ScenarioMeta
-  summary: string
+  summary?: string
 }) {
   return (
     <div className="rounded-lg border border-slate-300 dark:border-slate-700/60 bg-slate-100 dark:bg-slate-800/60 px-4 py-3">
@@ -29,7 +29,7 @@ export function IncidentHeader({
           ))}
         </span>
       </div>
-      <p className="mt-2 text-[14px] leading-snug text-slate-900 dark:text-slate-100">{summary}</p>
+      {summary && <p className="mt-2 text-[14px] leading-snug text-slate-900 dark:text-slate-100">{summary}</p>}
     </div>
   )
 }

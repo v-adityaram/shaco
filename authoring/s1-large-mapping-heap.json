@@ -1,0 +1,359 @@
+{
+  "meta": {
+    "slug": "s1-large-mapping-heap",
+    "title": "Large-mapping half-flow exhausts its processing group",
+    "incidentNumber": "INC10790101",
+    "duplicateIncidents": [
+      "INC10790311",
+      "INC10790312",
+      "INC10790313"
+    ],
+    "faultOneLine": "ASN mapping half-flow payloads 3x normal exhaust heap in processing group opsfin-01-neo-odes-large"
+  },
+  "diagnosis": {
+    "incident_summary": "ASN integration into S4 has been stalled since about 06:15 UTC: GLBL_SAPS4HANA_SAPS4HANA_ASN_INT exchanges sit INPROGRESS at half-flow 2/4 (82,900 by 08:30) while the opsfin-01-neo-odes-large processing group runs at ~99% heap with OOM restarts; the first symptom was a P4 heap alert at 05:10.",
+    "timeline": [
+      {
+        "event_id": "e-0043",
+        "ts": "2026-09-18T04:52:49+00:00",
+        "source": "SONAR",
+        "component": "SAPS4HANA_ASN",
+        "description": "GLBL_SAPS4HANA_STO_BATCH_IN: STO batch released from S4: 3,850 stock transport orders, ASN generation requested",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0056",
+        "ts": "2026-09-18T05:10:01+00:00",
+        "source": "SONAR",
+        "component": "SONAR-OPS",
+        "description": "ASN_INT avg payload in last 5 min: 47 (baseline 40) KB",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0057",
+        "ts": "2026-09-18T05:10:08+00:00",
+        "source": "Splunk",
+        "component": "opsfin-01-neo-odes-large",
+        "description": "heap > 70% on hip-esb-odes-large pods (71.2%)",
+        "is_first_symptom": true
+      },
+      {
+        "event_id": "e-0118",
+        "ts": "2026-09-18T06:00:00+00:00",
+        "source": "Kafka",
+        "component": "opsfin-01-neo-odes-large",
+        "description": "consumer lag: opsfin-01-neo-odes-large 664 (rising); lag 0 on 6 other processing groups (of 7)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0159",
+        "ts": "2026-09-18T06:30:00+00:00",
+        "source": "Splunk",
+        "component": "opsfin-01-neo-odes-large",
+        "description": "heap_pct 98.1% on hip-esb-odes-large-9d1aa1c70-jg5s5 (baseline mean 61.9% over first 60 min, delta +36.2); GC pause p99 881 ms, CPU 62%, restarts 0",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0160",
+        "ts": "2026-09-18T06:30:00+00:00",
+        "source": "SONAR",
+        "component": "SONAR-OPS",
+        "description": "[SONAR-OPS][PRD] HLTH_CHK 06:30Z critical exchanges: InProgress=7,800 Failed=0 Warning=10; InProgress: GLBL_SAPS4HANA_SAPS4HANA_ASN_INT (7,300) at half-flow 2/4, GLBL_SCHEDULER_WAITFORFILE (440)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0171",
+        "ts": "2026-09-18T06:35:12+00:00",
+        "source": "Splunk",
+        "component": "opsfin-01-neo-odes-large",
+        "description": "OOMKilled: container exceeded memory limit, pod hip-esb-odes-large-21bd1b21b-rkxkb restart 1",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0175",
+        "ts": "2026-09-18T06:40:00+00:00",
+        "source": "Splunk",
+        "component": "opsfin-01-neo-odes-large",
+        "description": "heap_pct 47.6% on hip-esb-odes-large-21bd1b21b-rkxkb (baseline mean 60.5% over first 60 min, delta -12.9); GC pause p99 40 ms, CPU 45%, restarts 1",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0194",
+        "ts": "2026-09-18T06:52:30+00:00",
+        "source": "Splunk",
+        "component": "opsfin-01-neo-odes-large",
+        "description": "OOMKilled: pod hip-esb-odes-large-21bd1b21b-rkxkb restart 2 (crash loop)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0208",
+        "ts": "2026-09-18T07:05:06+00:00",
+        "source": "HIPMON",
+        "component": "KAFKA_LAG",
+        "description": "[AUTO]|KAFKA_LAG|emea.it4it.fwk-message.process-int-opsfin-01-neo-odes-large.v1|LAG01|ETP_LAG01 -- Consumer lag on emea.it4it.fwk-message.process-int-opsfin-01-neo-odes-large.v1 above 20,000 and rising (priority 3 - High)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0214",
+        "ts": "2026-09-18T07:10:00+00:00",
+        "source": "Splunk",
+        "component": "opsfin-01-neo-odes-large",
+        "description": "heap_pct 98.6% on hip-esb-odes-large-21bd1b21b-rkxkb (baseline mean 60.5% over first 60 min, delta +38.1); GC pause p99 1068 ms, CPU 62%, restarts 2",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0254",
+        "ts": "2026-09-18T07:30:00+00:00",
+        "source": "SONAR",
+        "component": "SONAR-OPS",
+        "description": "[SONAR-OPS][PRD] HLTH_CHK 07:30Z critical exchanges: InProgress=45,212 Failed=0 Warning=3; InProgress: GLBL_SAPS4HANA_SAPS4HANA_ASN_INT (44,700) at half-flow 2/4, GLBL_SCHEDULER_WAITFORFILE (382)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0346",
+        "ts": "2026-09-18T08:10:14+00:00",
+        "source": "ServiceNow",
+        "component": "HIP-INCIDENT-L2",
+        "description": "INC10790101 (user, priority 1, TECH FNDN - WW - HIP INCIDENT L2): No ASN integrated in S4 - trucks waiting -- Warehouse reports no ASN integrated in S4 since this morning; trucks waiting at the gate. Example exchange 202609180639029055133732 (GLBL_SAPS4HANA_SAPS4HANA_ASN_INT) shows INPROGRESS. Replay attempted by L1.",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0378",
+        "ts": "2026-09-18T08:24:00+00:00",
+        "source": "ServiceNow",
+        "component": "HIP-INCIDENT-L2",
+        "description": "INC10790101 work note: L1: replay of 5 ASN exchanges attempted, exchanges remain INPROGRESS at 2/4.",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0390",
+        "ts": "2026-09-18T08:30:00+00:00",
+        "source": "SONAR",
+        "component": "SONAR-OPS",
+        "description": "[SONAR-OPS][PRD] HLTH_CHK 08:30Z critical exchanges: InProgress=83,349 Failed=0 Warning=10; InProgress: GLBL_SAPS4HANA_SAPS4HANA_ASN_INT (82,900) at half-flow 2/4, GLBL_SCHEDULER_WAITFORFILE (389)",
+        "is_first_symptom": false
+      }
+    ],
+    "hypotheses": [
+      {
+        "rank": 1,
+        "cause": "Oversized ASN payloads (following the 04:52 STO batch release) are exhausting heap in the opsfin-01-neo-odes-large processing group, causing GC thrash, OOM restarts and a growing consumer backlog.",
+        "confidence": "Moderate",
+        "supports": [
+          {
+            "event_id": "e-0056",
+            "why": "Average ASN_INT payload starts rising at 05:10 (47 KB vs 40 KB baseline), the same minute the heap rule fires."
+          },
+          {
+            "event_id": "e-0165",
+            "why": "Payload reaches 119 KB, about 3x baseline, by 06:30 and then plateaus at 121 KB; heap tracks the same climb."
+          },
+          {
+            "event_id": "e-0043",
+            "why": "A 3,850-STO batch was released from S4 at 04:52 with ASN generation requested, ahead of the payload growth."
+          },
+          {
+            "event_id": "e-0175",
+            "why": "After the 06:35 OOM restart heap drops to 47%, but it is back at 84% by 06:50 (e-0188) and ~99% by 07:10: regrowth in minutes, driven by workload rather than hours of accumulation."
+          },
+          {
+            "event_id": "e-0118",
+            "why": "Lag rises on this one group only, starting 06:00, once heap is above 88% and GC pauses exceed 570 ms."
+          }
+        ],
+        "contradicts": [
+          {
+            "event_id": "e-0245",
+            "why": "Message inflow is lower than the same 5-minute window last Thursday (111 vs 174), so this is not more messages. That is why the evidence points to size, not volume."
+          },
+          {
+            "event_id": "e-0043",
+            "why": "The batch release is only correlated in time with the payload growth; nothing in the pack states that this batch produced the oversized messages."
+          }
+        ],
+        "what_would_change_this": "A per-message size record showing normal payload sizes on this flow during 05:10-06:30 would move weight to the leak hypothesis; a record linking the 04:52 batch to the oversized message would raise confidence to High."
+      },
+      {
+        "rank": 2,
+        "cause": "A slow, time-based heap leak in the processing-group runtime, independent of payload size.",
+        "confidence": "Low",
+        "supports": [
+          {
+            "event_id": "e-0057",
+            "why": "The first symptom is a heap rule hit on the group's pods at 05:10: a heap climb is real and started before any lag or stalled exchange."
+          },
+          {
+            "event_id": "e-0159",
+            "why": "Heap sits at 96-98% with ~880 ms GC pauses on all three pods by 06:30, consistent with either a leak or sustained oversized allocations."
+          }
+        ],
+        "contradicts": [
+          {
+            "event_id": "e-0056",
+            "why": "Heap starts rising only after payload size does, and payload size rises in lockstep (47 to 121 KB); a runtime leak would not track message size."
+          },
+          {
+            "event_id": "e-0175",
+            "why": "Heap regrows from 47% to ~99% within about 30 minutes of a restart; a slow leak would take hours to rebuild."
+          },
+          {
+            "event_id": "e-0004",
+            "why": "Lag was zero on every group at baseline, with the same code and pod versions, until the 04:52 batch."
+          }
+        ],
+        "what_would_change_this": "A heap histogram showing long-lived retained objects unrelated to the ASN mapping, or a change record deploying new runtime code to this group, would raise it."
+      },
+      {
+        "rank": 3,
+        "cause": "S4 (the target) is slow to accept ASNs, so half-flow 2 backs up and the pods fill with waiting exchanges.",
+        "confidence": "Low",
+        "supports": [
+          {
+            "event_id": "e-0161",
+            "why": "Exchanges wait at half-flow 2/4 and none has exited it, which is also what a slow downstream would look like."
+          }
+        ],
+        "contradicts": [
+          {
+            "event_id": "e-0057",
+            "why": "The heap climb starts at 05:10, before any exchange is stuck at 2/4 (first sampled at 06:30, e-0161). A downstream stall would show waiting exchanges first, then memory pressure."
+          },
+          {
+            "event_id": "e-0159",
+            "why": "The saturation signature (heap 98%, GC pauses ~880 ms) is on the ESB pods; no timeout or 5xx rule hit against S4 appears in the incident window."
+          }
+        ],
+        "what_would_change_this": "S4 response-time records showing elevated latency or rejections for ASN creation from 06:00 would raise it."
+      }
+    ],
+    "ruled_out": [
+      {
+        "candidate": "Kafka broker or cluster degradation",
+        "reason": "Lag is 0 on the six other processing groups throughout (e-0118, e-0244); only the group that hosts this half-flow is behind."
+      },
+      {
+        "candidate": "Load or volume surge on the ASN flow",
+        "reason": "Inflow is below last Thursday's for the same window (e-0245), and the early baseline check (e-0005) shows the same pattern."
+      },
+      {
+        "candidate": "Schema Registry key rotation at 06:19 (CHG4400202)",
+        "reason": "Lag was already rising at 06:00 (e-0118), and the six other groups share the registry without any lag. The change (e-0144) is an approved standard change unrelated to this group."
+      },
+      {
+        "candidate": "Standing host alerts: SGLORHIPQETLPC1 swap 90% and FRHIPGQAMFTSI01 CPU 98%",
+        "reason": "Both are recurring non-production host alerts (e-0007, e-0027) on ETL and QA MFT hosts, present before the incident window and unrelated to the ESB pods."
+      },
+      {
+        "candidate": "Background mapping and SOAP alerts on SAPTR_FOM and SFDC_CX flows",
+        "reason": "Different projects and different error strings (e-0015, e-0018: a target timeout and a missing 'Plant' field), present at baseline; none touches the ASN flow."
+      }
+    ],
+    "checks": [
+      {
+        "order": 1,
+        "action": "Check average ASN message size and heap for the group over the last 3 hours",
+        "command": "Sonar: filter exchange:\"GLBL_SAPS4HANA_SAPS4HANA_ASN_INT\" and event.code:IFP_MAP001, chart avg(message.size) per 5 min; overlay heap_pct for hip-esb-odes-large pods",
+        "if_result_a": "Payload ~3x baseline since ~05:00, tracking heap: supports hypothesis 1",
+        "if_result_b": "Payload flat near 40 KB while heap climbs: supports the runtime-leak hypothesis 2",
+        "effort": "low"
+      },
+      {
+        "order": 2,
+        "action": "Describe the consumer group and compare lag across partitions and other groups",
+        "command": "kafka-consumer-groups --bootstrap-server <confluent-emea> --describe --group opsfin-01-neo-odes-large",
+        "if_result_a": "All partitions lag evenly with consumers restarting/rebalancing: confirms consumer-side saturation (hypotheses 1 or 2)",
+        "if_result_b": "Lag concentrated on a few partitions or a leader-election gap: points at brokers, which this data argues against",
+        "effort": "low"
+      },
+      {
+        "order": 3,
+        "action": "Take a heap class histogram from the pod with the most restarts",
+        "command": "kubectl exec -n hip-cloud-esb hip-esb-odes-large-21bd1b21b-rkxkb -- jcmd 1 GC.class_histogram | head -30",
+        "if_result_a": "Dominated by ASN mapping buffers / large byte arrays: supports hypothesis 1",
+        "if_result_b": "Dominated by long-lived cache or listener objects unrelated to the mapping: supports hypothesis 2",
+        "effort": "medium"
+      },
+      {
+        "order": 4,
+        "action": "Confirm S4 ASN creation latency for the same window",
+        "command": "S4 monitoring: response time and reject count for the ASN inbound service, 05:30-08:30 UTC",
+        "if_result_a": "Normal latency, no rejects: rules out hypothesis 3",
+        "if_result_b": "Elevated latency from ~06:00: supports hypothesis 3",
+        "effort": "medium"
+      }
+    ],
+    "blast_radius": {
+      "business_flows": [
+        "GLBL_SAPS4HANA_SAPS4HANA_ASN_INT (S4 ASN integration)"
+      ],
+      "exchanges_stuck": 82900,
+      "zones": [
+        "EMEA"
+      ],
+      "downstream_degraded": [
+        "S4 ASN creation for stock transport orders",
+        "Warehouse inbound: trucks waiting (INC10790101)"
+      ],
+      "business_objects_at_risk": "ASNs for the 3,850 STOs released at 04:52 and later; 82,900 ASN exchanges INPROGRESS at half-flow 2/4 at 08:30 (hourly report)"
+    },
+    "recovery": {
+      "proposal": "Move GLBL_SAPS4HANA_SAPS4HANA_ASN_INT_02_ESB to the larger heap-tuned processing group (or raise heap on opsfin-01-neo-odes-large), let lag drain, then repush the stuck ASN exchanges from S4. Do not rely on in-place replay: L1's replay of 5 exchanges left them INPROGRESS at 2/4 (e-0378).",
+      "risk": "Repush can create duplicate ASNs in S4 for exchanges that partially completed; pod restarts or a half-flow move drop in-flight work; moving the half-flow needs a deployment during business hours.",
+      "rollback": "Revert the half-flow to its previous processing-group assignment (configuration revert), pause the repush and let S4 de-duplicate on ASN number before resuming.",
+      "requires_approval": true
+    },
+    "post_incident_note": "#01 -Analysis/Root cause: [Hypothesis, pending checks] ASN payload size ~3x baseline from 05:10 after the 04:52 STO batch exhausted heap in opsfin-01-neo-odes-large (heap ~99%, GC pauses >1 s, OOM restarts 06:35 and 06:52); lag on the group's topic reached 82,922 while lag on the six other groups stayed 0; 82,900 ASN exchanges INPROGRESS at half-flow 2/4 at 08:30. #02-Resolution/Flow state: [Proposed, awaiting approval] move the ASN half-flow to the larger processing group, drain lag, repush ASNs from S4. #03-Doc used: NA #04- Related records (PRB, Change, Incident, RITM...): INC10790101 and children INC10790311-313; no related change record found (CHG4400202 reviewed and excluded)."
+  },
+  "lateEvidence": {
+    "diff": {
+      "changed_summary": "The late Sonar batch records that the 04:52 STO batch arrived as a single ASN message 3.1x the usual size and drove a 1.4 GB mapping allocation, which supplies the mechanism the payload hypothesis lacked; it moves from Moderate to High and the runtime-leak alternative drops further.",
+      "rank_before": [
+        {
+          "cause": "Oversized ASN payloads exhausting heap",
+          "rank": 1
+        },
+        {
+          "cause": "Time-based runtime heap leak",
+          "rank": 2
+        },
+        {
+          "cause": "Slow S4 target",
+          "rank": 3
+        }
+      ],
+      "rank_after": [
+        {
+          "cause": "Oversized ASN payloads exhausting heap",
+          "rank": 1
+        },
+        {
+          "cause": "Time-based runtime heap leak",
+          "rank": 2
+        },
+        {
+          "cause": "Slow S4 target",
+          "rank": 3
+        }
+      ],
+      "what_changed": [
+        "e-late-0001 links the 04:52 batch (e-0043) directly to the oversized message: 3,850 STOs delivered in one ASN, line-item count 3.1x the 24 h average. The gap named in hypothesis 1's contradicts column is closed.",
+        "The 1.4 GB mapping allocation is on the order of the heap the pods run out of, which explains why heap regrows to ~99% within minutes after each restart (e-0175).",
+        "Hypothesis 2 loses its remaining support: the heap climb has an identified workload cause, so it is now very unlikely to be an independent leak.",
+        "Recovery is unchanged in action but sharper: the fix is capacity for large mappings (larger processing group / heap), and future large STO batches should be split or routed to the large group by design."
+      ]
+    },
+    "diagnosisAfterOverrides": {
+      "incident_summary": "ASN integration into S4 has been stalled since about 06:15 UTC because a single 3,850-STO batch produced an ASN message 3.1x normal size that exhausted heap in the opsfin-01-neo-odes-large processing group (82,900 exchanges INPROGRESS at 2/4 by 08:30); the first symptom was a P4 heap alert at 05:10.",
+      "hypothesisPatches": {
+        "1": {
+          "confidence": "High",
+          "what_would_change_this": "Only a record showing the large message was not the one being mapped when heap peaked would lower it now."
+        },
+        "2": {
+          "confidence": "Low",
+          "what_would_change_this": "Effectively closed by the late batch; would reopen only if a restart with normal-size messages still regrows to ~99% within minutes."
+        }
+      }
+    }
+  }
+}

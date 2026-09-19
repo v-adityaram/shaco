@@ -1,10 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Badges } from '../components/Badges'
 import { BridgeTimer } from '../components/BridgeTimer'
+import { DiagnosisPending } from '../components/DiagnosisPending'
 import { LayerStack } from '../components/LayerStack'
-import { LiveDiagnosisControl } from '../components/LiveDiagnosisControl'
+import {
+  LiveDiagnosisControl,
+  SourceLabel,
+  type DiagnosisSource,
+} from '../components/LiveDiagnosisControl'
 import { ScenarioSwitcher } from '../components/ScenarioSwitcher'
-import { runLiveDiagnosis } from '../lib/ai'
+import { ensureDiagnosis, ensureLate, useLiveState } from '../lib/liveCache'
 import { BlastRadius } from '../panels/BlastRadius'
 import { Checks } from '../panels/Checks'
 import { Hypotheses } from '../panels/Hypotheses'
@@ -12,7 +17,25 @@ import { IncidentHeader } from '../panels/IncidentHeader'
 import { Recovery } from '../panels/Recovery'
 import { RuledOut } from '../panels/RuledOut'
 import { Timeline } from '../panels/Timeline'
-import type { AiDiagnosis, NormalisedEvent, ScenarioBundle } from '../lib/types'
+import type {
+  AiDiagnosis,
+  DiagnosisMeta,
+  LateEvidenceDiff,
+  NormalisedEvent,
+  ScenarioBundle,
+} from '../lib/types'
+
+/** Strip the server's _meta (and any diff) before sending a diagnosis back as `previousDiagnosis`. */
+function plainDiagnosis(d: AiDiagnosis): AiDiagnosis {
+  const copy = { ...(d as AiDiagnosis & { _meta?: unknown; diff?: unknown }) }
+  delete copy._meta
+  delete copy.diff
+  return copy
+}
+
+function sourceOf(meta: DiagnosisMeta | undefined): DiagnosisSource {
+  return meta?.source === 'server-cache' ? 'Server cache' : 'Live'
+}
 
 export function AiView({
   bundle,
@@ -27,62 +50,89 @@ export function AiView({
   activeSlug: string
   onScenarioChange: (slug: string) => void
 }) {
+  const slug = bundle.meta.slug
+  const isAiLive = bundle.meta.mode === 'ai-live'
+  const live = useLiveState()
+  const diagEntry = live.diag[slug]
+  const lateEntry = live.late[slug]
+
+  const [showLive, setShowLive] = useState(false) // curated scenarios: swap cached -> live result
   const [lateInjected, setLateInjected] = useState(false)
-  const [showDiff, setShowDiff] = useState(false)
+  const [showDiff, setShowDiff] = useState(true)
+  const [showProvenance, setShowProvenance] = useState(false)
+  const [now, setNow] = useState(() => Date.now())
 
-  const [liveStatus, setLiveStatus] = useState<'idle' | 'loading' | 'error' | 'done'>('idle')
-  const [liveDiagnosis, setLiveDiagnosis] = useState<AiDiagnosis | null>(null)
-  const [liveError, setLiveError] = useState<string | null>(null)
-  const [liveElapsed, setLiveElapsed] = useState(0)
-  const elapsedTimer = useRef<number | null>(null)
-
+  // elapsed-seconds counter for the small "calling model live" pill
   useEffect(() => {
-    return () => {
-      if (elapsedTimer.current) window.clearInterval(elapsedTimer.current)
-    }
-  }, [])
+    if (diagEntry?.status !== 'loading') return
+    const id = window.setInterval(() => setNow(Date.now()), 1000)
+    return () => window.clearInterval(id)
+  }, [diagEntry?.status])
+  const liveElapsed = diagEntry?.status === 'loading' ? Math.max(0, Math.floor((now - diagEntry.startedAt) / 1000)) : 0
 
-  const diagnosis: AiDiagnosis =
-    liveDiagnosis ?? (lateInjected ? bundle.lateEvidence.diagnosisAfter : bundle.diagnosis)
+  // A curated bundle without a cached diagnosis (should not happen) falls back to the live call.
+  const needsLiveOnly = isAiLive || !bundle.diagnosis
+  useEffect(() => {
+    if (needsLiveOnly) ensureDiagnosis(slug, bundle.events)
+  }, [needsLiveOnly, slug, bundle.events])
+
+  const liveResult = diagEntry?.status === 'done' ? diagEntry.result : null
+  const useLive = liveResult !== null && (needsLiveOnly || showLive)
+  const baseDiagnosis: AiDiagnosis | null = useLive ? liveResult : bundle.diagnosis
+
+  // ---- late evidence ----
+  const cachedLateOk = Boolean(bundle.lateEvidence?.diagnosisAfter && bundle.lateEvidence?.diff)
+  const lateViaLive = lateInjected && (useLive || !cachedLateOk)
+  const lateResult = lateViaLive && lateEntry?.status === 'done' ? lateEntry.result : null
+  const lateDiagnosis: AiDiagnosis | null = !lateInjected
+    ? null
+    : lateViaLive
+      ? lateResult
+      : (bundle.lateEvidence.diagnosisAfter ?? null)
+  const lateDiff: LateEvidenceDiff | null = !lateInjected
+    ? null
+    : lateViaLive
+      ? (lateResult?.diff ?? null)
+      : (bundle.lateEvidence.diff ?? null)
+
+  const diagnosis = lateDiagnosis ?? baseDiagnosis
+  const shownMeta =
+    (lateViaLive && lateResult ? lateResult._meta : undefined) ?? (useLive ? liveResult?._meta : undefined)
+  const source: DiagnosisSource = useLive ? sourceOf(shownMeta) : 'Cached'
 
   const events: NormalisedEvent[] = useMemo(
-    () => (lateInjected && !liveDiagnosis ? [...bundle.events, bundle.lateEvidence.event] : bundle.events),
-    [bundle, lateInjected, liveDiagnosis],
+    () => (lateInjected ? [...bundle.events, bundle.lateEvidence.event] : bundle.events),
+    [bundle, lateInjected],
   )
   const eventsById = useMemo(() => new Map(events.map((e) => [e.event_id, e])), [events])
 
-  const topCause = diagnosis.hypotheses.find((h) => h.rank === 1)?.cause
+  const ruleHits = bundle.events.filter((e) => e.kind === 'rule_hit').length
+  const contextRecs = bundle.events.filter((e) => e.kind === 'context').length
+
+  const topCause = diagnosis?.hypotheses.find((h) => h.rank === 1)?.cause
+
+  function runLive() {
+    setShowLive(true)
+    ensureDiagnosis(slug, bundle.events, { retry: true })
+  }
 
   function injectLateEvidence() {
     setLateInjected(true)
     setShowDiff(true)
-  }
-
-  async function runLive() {
-    setLiveStatus('loading')
-    setLiveError(null)
-    setLiveElapsed(0)
-    elapsedTimer.current = window.setInterval(() => setLiveElapsed((s) => s + 1), 1000)
-    try {
-      const result = await runLiveDiagnosis(bundle.events)
-      setLiveDiagnosis(result)
-      setLiveStatus('done')
-    } catch (err) {
-      setLiveError(err instanceof Error ? err.message : String(err))
-      setLiveStatus('error')
-    } finally {
-      if (elapsedTimer.current) {
-        window.clearInterval(elapsedTimer.current)
-        elapsedTimer.current = null
-      }
+    if ((useLive || !cachedLateOk) && baseDiagnosis) {
+      ensureLate(slug, bundle.events, bundle.lateEvidence.event, plainDiagnosis(baseDiagnosis))
     }
   }
 
-  function backToCached() {
-    setLiveDiagnosis(null)
-    setLiveStatus('idle')
-    setLiveError(null)
+  function retryLate() {
+    if (baseDiagnosis) {
+      ensureLate(slug, bundle.events, bundle.lateEvidence.event, plainDiagnosis(baseDiagnosis), { retry: true })
+    }
   }
+
+  const liveStatus = diagEntry?.status ?? 'idle'
+  const lateLoading = lateViaLive && lateEntry?.status === 'loading'
+  const lateError = lateViaLive && lateEntry?.status === 'error' ? lateEntry.error : null
 
   return (
     <div className="relative min-h-full bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-200">
@@ -96,47 +146,112 @@ export function AiView({
             <Badges
               rulesFired={bundle.rulesFired}
               rulesTotal={bundle.rulesTotal}
-              ruledOutCount={diagnosis.ruled_out.length}
+              noiseRulesFired={bundle.noiseRulesFired}
             />
+          </div>
+          <ScenarioSwitcher slugs={slugs} labels={labels} active={activeSlug} onChange={onScenarioChange} />
+        </div>
+
+        <div className="mb-3 flex flex-wrap items-center gap-2">
+          {diagnosis && <SourceLabel source={source} model={shownMeta?.model} />}
+          {!isAiLive && (
             <LiveDiagnosisControl
               status={liveStatus}
               elapsed={liveElapsed}
-              error={liveError}
+              error={diagEntry?.status === 'error' ? diagEntry.error : null}
+              showingLive={useLive}
+              disabled={lateInjected}
               onRunLive={runLive}
-              onBackToCached={backToCached}
+              onBackToCached={() => setShowLive(false)}
             />
+          )}
+          <button
+            onClick={() => setShowProvenance((v) => !v)}
+            className="text-[11px] text-slate-500 underline decoration-dotted hover:text-slate-800 dark:hover:text-slate-200"
+          >
+            How this was produced
+          </button>
+        </div>
+
+        {showProvenance && (
+          <p className="mb-3 rounded border border-slate-300 dark:border-slate-700/60 bg-white dark:bg-slate-800/40 px-3 py-2 text-[11.5px] text-slate-600 dark:text-slate-300">
+            <strong>Facts:</strong> assembled by code from rule hits + records (traceable to source).{' '}
+            <strong>Reasoning:</strong> model output — source: {diagnosis ? source : 'pending'}. The rules
+            detected; the AI only correlates, explains, ranks and proposes.
+          </p>
+        )}
+
+        {source === 'Server cache' && (
+          <div className="mb-3 rounded border border-amber-300 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 px-3 py-2 text-[12px] text-amber-800 dark:text-amber-200">
+            Replayed from last successful live run
+            {shownMeta?.cachedAt ? ` (${new Date(shownMeta.cachedAt).toLocaleString()})` : ''} — live call failed.
           </div>
-          <ScenarioSwitcher
-            slugs={slugs}
-            labels={labels}
-            active={activeSlug}
-            onChange={onScenarioChange}
+        )}
+        {shownMeta?.warnings && shownMeta.warnings.length > 0 && (
+          <ul className="mb-3 list-inside list-disc text-[11px] text-amber-700 dark:text-amber-300">
+            {shownMeta.warnings.map((w, i) => (
+              <li key={i}>{w}</li>
+            ))}
+          </ul>
+        )}
+
+        <IncidentHeader meta={bundle.meta} summary={diagnosis?.incident_summary} />
+
+        {!diagnosis && diagEntry?.status !== 'error' && (
+          <DiagnosisPending
+            status="loading"
+            startedAt={diagEntry?.status === 'loading' ? diagEntry.startedAt : undefined}
+            headline={`AI is reading ${ruleHits} rule hits and ${contextRecs} context records…`}
+            onRetry={() => undefined}
           />
-        </div>
-
-        <IncidentHeader meta={bundle.meta} summary={diagnosis.incident_summary} />
-
-        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <Timeline
-            items={diagnosis.timeline}
-            newEventId={lateInjected ? bundle.lateEvidence.event.event_id : undefined}
+        )}
+        {!diagnosis && diagEntry?.status === 'error' && (
+          <DiagnosisPending
+            status="error"
+            error={diagEntry.error}
+            headline=""
+            onRetry={() => ensureDiagnosis(slug, bundle.events, { retry: true })}
           />
-          <div className="space-y-4">
-            <Hypotheses hypotheses={diagnosis.hypotheses} eventsById={eventsById} />
-          </div>
-        </div>
+        )}
 
-        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <RuledOut items={diagnosis.ruled_out} />
-          <Checks checks={diagnosis.checks} />
-        </div>
+        {diagnosis && (
+          <>
+            <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+              <Timeline
+                items={diagnosis.timeline}
+                eventsById={eventsById}
+                newEventId={lateDiagnosis ? bundle.lateEvidence.event.event_id : undefined}
+              />
+              <div className="space-y-4">
+                <Hypotheses hypotheses={diagnosis.hypotheses} eventsById={eventsById} />
+              </div>
+            </div>
 
-        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
-          <BlastRadius data={diagnosis.blast_radius} />
-          <Recovery recovery={diagnosis.recovery} />
-        </div>
+            <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+              <RuledOut items={diagnosis.ruled_out} />
+              <Checks checks={diagnosis.checks} />
+            </div>
 
-        {showDiff && (
+            <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+              <BlastRadius data={diagnosis.blast_radius} />
+              <Recovery recovery={diagnosis.recovery} />
+            </div>
+          </>
+        )}
+
+        {lateLoading && (
+          <DiagnosisPending
+            status="loading"
+            startedAt={lateEntry?.status === 'loading' ? lateEntry.startedAt : undefined}
+            headline="AI is re-reading the evidence with the late record…"
+            onRetry={() => undefined}
+          />
+        )}
+        {lateError && (
+          <DiagnosisPending status="error" error={lateError} headline="" onRetry={retryLate} />
+        )}
+
+        {showDiff && lateDiff && (
           <div className="mt-4 rounded-lg border border-emerald-300 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/5 p-4">
             <div className="mb-2 flex items-center gap-2">
               <h2 className="text-[13px] font-semibold tracking-wide text-emerald-700 dark:text-emerald-300 uppercase">
@@ -149,14 +264,12 @@ export function AiView({
                 dismiss
               </button>
             </div>
-            <p className="text-[12.5px] text-emerald-900/90 dark:text-emerald-100/90">
-              {bundle.lateEvidence.diff.changed_summary}
-            </p>
+            <p className="text-[12.5px] text-emerald-900/90 dark:text-emerald-100/90">{lateDiff.changed_summary}</p>
             <div className="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2">
               <div>
                 <div className="text-[10px] text-slate-500 uppercase">Before</div>
                 <ol className="mt-1 space-y-0.5 text-[12px] text-slate-500 dark:text-slate-400">
-                  {bundle.lateEvidence.diff.rank_before.map((r) => (
+                  {lateDiff.rank_before.map((r) => (
                     <li key={r.rank}>
                       {r.rank}. {r.cause}
                     </li>
@@ -166,7 +279,7 @@ export function AiView({
               <div>
                 <div className="text-[10px] text-emerald-600 dark:text-emerald-500 uppercase">After</div>
                 <ol className="mt-1 space-y-0.5 text-[12px] text-emerald-800 dark:text-emerald-200">
-                  {bundle.lateEvidence.diff.rank_after.map((r) => (
+                  {lateDiff.rank_after.map((r) => (
                     <li key={r.rank}>
                       {r.rank}. {r.cause}
                     </li>
@@ -175,7 +288,7 @@ export function AiView({
               </div>
             </div>
             <ul className="mt-2 list-inside list-disc space-y-1 text-[11.5px] text-slate-600 dark:text-slate-300">
-              {bundle.lateEvidence.diff.what_changed.map((w, i) => (
+              {lateDiff.what_changed.map((w, i) => (
                 <li key={i}>{w}</li>
               ))}
             </ul>
@@ -184,9 +297,9 @@ export function AiView({
 
         <div className="mt-5 flex justify-center pb-8">
           <button
-            disabled={lateInjected || Boolean(liveDiagnosis)}
+            disabled={lateInjected || !baseDiagnosis}
             onClick={injectLateEvidence}
-            title={liveDiagnosis ? 'Not available on a live result — go back to cached first' : undefined}
+            title={!baseDiagnosis ? 'Waiting for the diagnosis' : undefined}
             className="rounded-md border border-amber-300 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 px-4 py-2 text-[12.5px] font-medium text-amber-700 dark:text-amber-300 transition hover:bg-amber-100 dark:hover:bg-amber-500/20 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {lateInjected ? 'Late evidence injected' : 'Inject late evidence →'}

@@ -10,3 +10,7 @@ __pycache__/
 # regenerable raw generator/normaliser output (run generator/generate.py +
 # normaliser/normalise.py to recreate) -- the app only needs app/src/data
 /data/
+
+# raw ops exports contain employee names / ticket text -- never commit
+/Auto Alerts/
+/server/cache/

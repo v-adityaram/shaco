@@ -5,13 +5,13 @@ export function LayerStack() {
         AI correlation &amp; reasoning <span className="text-sky-600/70 dark:text-sky-400/70">(new)</span>
       </div>
       <div className="mt-1 rounded border border-slate-200 dark:border-slate-600/50 bg-slate-100 dark:bg-slate-800/60 px-2 py-1.5 text-slate-600 dark:text-slate-300">
-        ELK rules · Kafka · APIM · MFT
+        HIPMON · Sonar · Splunk · Kafka
         <br />
-        ServiceNow · change records
+        Workato · MFT · ServiceNow · CHG
         <span className="block text-slate-500">unchanged</span>
       </div>
       <div className="mt-1 rounded border border-slate-200 dark:border-slate-700/50 bg-slate-50 dark:bg-slate-800/30 px-2 py-1.5 text-slate-500 dark:text-slate-400">
-        Production estate
+        HIP production estate
         <span className="block text-slate-500">unchanged</span>
       </div>
     </div>

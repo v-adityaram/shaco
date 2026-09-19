@@ -22,6 +22,9 @@ export function Recovery({ recovery }: { recovery: RecoveryProposal }) {
   return (
     <InferredPanel title="Recovery, behind the gate">
       <div className="space-y-3">
+        <div className="text-[10.5px] text-slate-500 dark:text-slate-400">
+          Proposed action (replay · repush · restart · rollback) — nothing executes without a named approver.
+        </div>
         <div className="rounded border border-indigo-300 dark:border-indigo-400/20 bg-slate-100 dark:bg-slate-900/40 p-3 text-[12.5px] text-slate-800 dark:text-slate-200">
           {recovery.proposal}
         </div>
@@ -42,7 +45,7 @@ export function Recovery({ recovery }: { recovery: RecoveryProposal }) {
             disabled={!recovery.requires_approval}
             className="w-full rounded-md border border-amber-300 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-500/10 py-2 text-[12.5px] font-medium text-amber-700 dark:text-amber-300 transition hover:bg-amber-100 dark:hover:bg-amber-500/20 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            {recovery.requires_approval ? 'Execute recovery — requires approval' : 'Execute recovery'}
+            {recovery.requires_approval ? 'Execute proposed action — requires approval' : 'Execute proposed action'}
           </button>
         )}
 
@@ -56,7 +59,7 @@ export function Recovery({ recovery }: { recovery: RecoveryProposal }) {
         )}
         {verified && (
           <div className="rounded border border-emerald-300 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/5 px-3 py-2 text-[12px] text-emerald-700 dark:text-emerald-300">
-            Verified — signal returned to baseline, consumer lag draining.
+            Verified against observed signal — affected exchanges progressing to COMPLETE, no new FAILED / INPROGRESS growth.
           </div>
         )}
       </div>
