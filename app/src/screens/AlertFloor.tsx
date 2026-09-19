@@ -101,11 +101,87 @@ function NavRail() {
   )
 }
 
-const FILTERS = ['Project', 'Exchange', 'Exchange.status', 'Level.status', 'Source', 'Destination', 'Object.name']
+type FilterKey = 'project' | 'exchange' | 'status' | 'level' | 'source' | 'destination' | 'objectName'
+export type Filters = Partial<Record<FilterKey, string>>
+
+const FILTERS: { key: FilterKey; label: string }[] = [
+  { key: 'project', label: 'Project' },
+  { key: 'exchange', label: 'Exchange' },
+  { key: 'status', label: 'Exchange.status' },
+  { key: 'level', label: 'Level.status' },
+  { key: 'source', label: 'Source' },
+  { key: 'destination', label: 'Destination' },
+  { key: 'objectName', label: 'Object.name' },
+]
 const TABS = ['… Levels', 'Full Levels', 'Mass Replays', 'Exchange Overview', 'Global Overview', 'Status Overview']
 
-function KibanaChrome({ windowLabel }: { windowLabel: string }) {
-  const btn = 'kb-bd rounded border px-2 py-0.5 text-[11px] kb-hover'
+function FilterPill({
+  label,
+  value,
+  options,
+  onChange,
+}: {
+  label: string
+  value: string
+  options: string[]
+  onChange: (v: string) => void
+}) {
+  const active = value !== ''
+  return (
+    <label
+      className={`kb-panel flex h-7 cursor-pointer items-center gap-1.5 rounded border px-2 text-[11px] ${
+        active ? 'border-sky-500 bg-sky-500/10' : 'kb-bd kb-hover'
+      }`}
+    >
+      <span className="kb-muted">{label}</span>
+      <select
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        aria-label={label}
+        className="max-w-[180px] cursor-pointer truncate bg-transparent pr-0.5 text-(--kb-text) outline-none"
+      >
+        <option value="">Any</option>
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {o}
+          </option>
+        ))}
+      </select>
+    </label>
+  )
+}
+
+function KibanaChrome({
+  windowLabel,
+  filters,
+  options,
+  onFilter,
+  kql,
+  onKql,
+  onReset,
+  onRefresh,
+  refreshing,
+  fullscreen,
+  onFullscreen,
+  tab,
+  onTab,
+}: {
+  windowLabel: string
+  filters: Filters
+  options: Record<FilterKey, string[]>
+  onFilter: (k: FilterKey, v: string) => void
+  kql: string
+  onKql: (v: string) => void
+  onReset: () => void
+  onRefresh: () => void
+  refreshing: boolean
+  fullscreen: boolean
+  onFullscreen: () => void
+  tab: string
+  onTab: (t: string) => void
+}) {
+  const btn = 'kb-bd kb-hover rounded border px-2 py-0.5 text-[11px]'
+  const dirty = kql !== '' || Object.values(filters).some(Boolean)
   return (
     <div className="space-y-1.5">
       <div className="flex items-center gap-2">
@@ -113,15 +189,34 @@ function KibanaChrome({ windowLabel }: { windowLabel: string }) {
           <span className="kb-link">Dashboards</span> <span className="kb-muted">/</span> <span className="font-semibold">Full Levels</span>
         </span>
         <span className="ml-auto flex items-center gap-1.5">
-          <span className="kb-link mr-2 text-[11px]">Sonar Concepts</span>
-          <span className="kb-link mr-2 text-[11px]">Sonar DataModel</span>
-          <button className={btn}>Full screen</button>
-          <button className={btn}>Reset</button>
+          <a className="kb-link mr-2 text-[11px]" href="#sonar-concepts" onClick={(e) => e.preventDefault()}>
+            Sonar Concepts
+          </a>
+          <a className="kb-link mr-2 text-[11px]" href="#sonar-datamodel" onClick={(e) => e.preventDefault()}>
+            Sonar DataModel
+          </a>
+          <button className={`${btn} ${fullscreen ? 'kb-link border-sky-500 bg-sky-500/10' : ''}`} onClick={onFullscreen}>
+            {fullscreen ? 'Exit full screen' : 'Full screen'}
+          </button>
+          <button className={`${btn} ${dirty ? '' : 'opacity-50'}`} onClick={onReset} disabled={!dirty}>
+            Reset
+          </button>
         </span>
       </div>
       <div className="flex items-center gap-1.5">
-        <div className="kb-panel kb-bd kb-muted flex h-7 min-w-0 flex-1 items-center rounded border px-2 text-[11px]">
-          <span className="truncate">Filter your data using KQL syntax</span>
+        <div className="kb-panel kb-bd flex h-7 min-w-0 flex-1 items-center rounded border px-2 text-[11px] focus-within:border-sky-500">
+          <span className="kb-muted mr-1.5">⌕</span>
+          <input
+            value={kql}
+            onChange={(e) => onKql(e.target.value)}
+            placeholder="Filter your data using KQL syntax"
+            className="w-full bg-transparent text-(--kb-text) outline-none placeholder:text-(--kb-muted)"
+          />
+          {kql && (
+            <button className="kb-muted ml-1 px-1 hover:opacity-70" onClick={() => onKql('')} title="Clear">
+              ×
+            </button>
+          )}
         </div>
         <div className="kb-panel kb-bd flex h-7 items-center gap-2 rounded border px-2 text-[11px]">
           <span className="kb-muted">‹</span>
@@ -129,31 +224,28 @@ function KibanaChrome({ windowLabel }: { windowLabel: string }) {
           <span className="kb-muted">›</span>
           <span className="kb-muted" title="Zoom out">⊖</span>
         </div>
-        <button className="rounded bg-sky-600 px-3 py-1 text-[11px] font-medium text-white">↻ Refresh</button>
+        <button
+          onClick={onRefresh}
+          className="flex items-center gap-1 rounded bg-sky-600 px-3 py-1 text-[11px] font-medium text-white hover:bg-sky-500"
+        >
+          <span className={refreshing ? 'inline-block animate-spin' : ''}>↻</span> Refresh
+        </button>
       </div>
       <div className="flex flex-wrap gap-1.5">
         {FILTERS.map((f) => (
-          <div key={f} className="kb-panel kb-bd flex h-7 items-center gap-2 rounded border px-2 text-[11px]">
-            <span className="kb-muted">{f}</span>
-            <span>Any</span>
-            <span className="kb-muted text-[9px]">▾</span>
-          </div>
+          <FilterPill key={f.key} label={f.label} value={filters[f.key] ?? ''} options={options[f.key]} onChange={(v) => onFilter(f.key, v)} />
         ))}
       </div>
       <div className="kb-bd flex items-end gap-4 overflow-x-auto border-b text-[12px] whitespace-nowrap">
         {TABS.map((t) => (
-          <span
+          <button
             key={t}
-            className={
-              t === 'Full Levels'
-                ? 'kb-link -mb-px border-b-2 border-sky-500 pb-1 font-semibold'
-                : 'kb-muted pb-1'
-            }
+            onClick={() => onTab(t)}
+            className={t === tab ? 'kb-link -mb-px border-b-2 border-sky-500 pb-1 font-semibold' : 'kb-muted pb-1 hover:text-(--kb-text)'}
           >
             {t}
-          </span>
+          </button>
         ))}
-        
       </div>
     </div>
   )
@@ -184,11 +276,57 @@ export function AlertFloor({
   controls?: ReactNode
 }) {
   const [showAllRules, setShowAllRules] = useState(false)
+  const [filters, setFilters] = useState<Filters>({})
+  const [kql, setKql] = useState('')
+  const [tab, setTab] = useState('Full Levels')
+  const [fullscreen, setFullscreen] = useState(false)
+  const [refreshing, setRefreshing] = useState(false)
   const l1 = L1_BY_SLUG[meta.slug] ?? L1_DEFAULT
   const frozen = transitionPhase !== 'idle'
   const firedRuleIds = Array.from(new Set(rows.filter((r) => r.ruleId !== '—').map((r) => r.ruleId)))
 
   if (!dashboard) console.error(`[AlertFloor] bundle "${meta.slug}" has no dashboard block`)
+
+  const uniq = (xs: string[]) => Array.from(new Set(xs.filter(Boolean))).sort()
+  const exRows = dashboard?.exchangeRows ?? []
+  const trRows = dashboard?.traceFocus.rows ?? []
+  const options: Record<FilterKey, string[]> = {
+    project: uniq(exRows.map((r) => r.project)),
+    exchange: uniq(exRows.map((r) => r.exchange)),
+    status: uniq(exRows.map((r) => r.status)),
+    level: uniq(trRows.map((t) => t.level)),
+    source: uniq(exRows.map((r) => r.source)),
+    destination: uniq(exRows.map((r) => r.destination)),
+    objectName: uniq(exRows.map((r) => r.objectName)),
+  }
+  const q = kql.trim().toLowerCase()
+  const matchesKql = (r: object) => !q || Object.values(r).some((v) => String(v).toLowerCase().includes(q))
+  const filteredExchanges = exRows.filter(
+    (r) =>
+      (!filters.project || r.project === filters.project) &&
+      (!filters.exchange || r.exchange === filters.exchange) &&
+      (!filters.status || r.status === filters.status) &&
+      (!filters.source || r.source === filters.source) &&
+      (!filters.destination || r.destination === filters.destination) &&
+      (!filters.objectName || r.objectName === filters.objectName) &&
+      matchesKql(r),
+  )
+  const filteredTraces = trRows.filter((t) => (!filters.level || t.level === filters.level) && matchesKql(t))
+  const filtering = q !== '' || Object.values(filters).some(Boolean)
+  const view = dashboard && {
+    ...dashboard,
+    exchangeRows: filteredExchanges,
+    traceFocus: { ...dashboard.traceFocus, rows: filteredTraces },
+  }
+
+  function refresh() {
+    setRefreshing(true)
+    window.setTimeout(() => setRefreshing(false), 600)
+  }
+  function reset() {
+    setFilters({})
+    setKql('')
+  }
 
   return (
     <div className="kb-page flex h-full flex-col text-[12px]">
@@ -218,10 +356,10 @@ export function AlertFloor({
       </div>
 
       <div className="flex min-h-0 flex-1">
-        <NavRail />
+        {!fullscreen && <NavRail />}
 
         {/* Team channels */}
-        <div className="kb-panel kb-bd w-32 shrink-0 border-r p-2">
+        <div className={`kb-panel kb-bd w-32 shrink-0 border-r p-2 ${fullscreen ? 'hidden' : ''}`}>
           <div className="kb-muted mb-2 text-[10px] tracking-wide uppercase">Team channels</div>
           <ul className="space-y-0.5">
             {CHANNELS.map((c) => (
@@ -240,9 +378,43 @@ export function AlertFloor({
 
         {/* Sonar dashboard */}
         <div className="min-w-0 flex-1 space-y-2 overflow-y-auto p-3">
-          <KibanaChrome windowLabel={dashboard?.windowLabel ?? 'Last 24 hours'} />
-          {dashboard ? (
-            <SonarDashboardView dashboard={dashboard} phase={transitionPhase} />
+          <KibanaChrome
+            windowLabel={dashboard?.windowLabel ?? 'Last 24 hours'}
+            filters={filters}
+            options={options}
+            onFilter={(k, v) => setFilters((f) => ({ ...f, [k]: v }))}
+            kql={kql}
+            onKql={setKql}
+            onReset={reset}
+            onRefresh={refresh}
+            refreshing={refreshing}
+            fullscreen={fullscreen}
+            onFullscreen={() => setFullscreen((v) => !v)}
+            tab={tab}
+            onTab={setTab}
+          />
+          {tab !== 'Full Levels' ? (
+            <div className="kb-panel kb-bd grid h-64 place-items-center rounded-[4px] border text-center shadow-sm">
+              <div>
+                <div className="text-[13px] font-semibold">{tab}</div>
+                <div className="kb-muted mt-1 text-[11px]">
+                  This view is not part of the POC.{' '}
+                  <button className="kb-link underline decoration-dotted" onClick={() => setTab('Full Levels')}>
+                    Back to Full Levels
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : view ? (
+            <SonarDashboardView
+              dashboard={view}
+              phase={transitionPhase}
+              docsLabel={
+                filtering
+                  ? `${filteredExchanges.length} of ${view.exchangeKpis.exchanges.toLocaleString('en-US')} documents · filtered`
+                  : undefined
+              }
+            />
           ) : (
             <div className="rounded border border-red-400 bg-red-500/10 p-3 text-[12px] text-red-700 dark:text-red-300">
               This scenario bundle has no <code>dashboard</code> block — the Sonar view cannot be rendered.
@@ -251,7 +423,7 @@ export function AlertFloor({
         </div>
 
         {/* Right column: HIPMON stream + L1 panel */}
-        <div className="kb-panel kb-bd flex w-[380px] shrink-0 flex-col border-l 2xl:w-[440px]">
+        <div className="kb-panel kb-bd flex w-[340px] shrink-0 flex-col border-l xl:w-[380px] 2xl:w-[440px]">
           <div className="kb-bd flex items-center gap-2 border-b px-2 py-1.5">
             <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${frozen ? 'bg-slate-400' : 'animate-pulse-live bg-red-500'}`} />
             <span className="text-[11px] font-semibold whitespace-nowrap">HIPMON stream</span>

@@ -165,7 +165,7 @@ function Panel({ title, docs, extra, children }: { title?: string; docs: number 
     <section className="kb-panel kb-bd overflow-hidden rounded-[4px] border shadow-sm">
       <div className="kb-bd flex min-w-0 items-center gap-3 border-b px-3 py-1.5">
         {title && <span className="text-[12px] font-semibold">{title}</span>}
-        <span className="kb-muted text-[11px] whitespace-nowrap">{docs} documents</span>
+        <span className="kb-muted text-[11px] whitespace-nowrap">{docs}</span>
         {extra}
       </div>
       {children}
@@ -184,38 +184,53 @@ function rowClasses(r: ExchangeRow, phase: TransitionPhase) {
 }
 
 // columns that only fit on wide screens; Kibana would scroll, we hide and note it in the footer
+const LG = 'hidden xl:table-cell'
 const XL = 'hidden 2xl:table-cell'
 const XXL = 'hidden min-[1800px]:table-cell'
 
-export function SonarDashboardView({ dashboard, phase }: { dashboard: SonarDashboardT; phase: TransitionPhase }) {
+export function SonarDashboardView({
+  dashboard,
+  phase,
+  docsLabel,
+}: {
+  dashboard: SonarDashboardT
+  phase: TransitionPhase
+  docsLabel?: string
+}) {
   const { exchangeKpis, halfflowKpis, exchangeRows, traceFocus } = dashboard
   return (
     <div className="space-y-2">
       <KpiRow title="Exchanges" k={exchangeKpis} />
       <KpiRow title="HalfFlows" k={halfflowKpis} />
 
-      <Panel docs={exchangeKpis.exchanges.toLocaleString('en-US')}>
+      <Panel docs={docsLabel ?? `${exchangeKpis.exchanges.toLocaleString('en-US')} documents`}>
         <table className="kb-table kb-table-wrap font-mono-tight w-full table-fixed text-[10.5px]">
           <thead>
             <tr>
-              <Th icon="date" sort className="w-[118px] 2xl:w-[164px]">@timestamp</Th>
-              <Th icon="str" w="92px">exchange.status</Th>
-              <Th icon="str" w="9%">project</Th>
-              <Th icon="str" w="16%">exchange</Th>
-              <Th icon="str" className="w-[104px] 2xl:w-[170px]">exchange.id</Th>
-              <Th icon="num" w="52px">halfflow.count</Th>
-              <Th icon="str" w="60px">halfflow.missing</Th>
-              <Th icon="num" w="66px">duration</Th>
-              <Th icon="str">source</Th>
-              <Th icon="str">destination</Th>
-              <Th icon="str" className={XL}>object.id</Th>
-              <Th icon="str" className={XL}>object.name</Th>
-              <Th icon="str" className={XL} w="68px">event.code</Th>
-              <Th icon="str" className={XXL}>business.value</Th>
-              <Th icon="str" className={XXL} w="58px">framework</Th>
+              {/* percentage widths sum to 100 at every breakpoint (8 / 10 / 13 / 15 visible columns) */}
+              <Th icon="date" sort className="w-[16%] xl:w-[14%] 2xl:w-[12%] min-[1800px]:w-[11%]">@timestamp</Th>
+              <Th icon="str" className="w-[11%] xl:w-[10%] 2xl:w-[8%] min-[1800px]:w-[7%]">exchange.status</Th>
+              <Th icon="str" className="w-[12%] xl:w-[10%] 2xl:w-[8%] min-[1800px]:w-[7%]">project</Th>
+              <Th icon="str" className="w-[20%] xl:w-[17%] 2xl:w-[14%] min-[1800px]:w-[13%]">exchange</Th>
+              <Th icon="str" className="w-[16%] xl:w-[14%] 2xl:w-[12%] min-[1800px]:w-[11%]">exchange.id</Th>
+              <Th icon="num" className={`${LG} xl:w-[5%] 2xl:w-[4%] min-[1800px]:w-[4%]`}>halfflow.count</Th>
+              <Th icon="str" className="w-[7%] xl:w-[6%] 2xl:w-[5%] min-[1800px]:w-[4%]">halfflow.missing</Th>
+              <Th icon="num" className="w-[8%] xl:w-[7%] 2xl:w-[5%] min-[1800px]:w-[5%]">duration</Th>
+              <Th icon="str" className="w-[10%] xl:w-[9%] 2xl:w-[8%] min-[1800px]:w-[7%]">source</Th>
+              <Th icon="str" className={`${LG} xl:w-[8%] 2xl:w-[7%] min-[1800px]:w-[7%]`}>destination</Th>
+              <Th icon="str" className={`${XL} 2xl:w-[6%] min-[1800px]:w-[6%]`}>object.id</Th>
+              <Th icon="str" className={`${XL} 2xl:w-[6%] min-[1800px]:w-[6%]`}>object.name</Th>
+              <Th icon="str" className={`${XL} 2xl:w-[5%] min-[1800px]:w-[5%]`}>event.code</Th>
+              <Th icon="str" className={`${XXL} min-[1800px]:w-[4%]`}>business.value</Th>
+              <Th icon="str" className={`${XXL} min-[1800px]:w-[3%]`}>framework</Th>
             </tr>
           </thead>
           <tbody>
+            {exchangeRows.length === 0 && (
+              <tr>
+                <td colSpan={15} className="kb-muted py-6 text-center">No documents match the current filters.</td>
+              </tr>
+            )}
             {exchangeRows.map((r, i) => (
               <tr key={`${r.exchangeId}-${i}`} className={rowClasses(r, phase)}>
                 <td className="kb-muted">{fmtTs(r.ts)}</td>
@@ -225,11 +240,11 @@ export function SonarDashboardView({ dashboard, phase }: { dashboard: SonarDashb
                 <td>{r.project}</td>
                 <td className="kb-link">{r.exchange}</td>
                 <td>{r.exchangeId}</td>
-                <td className="text-right">{r.halfflowCount}</td>
+                <td className={`${LG} text-right`}>{r.halfflowCount}</td>
                 <td>{r.halfflowMissing}</td>
                 <td className="text-right">{fmtDuration(r.durationMs)}</td>
                 <td>{r.source}</td>
-                <td>{r.destination}</td>
+                <td className={LG}>{r.destination}</td>
                 <td className={XL}>{r.objectId}</td>
                 <td className={XL}>{r.objectName}</td>
                 <td className={XL}>{r.eventCode}</td>
@@ -255,7 +270,7 @@ export function SonarDashboardView({ dashboard, phase }: { dashboard: SonarDashb
 
       <Panel
         title="Traces"
-        docs={traceFocus.rows.length}
+        docs={`${traceFocus.rows.length} documents`}
         extra={
           <span className="font-mono-tight kb-muted min-w-0 truncate text-[10px]">
             exchange: <span className="rounded-[2px] bg-yellow-300 px-1 text-black">{traceFocus.exchange}</span>
@@ -265,20 +280,26 @@ export function SonarDashboardView({ dashboard, phase }: { dashboard: SonarDashb
         <table className="kb-table kb-table-wrap font-mono-tight w-full table-fixed text-[10.5px]">
           <thead>
             <tr>
-              <Th icon="date" className="w-[118px] 2xl:w-[164px]">@timestamp</Th>
-              <Th icon="str" w="78px">event.level</Th>
-              <Th icon="str">exchange</Th>
-              <Th icon="str">exchange.id</Th>
-              <Th icon="str">halfflow</Th>
-              <Th icon="str">halfflow.id</Th>
-              <Th icon="str" w="70px">application</Th>
-              <Th icon="str" w="70px">event.code</Th>
-              <Th icon="str" className={XL}>event.reason</Th>
-              <Th icon="str" w="20%">message</Th>
-              <Th icon="str" className={XXL}>business.value</Th>
+              {/* 8 / 9 / 10 / 11 visible columns, widths sum to 100 at each breakpoint */}
+              <Th icon="date" className="w-[15%] xl:w-[13%] 2xl:w-[12%] min-[1800px]:w-[11%]">@timestamp</Th>
+              <Th icon="str" className="w-[9%] xl:w-[8%] 2xl:w-[7%] min-[1800px]:w-[7%]">event.level</Th>
+              <Th icon="str" className="w-[17%] xl:w-[15%] 2xl:w-[13%] min-[1800px]:w-[12%]">exchange</Th>
+              <Th icon="str" className="w-[13%] xl:w-[12%] 2xl:w-[11%] min-[1800px]:w-[10%]">exchange.id</Th>
+              <Th icon="str" className="w-[17%] xl:w-[14%] 2xl:w-[13%] min-[1800px]:w-[12%]">halfflow</Th>
+              <Th icon="str" className={`${LG} xl:w-[10%] 2xl:w-[9%] min-[1800px]:w-[8%]`}>halfflow.id</Th>
+              <Th icon="str" className="w-[8%] xl:w-[7%] 2xl:w-[6%] min-[1800px]:w-[6%]">application</Th>
+              <Th icon="str" className="w-[8%] xl:w-[7%] 2xl:w-[6%] min-[1800px]:w-[6%]">event.code</Th>
+              <Th icon="str" className={`${XL} 2xl:w-[10%] min-[1800px]:w-[9%]`}>event.reason</Th>
+              <Th icon="str" className="w-[13%] xl:w-[14%] 2xl:w-[13%] min-[1800px]:w-[14%]">message</Th>
+              <Th icon="str" className={`${XXL} min-[1800px]:w-[5%]`}>business.value</Th>
             </tr>
           </thead>
           <tbody>
+            {traceFocus.rows.length === 0 && (
+              <tr>
+                <td colSpan={11} className="kb-muted py-6 text-center">No trace events match the current filters.</td>
+              </tr>
+            )}
             {traceFocus.rows.map((t, i) => (
               <tr key={i}>
                 <td className="kb-muted">{fmtTs(t.ts)}</td>
@@ -292,7 +313,7 @@ export function SonarDashboardView({ dashboard, phase }: { dashboard: SonarDashb
                 </td>
                 <td>{t.exchangeId}</td>
                 <td>{t.halfflow}</td>
-                <td>{t.halfflowId}</td>
+                <td className={LG}>{t.halfflowId}</td>
                 <td>{t.application}</td>
                 <td>{t.eventCode}</td>
                 <td className={XL}>{t.eventReason}</td>
