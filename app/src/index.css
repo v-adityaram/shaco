@@ -61,9 +61,16 @@ body {
 .kb-muted { color: var(--kb-muted); }
 .kb-link { color: var(--kb-link); }
 .kb-hover:hover { background: var(--kb-hover); }
-.kb-table th { position: sticky; top: 0; z-index: 1; background: var(--kb-panel2); font-weight: 600; text-align: left; padding: 4px 8px; white-space: nowrap; border-bottom: 1px solid var(--kb-border); }
-.kb-table td { padding: 3px 8px; white-space: nowrap; border-bottom: 1px solid var(--kb-border); }
+.kb-table th { position: sticky; top: 0; z-index: 1; background: var(--kb-panel2); font-weight: 600; text-align: left; padding: 5px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid var(--kb-border); }
+.kb-table td { padding: 3px 6px; white-space: nowrap; border-bottom: 1px solid var(--kb-border); vertical-align: top; }
+.kb-table tbody tr:nth-child(even) td { background: color-mix(in srgb, var(--kb-panel2) 55%, var(--kb-panel)); }
 .kb-table tbody tr:hover td { background: var(--kb-hover); }
+/* Kibana wraps long cell values onto several lines rather than clipping them */
+.kb-table-wrap td { white-space: normal; overflow-wrap: anywhere; word-break: break-word; line-height: 1.25; }
+.kb-table-wrap td.kb-muted { overflow-wrap: normal; word-break: normal; }
+.row-anomalous td { background: rgba(245, 158, 11, 0.08) !important; }
+.row-highlight td { background: rgba(14, 165, 233, 0.16) !important; }
+.kpi-value { font-size: clamp(13px, 1.2vw, 21px); }
 
 .font-mono-tight {
   font-family: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
@@ -102,18 +109,31 @@ body {
   animation: slide-in-row 1.4s ease-out forwards;
 }
 
+/* thin, quiet scrollbars — visible on hover of the scrolling area only */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+*:hover {
+  scrollbar-color: #c1c7d0 transparent;
+}
+.dark *:hover {
+  scrollbar-color: #454955 transparent;
+}
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #98a2b3;
+  background: transparent;
   border-radius: 6px;
 }
-
-.dark ::-webkit-scrollbar-thumb {
-  background: #3a3d48;
+*:hover::-webkit-scrollbar-thumb {
+  background: #c1c7d0;
+}
+.dark *:hover::-webkit-scrollbar-thumb {
+  background: #454955;
 }

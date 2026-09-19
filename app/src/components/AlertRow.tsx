@@ -13,8 +13,12 @@ function toClock(ts: string) {
   return m ? m[1] : ts
 }
 
-/** One HIPMON-stream row. Grid template is exported so the header row lines up. */
-export const ALERT_GRID = 'grid-cols-[54px_58px_58px_120px_minmax(130px,1fr)_22px]'
+/** One HIPMON-stream row. Grid template is exported so the header row lines up.
+ *  Every column is bounded so the stream always fits its column — no horizontal scroll. */
+export const ALERT_GRID =
+  'grid-cols-[52px_50px_minmax(0,1fr)_minmax(0,1.4fr)_20px] 2xl:grid-cols-[52px_52px_64px_minmax(0,1.1fr)_minmax(0,1.5fr)_20px]'
+/** the rule column only fits on wide screens; the row tooltip and "Show rules" cover it elsewhere */
+export const ALERT_RULE_CELL = 'hidden 2xl:block'
 
 export function AlertRow({
   row,
@@ -32,8 +36,9 @@ export function AlertRow({
   return (
     <div
       data-frozen={frozen ? '' : undefined}
+      title={`${row.ruleId !== '—' ? row.ruleId + ' · ' : ''}${row.component} — ${row.message}`}
       className={[
-        'font-mono-tight grid items-center gap-2 border-l-4 px-2 py-[3px] text-[11px] leading-tight whitespace-nowrap',
+        'font-mono-tight grid items-center gap-1.5 border-l-4 px-2 py-[3px] text-[11px] leading-tight whitespace-nowrap',
         ALERT_GRID,
         severityColor[row.severity],
         dimmed ? 'opacity-30' : '',
@@ -41,15 +46,13 @@ export function AlertRow({
         flying ? 'animate-fly-down' : '',
       ].join(' ')}
     >
-      <span className="truncate kb-muted">{toClock(row.ts)}</span>
+      <span className="kb-muted truncate">{toClock(row.ts)}</span>
       <span className={`truncate ${sourceTextClass(row.source)}`}>{row.source}</span>
-      <span className="truncate kb-muted">{row.ruleId}</span>
+      <span className={`kb-muted truncate ${ALERT_RULE_CELL}`}>{row.ruleId}</span>
       <span className="truncate text-(--kb-text)">{row.component}</span>
       <span className="truncate">
         {row.isFirstSymptom && (
-          <span className="mr-1 rounded bg-sky-500/20 px-1 text-[9px] text-sky-700 dark:text-sky-300">
-            FIRST
-          </span>
+          <span className="mr-1 rounded bg-sky-500/20 px-1 text-[9px] text-sky-700 dark:text-sky-300">FIRST</span>
         )}
         {row.message}
       </span>

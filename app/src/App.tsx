@@ -72,39 +72,44 @@ export default function App() {
 
   return (
     <div className="min-h-svh bg-slate-100 dark:bg-slate-950">
-      <div className="fixed top-3 right-3 z-50">
-        <ThemeToggle theme={theme} onToggle={toggleTheme} />
-      </div>
+      {phase === 'ai' && (
+        <div className="fixed top-3 right-3 z-50">
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        </div>
+      )}
       {phase !== 'ai' ? (
-        <>
-          <div className="fixed top-3.5 right-16 z-50">
-            <select
-              value={activeSlug}
-              disabled={phase !== 'today'}
-              onChange={(e) => switchScenario(e.target.value)}
-              aria-label="Scenario"
-              className="rounded border border-slate-500 bg-slate-700 px-1.5 py-1 text-[11px] text-slate-100 disabled:opacity-50"
-            >
-              {bundles.map((b) => (
-                <option key={b.meta.slug} value={b.meta.slug}>
-                  {SCENARIO_LABELS[b.meta.slug] ?? b.meta.slug}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="h-svh">
-            <AlertFloor
-              meta={bundle.meta}
-              rows={bundle.alertRows ?? []}
-              dashboard={bundle.dashboard}
-              rulesFired={bundle.rulesFired}
-              rulesTotal={bundle.rulesTotal}
-              incidentRuleIds={incidentRuleIds}
-              transitionPhase={phase === 'today' ? 'idle' : phase === 'freezing' ? 'freezing' : 'collapsing'}
-              onRunCorrelation={runCorrelation}
-            />
-          </div>
-        </>
+        <div className="h-svh">
+          <AlertFloor
+            meta={bundle.meta}
+            rows={bundle.alertRows ?? []}
+            dashboard={bundle.dashboard}
+            rulesFired={bundle.rulesFired}
+            rulesTotal={bundle.rulesTotal}
+            incidentRuleIds={incidentRuleIds}
+            transitionPhase={phase === 'today' ? 'idle' : phase === 'freezing' ? 'freezing' : 'collapsing'}
+            onRunCorrelation={runCorrelation}
+            controls={
+              <>
+                <select
+                  value={activeSlug}
+                  disabled={phase !== 'today'}
+                  onChange={(e) => switchScenario(e.target.value)}
+                  aria-label="Scenario"
+                  className="h-7 rounded border border-slate-500 bg-slate-700 px-1.5 text-[11px] text-slate-100 disabled:opacity-50"
+                >
+                  {bundles.map((b) => (
+                    <option key={b.meta.slug} value={b.meta.slug}>
+                      {SCENARIO_LABELS[b.meta.slug] ?? b.meta.slug}
+                    </option>
+                  ))}
+                </select>
+                <span className="[&>button]:h-7 [&>button]:w-7 [&>button]:border-slate-500 [&>button]:bg-slate-700 [&>button]:text-slate-200">
+                  <ThemeToggle theme={theme} onToggle={toggleTheme} />
+                </span>
+              </>
+            }
+          />
+        </div>
       ) : (
         <div className="animate-card-in">
           <div className="mx-auto flex max-w-6xl justify-start px-4 pt-3">

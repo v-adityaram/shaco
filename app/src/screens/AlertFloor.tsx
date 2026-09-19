@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { ALERT_GRID, AlertRow } from '../components/AlertRow'
+import { useState, type ReactNode } from 'react'
+import { ALERT_GRID, ALERT_RULE_CELL, AlertRow } from '../components/AlertRow'
 import { BridgeTimer } from '../components/BridgeTimer'
 import { SonarDashboardView, type TransitionPhase } from '../components/SonarDashboard'
 import type { AlertRow as AlertRowT, ScenarioMeta, SonarDashboard } from '../lib/types'
@@ -170,6 +170,7 @@ export function AlertFloor({
   incidentRuleIds,
   transitionPhase,
   onRunCorrelation,
+  controls,
 }: {
   meta: ScenarioMeta
   rows: AlertRowT[]
@@ -179,6 +180,8 @@ export function AlertFloor({
   incidentRuleIds: Set<string>
   transitionPhase: TransitionPhase
   onRunCorrelation: () => void
+  /** scenario switcher + theme toggle, rendered inside the incident bar so nothing overlaps */
+  controls?: ReactNode
 }) {
   const [showAllRules, setShowAllRules] = useState(false)
   const l1 = L1_BY_SLUG[meta.slug] ?? L1_DEFAULT
@@ -190,21 +193,28 @@ export function AlertFloor({
   return (
     <div className="kb-page flex h-full flex-col text-[12px]">
       {/* Incident header bar */}
-      <div className="flex flex-wrap items-center gap-2 bg-slate-800 py-2 pr-64 pl-4 text-slate-100">
-        <span className="font-mono-tight rounded bg-red-600 px-2 py-0.5 text-[11px] font-bold text-white">
+      <div className="flex min-w-0 items-center gap-2 bg-slate-800 py-1.5 pr-3 pl-4 text-slate-100">
+        <span className="font-mono-tight shrink-0 rounded bg-red-600 px-2 py-0.5 text-[11px] font-bold text-white">
           {meta.incidentNumber}
         </span>
-        <span className="text-[12px] font-semibold text-red-300">P1</span>
-        <span className="text-[12px]">{meta.title}</span>
-        <span className="text-[11px] text-slate-400">· Assigned: HIP Ops L1 · State: In Progress</span>
-        <span className="ml-auto flex items-center gap-1">
-          <span className="mr-1 text-[10px] text-slate-400">duplicates — same event:</span>
+        <span className="shrink-0 text-[12px] font-semibold text-red-300">P1</span>
+        <span className="min-w-0 truncate text-[12px]" title={meta.title}>
+          {meta.title}
+        </span>
+        <span className="hidden shrink-0 text-[11px] text-slate-400 xl:inline">· Assigned: HIP Ops L1 · State: In Progress</span>
+        <span className="ml-auto flex shrink-0 items-center gap-1">
+          <span className="mr-1 hidden text-[10px] text-slate-400 lg:inline">duplicates — same event:</span>
           {meta.duplicateIncidents.map((d) => (
-            <span key={d} className="font-mono-tight rounded border border-slate-500 px-1.5 py-0.5 text-[10px] text-slate-300">
+            <span
+              key={d}
+              title="Raised by a different rule for the same event"
+              className="font-mono-tight rounded border border-slate-500 px-1.5 py-0.5 text-[10px] text-slate-300"
+            >
               {d}
             </span>
           ))}
         </span>
+        {controls && <span className="ml-2 flex shrink-0 items-center gap-2 border-l border-slate-600 pl-3">{controls}</span>}
       </div>
 
       <div className="flex min-h-0 flex-1">
@@ -241,22 +251,22 @@ export function AlertFloor({
         </div>
 
         {/* Right column: HIPMON stream + L1 panel */}
-        <div className="kb-panel kb-bd flex w-[420px] shrink-0 flex-col border-l">
+        <div className="kb-panel kb-bd flex w-[380px] shrink-0 flex-col border-l 2xl:w-[440px]">
           <div className="kb-bd flex items-center gap-2 border-b px-2 py-1.5">
-            <span className={`h-1.5 w-1.5 rounded-full ${frozen ? 'bg-slate-400' : 'animate-pulse-live bg-red-500'}`} />
-            <span className="text-[11px] font-semibold">HIPMON stream</span>
-            <span className="font-mono-tight kb-muted text-[10px]">
+            <span className={`h-1.5 w-1.5 shrink-0 rounded-full ${frozen ? 'bg-slate-400' : 'animate-pulse-live bg-red-500'}`} />
+            <span className="text-[11px] font-semibold whitespace-nowrap">HIPMON stream</span>
+            <span className="font-mono-tight kb-muted text-[10px] whitespace-nowrap">
               {rows.length} rows{frozen ? ' · frozen' : ''}
             </span>
             <button
               onClick={() => setShowAllRules((v) => !v)}
-              className="kb-muted ml-auto text-[10px] underline decoration-dotted hover:opacity-80"
+              className="kb-muted ml-auto text-[10px] whitespace-nowrap underline decoration-dotted hover:opacity-80"
             >
-              {showAllRules ? 'Hide' : 'Show'} all firing rules
+              {showAllRules ? 'Hide' : 'Show'} rules
             </button>
             <button
               onClick={onRunCorrelation}
-              className="rounded bg-sky-600 px-2.5 py-1 text-[11px] font-semibold text-white shadow hover:bg-sky-500"
+              className="rounded bg-sky-600 px-2.5 py-1 text-[11px] font-semibold whitespace-nowrap text-white shadow hover:bg-sky-500"
             >
               Run AI correlation →
             </button>
@@ -278,14 +288,14 @@ export function AlertFloor({
             </div>
           )}
 
-          <div className="min-h-0 flex-1 overflow-auto">
-            <div className="min-w-[480px]">
+          <div className="min-h-0 flex-1 overflow-x-hidden overflow-y-auto">
+            <div>
               <div
-                className={`font-mono-tight kb-muted kb-bd kb-panel2 sticky top-0 grid gap-2 border-b border-l-4 border-l-transparent px-2 py-0.5 text-[9px] uppercase ${ALERT_GRID}`}
+                className={`font-mono-tight kb-muted kb-bd kb-panel2 sticky top-0 z-10 grid gap-1.5 border-b border-l-4 border-l-transparent px-2 py-0.5 text-[9px] uppercase ${ALERT_GRID}`}
               >
                 <span>time</span>
                 <span>source</span>
-                <span>rule</span>
+                <span className={ALERT_RULE_CELL}>rule</span>
                 <span>component</span>
                 <span>message</span>
                 <span className="text-right">sev</span>
@@ -307,10 +317,18 @@ export function AlertFloor({
             </div>
           </div>
 
-          <div className="kb-bd max-h-[40%] shrink-0 overflow-y-auto border-t p-2">
-            <div className="kb-muted mb-1 text-[10px] tracking-wide uppercase">L1 panel</div>
+          <div className="kb-bd kb-panel2 max-h-[42%] shrink-0 overflow-y-auto border-t p-2.5">
+            <div className="mb-1.5 flex items-center justify-between">
+              <span className="kb-muted text-[10px] font-semibold tracking-wide uppercase">L1 panel</span>
+              <span className="rounded bg-amber-500/15 px-1.5 py-px text-[9.5px] font-semibold text-amber-700 dark:text-amber-400">
+                awaiting bridge
+              </span>
+            </div>
             <div className="kb-muted text-[10px]">
-              Runbook search: <span className="font-mono-tight text-(--kb-text)">"{l1.query}"</span>
+              Runbook search:{' '}
+              <span className="font-mono-tight text-(--kb-text)" title={l1.query}>
+                "{l1.query}"
+              </span>
             </div>
             <ul className="mt-1 space-y-1">
               {[KB_REPLAY, KB_REPUSH, KB_LAG, l1.staleRef].map((r) => {
@@ -318,11 +336,13 @@ export function AlertFloor({
                 return (
                   <li
                     key={r}
+                    title={stale ? `${r} — stale runbook` : r}
                     className={[
-                      'rounded border px-1.5 py-1 text-[10.5px]',
+                      'kb-panel rounded border px-2 py-1 text-[10.5px]',
                       stale
-                        ? 'border-amber-500/50 bg-amber-500/10 text-amber-700 dark:text-amber-400'
-                        : 'kb-bd kb-muted',
+                        ? 'line-clamp-2 border-amber-500/50 bg-amber-500/10 leading-snug text-amber-700 dark:text-amber-400'
+                        : 'truncate'
+                        + ' kb-bd kb-muted',
                     ].join(' ')}
                   >
                     {r}
@@ -333,13 +353,12 @@ export function AlertFloor({
             <div className="mt-1 text-[10.5px] text-rose-600 dark:text-rose-400">
               None matching the cross-system symptom set
             </div>
-            <ul className="mt-2 space-y-0.5 text-[11px]">
+            <ul className="mt-2 space-y-0.5 text-[10.5px] leading-snug">
               {l1.actions.map((a) => (
                 <li key={a.text} className={a.tone === 'warn' ? 'text-amber-700 dark:text-amber-400' : ''}>
-                  ✔ Action taken: {a.text}
+                  ✔ {a.text}
                 </li>
               ))}
-              <li className="text-amber-700 dark:text-amber-400">State: escalated to L2 · awaiting bridge</li>
             </ul>
           </div>
         </div>
