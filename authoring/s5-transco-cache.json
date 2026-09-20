@@ -1,0 +1,357 @@
+{
+  "meta": {
+    "slug": "s5-transco-cache",
+    "title": "Shared dependency failure across unrelated flows (transco-cache)",
+    "incidentNumber": "INC10790505",
+    "duplicateIncidents": [
+      "INC10790351",
+      "INC10790352",
+      "INC10790353",
+      "INC10790354",
+      "INC10790355"
+    ],
+    "faultOneLine": "hip-fwk-transco-cache pod restart; Connection refused errors on 32 half-flows in 4 projects"
+  },
+  "diagnosis": {
+    "incident_summary": "From 00:55 UTC, unrelated EMEA flows (sales orders, invoices, price lists, returns across four projects) failed with the same 'Connection refused' to the shared hip-fwk-transco-cache; that pod's memory had climbed to 93% and it was killed and restarted at 00:20, and it was Ready again at 01:13:41.",
+    "timeline": [
+      {
+        "event_id": "e-0015",
+        "ts": "2026-09-18T00:18:00+00:00",
+        "source": "Splunk",
+        "component": "hip-fwk-transco-cache",
+        "description": "mem_pct 93.0% on hip-fwk-transco-cache-644827de5-fmmh9 (baseline mean 49.1% over first 60 min, delta +43.9); CPU 28%, restarts 0",
+        "is_first_symptom": true
+      },
+      {
+        "event_id": "e-0017",
+        "ts": "2026-09-18T00:20:06+00:00",
+        "source": "Splunk",
+        "component": "hip-fwk-transco-cache",
+        "description": "pod hip-fwk-transco-cache-644827de5-fmmh9 restarted (restart 1): container terminated, exit code 137",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0037",
+        "ts": "2026-09-18T00:55:03+00:00",
+        "source": "SONAR",
+        "component": "SAPITCOMMON",
+        "description": "EMEA_SAPIT_SALESORDER / EMEA_SAPIT_SALESORDER_01_ESB_V2 FAILED at halfflow 1/4: Connection refused: hip-fwk-transco-cache.hip-cloud-esb.svc.cluster.local:8080 [SALES_ORDER 7050994448, exchange.id 202609180054597873027108]",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0048",
+        "ts": "2026-09-18T00:56:26+00:00",
+        "source": "HIPMON",
+        "component": "AMAZONCOMMON",
+        "description": "[AUTO]|AMAZONCOMMON|EMEA_AMAZON_RETURN_NOTIFY_01_ESB|GEN01|ETP_GEN01 -- Connection refused: hip-fwk-transco-cache.hip-cloud-esb.svc.cluster.local:8080 (priority 3 - High)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0057",
+        "ts": "2026-09-18T00:57:05+00:00",
+        "source": "HIPMON",
+        "component": "SAPITCOMMON",
+        "description": "[AUTO]|SAPITCOMMON|EMEA_SAPIT_INVOICE_OUT_02_ESB|IVK003|ETP_IVK003 -- Connection refused: hip-fwk-transco-cache.hip-cloud-esb.svc.cluster.local:8080 (priority 3 - High)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0099",
+        "ts": "2026-09-18T01:00:00+00:00",
+        "source": "SONAR",
+        "component": "SONAR-OPS",
+        "description": "46 exchanges FAILED in the 5 min to 01:00 with identical event.reason 'Connection refused: hip-fwk-transco-cache.hip-cloud-esb.svc.cluster.local:8080'; cumulative since 00:55:03: 46 failed exchanges across 23 distinct half-flows in 4 projects (AMAZONCOMMON, KEPLER_NEXTGEN, PROCESSOUT, SAPITCOMMON)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0164",
+        "ts": "2026-09-18T01:05:00+00:00",
+        "source": "Splunk",
+        "component": "AKS-HIP-EMEA-PRD",
+        "description": "AKS-HIP-EMEA-PRD: namespace hip-cloud-esb: 41/41 non-cache pods Ready; node network errors 0; CoreDNS p99 4 ms; no ConnectionRefused from any non-transco service",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0202",
+        "ts": "2026-09-18T01:08:00+00:00",
+        "source": "Apigee",
+        "component": "APIGEE_EDGE",
+        "description": "Apigee 503 x26 on /hip/v1/customers in 1 min (p99 9999 ms)  [x11 identical hits in total; first 01:08:00, last 01:18:00 UTC]",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0235",
+        "ts": "2026-09-18T01:10:00+00:00",
+        "source": "Kafka",
+        "component": "sapit-01-default",
+        "description": "consumer lag: sapit-01-default 4,200 (rising); kepler-01-default 3,360 (rising); procout-01-default 2,310 (rising); amazon-01-default 1,680 (rising); lag 0 on 3 other processing groups (of 7)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0321",
+        "ts": "2026-09-18T01:14:10+00:00",
+        "source": "Splunk",
+        "component": "hip-fwk-transco-cache",
+        "description": "hip-fwk-transco-cache-644827de5-fmmh9: pod hip-fwk-transco-cache-644827de5-fmmh9 Running and Ready=True (last transition 01:13:41), restartCount=1, uptime 54m",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0335",
+        "ts": "2026-09-18T01:15:04+00:00",
+        "source": "ServiceNow",
+        "component": "HIP-INCIDENT-L2",
+        "description": "INC10790505 (auto, priority 2, TECH FNDN - WW - HIP INCIDENT L2): [AUTO]|SAPITCOMMON|EMEA_SAPIT_INVOICE_OUT_02_ESB|IVK003|ETP_IVK003 -- Connection refused: hip-fwk-transco-cache.hip-cloud-esb.svc.cluster.local:8080 (exchange.id 202609180056329074703599)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0351",
+        "ts": "2026-09-18T01:16:21+00:00",
+        "source": "SONAR",
+        "component": "SAPITCOMMON",
+        "description": "EMEA_SAPIT_SALESORDER / EMEA_SAPIT_SALESORDER_04_API REPLAYED: Replay successful: exchange completed after replay (originally failed with Connection refused) [exchange.id 202609180054597873027108]",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0413",
+        "ts": "2026-09-18T01:20:00+00:00",
+        "source": "Kafka",
+        "component": "sapit-01-default",
+        "description": "consumer lag: sapit-01-default 2,000 (falling); kepler-01-default 1,600 (falling); procout-01-default 1,100 (falling); amazon-01-default 800 (falling); lag 0 on 3 other processing groups (of 7)",
+        "is_first_symptom": false
+      },
+      {
+        "event_id": "e-0466",
+        "ts": "2026-09-18T01:24:00+00:00",
+        "source": "ServiceNow",
+        "component": "HIP-INCIDENT-L2",
+        "description": "INC10790505 work note: L1: replayed failed exchanges; replay succeeded (went into warning as per design).",
+        "is_first_symptom": false
+      }
+    ],
+    "hypotheses": [
+      {
+        "rank": 1,
+        "cause": "The shared hip-fwk-transco-cache pod ran out of memory, was killed and restarted, and was not serving on port 8080 for a period, so every half-flow that calls it failed with 'Connection refused' until it was Ready again.",
+        "confidence": "Moderate",
+        "supports": [
+          {
+            "event_id": "e-0015",
+            "why": "Cache pod memory reaches 93%, 43.9 points above its baseline, two minutes before it restarts."
+          },
+          {
+            "event_id": "e-0017",
+            "why": "The pod restarts at 00:20 with exit code 137 (killed), the first event on the shared dependency."
+          },
+          {
+            "event_id": "e-0037",
+            "why": "The first failure names exactly this service and port: Connection refused to hip-fwk-transco-cache...:8080."
+          },
+          {
+            "event_id": "e-0099",
+            "why": "46 exchanges fail in five minutes with the identical reason, and the count spreads across 23 half-flows in 4 projects; by 01:15 it is 148 across 32 half-flows (e-0323)."
+          },
+          {
+            "event_id": "e-0164",
+            "why": "All 41 other pods in the namespace are Ready, node network errors are 0 and no other service reports ConnectionRefused: the fault is local to the cache."
+          },
+          {
+            "event_id": "e-0321",
+            "why": "The pod is Ready again at 01:13:41, which matches the end of the failures and the successful replays (e-0351)."
+          }
+        ],
+        "contradicts": [
+          {
+            "event_id": "e-0033",
+            "why": "Transcoding calls run normally at 00:45 (4,351 per 5 minutes vs 4,300 baseline), 25 minutes after the restart: the restart alone does not explain failures starting at 00:55."
+          },
+          {
+            "event_id": "e-0321",
+            "why": "By 01:14 the pod shows Running and Ready with restartCount=1, so an inspection then finds nothing obviously broken."
+          }
+        ],
+        "what_would_change_this": "The pod's readiness history for 00:20 to 01:14. A NotReady window covering the failures would raise this to High; continuous Ready status with no events would move weight to a network or discovery cause."
+      },
+      {
+        "rank": 2,
+        "cause": "A transient network, DNS or service-endpoint disruption inside the cluster between the callers and the cache service.",
+        "confidence": "Low",
+        "supports": [
+          {
+            "event_id": "e-0351",
+            "why": "Replays succeed minutes later without any change, which is how a transient network fault would look."
+          },
+          {
+            "event_id": "e-0321",
+            "why": "The cache pod itself is healthy when inspected, so the target looks fine from the outside."
+          }
+        ],
+        "contradicts": [
+          {
+            "event_id": "e-0164",
+            "why": "CoreDNS p99 is 4 ms, node network errors are 0, and none of the 41 other pods reports ConnectionRefused: a cluster network fault would not spare every other service."
+          },
+          {
+            "event_id": "e-0037",
+            "why": "The error text names the cache service specifically rather than a name-resolution or timeout failure."
+          }
+        ],
+        "what_would_change_this": "Service endpoint history showing the cache service had endpoints throughout the window, plus failures from callers of other services in the same period, would raise this."
+      },
+      {
+        "rank": 3,
+        "cause": "A load spike overwhelmed the cache and made it refuse connections.",
+        "confidence": "Low",
+        "supports": [
+          {
+            "event_id": "e-0015",
+            "why": "Memory climbs to 93% before the restart, consistent with the cache being under heavy use."
+          }
+        ],
+        "contradicts": [
+          {
+            "event_id": "e-0013",
+            "why": "Transcoding call volume at 00:15 is 4,339 per 5 minutes against a 4,300 baseline: no spike."
+          },
+          {
+            "event_id": "e-0033",
+            "why": "Volume is still normal at 00:45 (4,351), just before the failures begin."
+          }
+        ],
+        "what_would_change_this": "Per-caller request rates for the cache showing a burst before 00:20 would raise this."
+      }
+    ],
+    "ruled_out": [
+      {
+        "candidate": "Faults in each failing source or target system",
+        "reason": "Alerts arrive from four unrelated projects (e.g. e-0048 Amazon returns, e-0052 Kepler price list, e-0057 SAPIT invoices) with the same error text naming the same dependency, so no single source or target explains them."
+      },
+      {
+        "candidate": "Kafka or broker trouble",
+        "reason": "Lag rises only on the four groups whose flows call the cache and is 0 on the other three (e-0235). It is a consequence of the failures, and it falls again as replays complete (e-0413)."
+      },
+      {
+        "candidate": "Change records in the window (CHG4400600 to CHG4400605)",
+        "reason": "None touches the cache or its namespace: a TLS renewal on one Kepler ingress (e-0034), a Schema Registry key rotation (e-0024), a Manhattan report time change (e-0020), a sandbox Workato recipe (e-0536), a dev MFT purge (e-0540) and a mapping fix on a FOM flow (e-0322). One Kepler certificate cannot explain failures in SAPIT and Amazon flows."
+      },
+      {
+        "candidate": "The 'Plant field missing' mapping errors on inventory flows",
+        "reason": "Different projects and error text (e-0454, e-0455) with no shared dependency with the cache; they are a separate matter and no recovery is proposed for them."
+      },
+      {
+        "candidate": "Standing host alerts: SGLORHIPQETLPC1 swap 90% and FRHIPGQAMFTSI01 CPU 98%",
+        "reason": "Recurring non-production host alerts (e-0009, e-0018) present before the incident and unrelated to the cache pod."
+      }
+    ],
+    "checks": [
+      {
+        "order": 1,
+        "action": "Get the cache pod's restart history and readiness timeline for 00:15 to 01:15",
+        "command": "kubectl describe pod hip-fwk-transco-cache-644827de5-fmmh9 -n hip-cloud-esb; kubectl get events -n hip-cloud-esb --field-selector involvedObject.name=hip-fwk-transco-cache-644827de5-fmmh9",
+        "if_result_a": "OOMKilled at 00:19-00:20 and a NotReady window covering the failures: supports hypothesis 1",
+        "if_result_b": "Continuously Ready with no events in the window: supports a network or discovery cause (hypothesis 2)",
+        "effort": "low"
+      },
+      {
+        "order": 2,
+        "action": "Group the 'Connection refused' failures by project to confirm one shared dependency",
+        "command": "Sonar: filter event.reason:\"Connection refused*transco-cache*\" and chart count by project, 00:50 to 01:15",
+        "if_result_a": "Many unrelated projects fail together: a shared dependency (hypothesis 1)",
+        "if_result_b": "One project only: a local fault in that flow, not the cache",
+        "effort": "low"
+      },
+      {
+        "order": 3,
+        "action": "Check the cache pod's memory limit against its usage",
+        "command": "kubectl top pod hip-fwk-transco-cache-644827de5-fmmh9 -n hip-cloud-esb; kubectl get pod -o jsonpath='{.spec.containers[0].resources}'",
+        "if_result_a": "Usage close to the limit before the restart: memory sizing is the underlying fault (hypotheses 1 and 3)",
+        "if_result_b": "Ample headroom: look for a leak or a burst instead",
+        "effort": "low"
+      },
+      {
+        "order": 4,
+        "action": "Confirm the cache service had endpoints throughout the window",
+        "command": "kubectl get endpoints hip-fwk-transco-cache -n hip-cloud-esb -o yaml, and the endpoint controller events for 00:50 to 01:15",
+        "if_result_a": "Endpoints empty during the window: supports hypothesis 1",
+        "if_result_b": "Endpoints present throughout: supports hypothesis 2",
+        "effort": "medium"
+      }
+    ],
+    "blast_radius": {
+      "business_flows": [
+        "EMEA_SAPIT_SALESORDER_01_ESB_V2 (SAPITCOMMON)",
+        "EMEA_SAPIT_INVOICE_OUT_02_ESB (SAPITCOMMON)",
+        "EMEA_KEPLERNG_PRICE_LIST_02_ESB (KEPLER_NEXTGEN)",
+        "EMEA_AMAZON_RETURN_NOTIFY_01_ESB (AMAZONCOMMON)",
+        "PROCESSOUT flows; 32 half-flows in 4 projects in total"
+      ],
+      "exchanges_stuck": 148,
+      "zones": [
+        "EMEA"
+      ],
+      "downstream_degraded": [
+        "Apigee: 503 on /hip/v1/customers and other endpoints (e-0202)",
+        "Kafka lag on sapit-01-default, kepler-01-default, procout-01-default, amazon-01-default (e-0235)"
+      ],
+      "business_objects_at_risk": "148 FAILED exchanges (cumulative to 01:15, e-0323): sales orders, invoices, price lists and return notifications; replays have already succeeded for some (e-0351)."
+    },
+    "recovery": {
+      "proposal": "Replay the failed exchanges in a single approved batch now that the cache is Ready (01:13:41) and the failure reason has stopped, then check the four affected consumer groups drain. Afterwards raise the cache pod's memory limit or add a memory alert so a repeat is visible before the kill.",
+      "risk": "A replay can deliver duplicates downstream for exchanges that partly completed (invoices and sales orders are the concern); replayed exchanges may end as WARNING 'as per design'. Raising the memory limit needs a rollout of the cache deployment.",
+      "rollback": "Replay is additive and needs no rollback; if duplicates appear, stop the batch and reconcile from the source systems. A memory-limit change is rolled back by reverting the deployment to its previous revision.",
+      "requires_approval": true
+    },
+    "post_incident_note": "#01 -Analysis/Root cause: [Hypothesis, pending pod readiness history] hip-fwk-transco-cache memory reached 93% at 00:18 and the pod restarted with exit code 137 at 00:20; from 00:55 every half-flow calling it failed with 'Connection refused ...:8080' (148 failed exchanges across 32 half-flows in 4 unrelated projects by 01:15); the pod was Ready again at 01:13:41 and replays then succeeded; the other 41 pods in hip-cloud-esb showed no network errors. #02-Resolution/Flow state: [Proposed, awaiting approval] replay the failed exchanges in one batch; review the cache memory limit. #03-Doc used: KB0041802 (replay failed exchange). #04- Related records (PRB, Change, Incident, RITM...): INC10790505 with its duplicates; no related change record found (CHG4400600 to CHG4400605 reviewed and excluded)."
+  },
+  "lateEvidence": {
+    "diff": {
+      "changed_summary": "The late Kubernetes batch shows the cache was OOMKilled at its 2Gi limit at 00:19:41 and its readiness probe failed from 00:52:07 to 01:13:41 while it rehydrated, which explains the 35-minute gap and matches the failure window exactly; the cache hypothesis moves from Moderate to High and the network hypothesis is effectively closed.",
+      "rank_before": [
+        {
+          "cause": "Cache pod OOM and unavailability",
+          "rank": 1
+        },
+        {
+          "cause": "Transient cluster network or DNS disruption",
+          "rank": 2
+        },
+        {
+          "cause": "Load spike on the cache",
+          "rank": 3
+        }
+      ],
+      "rank_after": [
+        {
+          "cause": "Cache pod OOM and unavailability",
+          "rank": 1
+        },
+        {
+          "cause": "Transient cluster network or DNS disruption",
+          "rank": 2
+        },
+        {
+          "cause": "Load spike on the cache",
+          "rank": 3
+        }
+      ],
+      "what_changed": [
+        "e-late-0001 answers the check ordered first: the pod was OOMKilled at 00:19:41 (limit 2Gi, exit 137) and its readiness probe failed from 00:52:07 until 01:13:41.",
+        "That closes the gap named in hypothesis 1's contradicts column: the pod restarted at 00:20 but was still rehydrating and not Ready when the failures began at 00:55.",
+        "The same record states no other pod in hip-cloud-esb reported network errors, which removes the remaining support for a cluster network cause.",
+        "Recovery is unchanged in action but better justified: the failure window is fully bounded, so the batch replay covers exactly the exchanges that failed between 00:52 and 01:14."
+      ]
+    },
+    "diagnosisAfterOverrides": {
+      "incident_summary": "From 00:55 UTC unrelated EMEA flows failed with 'Connection refused' to the shared hip-fwk-transco-cache, which was OOMKilled at its 2Gi limit at 00:19:41 and was not Ready from 00:52:07 until 01:13:41 while it rehydrated.",
+      "hypothesisPatches": {
+        "1": {
+          "confidence": "High",
+          "what_would_change_this": "Only evidence that the pod was Ready and serving throughout 00:52 to 01:14 would lower it now."
+        },
+        "2": {
+          "confidence": "Low",
+          "what_would_change_this": "Effectively closed: the readiness failure window and the absence of network errors elsewhere explain the failures without a network cause."
+        }
+      }
+    }
+  }
+}

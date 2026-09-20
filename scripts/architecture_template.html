@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How the code works — request flow, data and prompt</title>
+<style>
+  :root{
+    --deep:#3368A0; --mid:#66A3BF; --mint:#C8DFDB; --cream:#F2EFE7; --navy:#1E3F66; --ink:#24323F;
+    --line:#A9CAD0; --soft:#E3EFED; --grey:#5E6E7C; --white:#fff;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font:15px/1.6 "Segoe UI",system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--cream)}
+  a{color:var(--deep)}
+  code,pre,.mono{font-family:Consolas,"SFMono-Regular",Menlo,monospace}
+  code{background:var(--soft);padding:1px 5px;border-radius:4px;font-size:.88em;color:#2A5A8A}
+  .layout{display:flex;min-height:100vh}
+  nav{width:250px;flex:none;position:sticky;top:0;height:100vh;overflow:auto;background:var(--navy);color:#fff;padding:22px 18px}
+  nav h1{font-size:14px;letter-spacing:.06em;text-transform:uppercase;margin:0 0 4px;color:var(--mint)}
+  nav .sub{font-size:12px;color:#B9D3DA;margin-bottom:18px}
+  nav a{display:block;color:#E3EFED;text-decoration:none;padding:6px 10px;border-radius:6px;font-size:13.5px}
+  nav a:hover{background:rgba(255,255,255,.12)}
+  nav .grp{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);margin:14px 10px 4px}
+  main{flex:1;min-width:0;padding:34px 44px 90px;max-width:1180px}
+  header.hero{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:26px 30px;margin-bottom:26px}
+  header.hero h2{margin:0 0 6px;font-size:28px;color:var(--navy)}
+  header.hero p{margin:6px 0 0;color:var(--grey)}
+  section{margin:0 0 46px;scroll-margin-top:16px}
+  h3{font-size:22px;color:var(--navy);margin:0 0 6px;padding-bottom:8px;border-bottom:2px solid var(--mint)}
+  h4{font-size:15px;color:var(--deep);margin:22px 0 6px}
+  p{margin:8px 0}
+  .lead{font-size:16.5px;color:var(--navy)}
+  .legend{display:flex;flex-wrap:wrap;gap:14px;margin:14px 0 4px;font-size:13px}
+  .chip{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:600;border:1.5px solid var(--line)}
+  .chip.llm{background:var(--white);border-color:var(--deep);color:var(--deep)}
+  .chip.code{background:var(--mint);border-color:var(--mid);color:var(--navy)}
+  .chip.human{background:var(--deep);border-color:var(--deep);color:#fff}
+  .chip.store{background:var(--cream);border:1.5px dashed var(--mid);color:var(--navy)}
+  .chip.ui{background:var(--soft);border-color:var(--mid);color:var(--navy)}
+  /* flow diagram */
+  .flow{background:var(--white);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin:14px 0}
+  .lane{margin:8px 0 22px}
+  .lane-title{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--deep);margin-bottom:10px}
+  .row{display:flex;align-items:stretch;flex-wrap:nowrap;gap:0}
+  .node{border-radius:10px;padding:10px 12px;flex:1 1 0;min-width:0;font-size:12.5px;line-height:1.35;border:1.5px solid var(--line);overflow-wrap:break-word}
+  .node b{display:block;font-size:13px;margin-bottom:2px}
+  .node small{display:block;color:var(--grey);font-size:11.5px}
+  .node.llm{background:#fff;border-color:var(--deep)}
+  .node.code{background:var(--mint);border-color:var(--mid)}
+  .node.human{background:var(--deep);border-color:var(--deep);color:#fff}
+  .node.human small{color:#DCE9F2}
+  .node.store{background:var(--cream);border:1.5px dashed var(--mid)}
+  .node.ui{background:var(--soft);border-color:var(--mid)}
+  .link{display:flex;flex-direction:column;justify-content:center;align-items:center;flex:0 0 116px;padding:0 4px;font-size:11px;color:var(--grey);text-align:center}
+  .link .ln{position:relative;width:100%;height:2px;background:var(--deep);margin:5px 0}
+  .link .ln::after{content:"";position:absolute;right:-1px;top:-4px;border-left:8px solid var(--deep);border-top:5px solid transparent;border-bottom:5px solid transparent}
+  .link .ln.back{background:var(--mid)}
+  .link .ln.back::after{right:auto;left:-1px;border-left:0;border-right:8px solid var(--mid)}
+  .link .ln.back::before{content:none}
+  .link .req{color:var(--navy);font-weight:600}
+  .under{margin:10px 0 0 0;display:flex;gap:10px;flex-wrap:wrap}
+  /* steps */
+  ol.steps{list-style:none;counter-reset:s;padding:0;margin:14px 0}
+  ol.steps>li{counter-increment:s;position:relative;background:var(--white);border:1px solid var(--line);border-left:4px solid var(--mid);border-radius:10px;padding:12px 16px 12px 58px;margin:0 0 10px}
+  ol.steps>li::before{content:counter(s);position:absolute;left:14px;top:12px;width:30px;height:30px;border-radius:50%;background:var(--deep);color:#fff;display:grid;place-items:center;font-weight:700;font-size:14px}
+  ol.steps>li .who{font-size:12px;color:var(--grey);margin-bottom:2px}
+  ol.steps>li .t{font-weight:700;color:var(--navy)}
+  ol.steps>li p{margin:4px 0 0;font-size:14px}
+  /* code blocks */
+  .codebox{position:relative;margin:8px 0 14px}
+  pre{margin:0;background:#16283B;color:#DCE9F2;border-radius:10px;padding:14px 16px;overflow:auto;font-size:12.5px;line-height:1.5;max-height:520px;white-space:pre-wrap;word-break:break-word}
+  .cap{font-size:12px;color:var(--grey);margin:0 0 4px;font-weight:600}
+  .copy{position:absolute;right:8px;top:8px;background:var(--deep);color:#fff;border:0;border-radius:6px;padding:3px 9px;font-size:11px;cursor:pointer;opacity:.85}
+  .copy:hover{opacity:1}
+  table{border-collapse:collapse;width:100%;background:var(--white);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:10px 0 16px;font-size:13.5px}
+  th{background:var(--mint);color:var(--navy);text-align:left;padding:8px 10px;font-size:12.5px}
+  td{padding:7px 10px;border-top:1px solid #E1ECEB;vertical-align:top}
+  tr:nth-child(even) td{background:#F7F5EF}
+  details{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:8px 14px;margin:10px 0}
+  details summary{cursor:pointer;font-weight:700;color:var(--navy);padding:4px 0}
+  .callout{background:var(--soft);border-left:4px solid var(--deep);border-radius:6px;padding:10px 14px;margin:12px 0}
+  .callout.warn{background:var(--mint);border-left-color:var(--navy)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:1100px){.row{flex-wrap:wrap;row-gap:14px}.node{flex:1 1 150px}}
+  @media (max-width:900px){nav{display:none}main{padding:20px}.grid2{grid-template-columns:1fr}}
+  @media print{nav{display:none}.copy{display:none}main{max-width:none}pre{max-height:none}}
+</style>
+</head>
+<body>
+<div class="layout">
+<nav>
+  <h1>Architecture</h1>
+  <div class="sub">Generated @@DATE@@ from the live code</div>
+  <div class="grp">Big picture</div>
+  <a href="#picture">1 · The picture</a>
+  <a href="#steps">2 · One request, step by step</a>
+  <div class="grp">The data</div>
+  <a href="#payloads">3 · Exactly what is sent</a>
+  <a href="#prompt">4 · The prompt, verbatim</a>
+  <a href="#pipeline">5 · How the data is made</a>
+  <div class="grp">The code</div>
+  <a href="#map">6 · Code map</a>
+  <a href="#who">7 · Stored vs live vs code</a>
+  <a href="#run">8 · Run and debug locally</a>
+  <a href="#guard">9 · Guardrails</a>
+</nav>
+<main>
+
+<header class="hero">
+  <h2>How the code works here, locally</h2>
+  <p class="lead">Which file runs, what data moves between which processes, what the model is actually sent, and the full prompt. Worked example: scenario <code>@@SLUG@@</code>.</p>
+  <div class="legend">
+    <span><span class="chip llm">LLM call</span> the model (GPT-5)</span>
+    <span><span class="chip code">Deterministic code</span> no AI, same result every time</span>
+    <span><span class="chip ui">Browser UI</span></span>
+    <span><span class="chip store">Stored file</span></span>
+    <span><span class="chip human">Human gate</span> a named person must act</span>
+  </div>
+</header>
+
+<!-- ============================================================ 1 -->
+<section id="picture">
+  <h3>1 · The picture</h3>
+  <p>Two separate lives. <b>Build time</b> runs once offline and produces the data files. <b>Runtime</b> is what happens on your laptop when you open the app: three local processes plus one outbound call to the model.</p>
+  <div class="flow">
+    <div class="lane">
+      <div class="lane-title">Build time · offline, run when you regenerate data</div>
+      <div class="row">
+        <div class="node code"><b>generator/<wbr>generate.py</b><small>seeded synthetic raw files per scenario (Sonar, HIPMON, Splunk, Kafka, Workato, MFT, ServiceNow, changes)</small></div>
+        <div class="link"><div class="req">raw files</div><div class="ln"></div></div>
+        <div class="node code"><b>normaliser/<wbr>normalise.py</b><small>one event list; each event tagged <code>rule_hit</code> or <code>context</code></small></div>
+        <div class="link"><div class="req">events</div><div class="ln"></div></div>
+        <div class="node code"><b>scripts/<wbr>build_bundles.py</b><small>picks the evidence pack (@@NPACK@@ events for S3) and writes the bundle</small></div>
+        <div class="link"><div class="req">bundle.json</div><div class="ln"></div></div>
+        <div class="node store"><b>app/src/data/<wbr>&lt;slug&gt;/<wbr>bundle.json</b><small>@@BUNDLEKEYS@@</small></div>
+      </div>
+      <div class="under"><div class="node human" style="max-width:340px"><b>authoring/<wbr>s5-transco-cache.json</b><small>the ONE hand-written diagnosis, merged in by build_bundles.py</small></div></div>
+    </div>
+    <div class="lane">
+      <div class="lane-title">Runtime · your laptop</div>
+      <div class="row">
+        <div class="node ui"><b>Browser · React app</b><small>localhost:5173 · shows Screen 1 and Screen 2</small></div>
+        <div class="link"><div class="req">POST /api/diagnose</div><div class="ln"></div><div class="ln back"></div><div class="req">diagnosis JSON</div></div>
+        <div class="node code"><b>Vite dev proxy</b><small>vite.config.ts forwards /api to :8787</small></div>
+        <div class="link"><div class="req">same request</div><div class="ln"></div><div class="ln back"></div><div class="req">same reply</div></div>
+        <div class="node code"><b>Express server</b><small>server/index.js · localhost:8787 · queues, validates, caches</small></div>
+        <div class="link"><div class="req">POST …/responses</div><div class="ln"></div><div class="ln back"></div><div class="req">JSON text</div></div>
+        <div class="node llm"><b>Azure AI Foundry · GPT-5</b><small>the only place reasoning happens</small></div>
+      </div>
+      <div class="under">
+        <div class="node store"><b>server/cache/*.json</b><small>last good answer per scenario; replayed if a call fails</small></div>
+        <div class="node human"><b>Approval dialog (Screen 2)</b><small>a named approver + reason before any recovery</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="callout"><b>Key idea:</b> the model never sees the dashboard, the alert stream, the raw logs or the screenshots. It sees <b>only</b> the evidence pack (about @@NPACK@@ events) and the prompt. Everything else on screen is drawn by code from the bundle.</div>
+</section>
+
+<!-- ============================================================ 2 -->
+<section id="steps">
+  <h3>2 · One request, step by step</h3>
+  <p>What happens when you open an AI-live scenario (for example S3) and click <i>Run AI correlation</i>. File names are real; open them alongside.</p>
+  <ol class="steps">
+    <li><div class="who">Browser · <span class="mono">app/src/lib/cache.ts</span></div><div class="t">The app loads its data</div><p>Vite bundles every <code>bundle.json</code> into the page. Each holds <b>@@BUNDLEKEYS@@</b>. For AI-live scenarios <code>diagnosis</code> is <code>null</code>: there is no stored answer to show.</p></li>
+    <li><div class="who">Browser · <span class="mono">app/src/App.tsx</span> line 27</div><div class="t">Prefetch starts as soon as the scenario is on screen</div><p><code>if (bundle.meta.mode === 'ai-live') ensureDiagnosis(slug, bundle.events)</code>. This fires while you are still looking at Screen 1, so the ~70 s call is usually finished before you click. <code>app/src/lib/liveCache.ts</code> keeps one in-flight request per scenario and remembers the result.</p></li>
+    <li><div class="who">Browser · <span class="mono">app/src/lib/ai.ts</span> <code>fetchDiagnosis</code></div><div class="t">Send the evidence pack to your own server</div><p><code>POST /api/diagnose</code> with <code>{ slug, events[] }</code> (see block A below). About @@INCHARS@@ characters of JSON.</p></li>
+    <li><div class="who">Vite · <span class="mono">app/vite.config.ts</span></div><div class="t">The proxy forwards it</div><p>The browser only talks to <code>localhost:5173</code>. The dev server forwards anything under <code>/api</code> to <code>http://localhost:8787</code>, so there is no cross-origin setup.</p></li>
+    <li><div class="who">Server · <span class="mono">server/index.js</span> <code>app.post('/api/diagnose')</code></div><div class="t">Check the body, then run <code>analyse()</code> inside <code>respond()</code></div><p><code>respond()</code> is the safety wrapper: it times the call, saves a success to <code>server/cache/</code>, or on any failure replays the saved answer (labelled <code>server-cache</code>).</p></li>
+    <li><div class="who">Server · <code>buildInput(events)</code></div><div class="t">Turn events into the text the model reads</div><p>Splits the pack into <b>rule_hits</b> (alerts a rule already fired) and <b>context</b> (records fetched around them) and writes both as labelled JSON text (block B). The prompt (<code>prompts/analyst-system.md</code>, read once at startup) becomes the <code>instructions</code>.</p></li>
+    <li><div class="who">Server · <code>callFoundry()</code></div><div class="t">The outbound call</div><p>Waits for a free slot (at most <code>FOUNDRY_MAX_CONCURRENT</code>=2 calls at once), then <code>POST {FOUNDRY_ENDPOINT}/responses</code> with headers <code>api-key</code> and <code>authorization</code>. On HTTP 429 it waits (the <code>retry-after</code> header, else 20 s then 40 s) and retries twice. Timeout 240 s. A response with status <code>incomplete</code> is treated as an error.</p></li>
+    <li><div class="who">Model</div><div class="t">Reasoning</div><p>GPT-5 at reasoning effort <b>low</b> reads the rules-on-top prompt plus the pack and writes back one JSON document. Typical latency ~70 s for a 260-event pack.</p></li>
+    <li><div class="who">Server · <code>parseJson()</code>, <code>validate()</code></div><div class="t">Never trust the reply</div><p>Strips code fences and parses. If the JSON is malformed it asks once more with the parse error. Then checks required keys, 2 to 4 hypotheses, non-empty <code>supports</code>/<code>contradicts</code>, and that <b>every cited <code>event_id</code> exists in the pack</b>. Failures trigger one retry with the error list appended.</p></li>
+    <li><div class="who">Server · <code>sanitise()</code></div><div class="t">Facts are rebuilt by code, not taken from the model</div><p>The timeline is <b>rebuilt from the pack</b> using only the event ids the model chose, so it cannot alter a time, source or text. Uncitable evidence is dropped. Only the earliest first-symptom flag is kept. <code>requires_approval</code> is forced true. Warnings are added for a blast-radius number found in no event and for an event cited on both sides.</p></li>
+    <li><div class="who">Server · <code>respond()</code></div><div class="t">Wrap, save, return</div><p>Adds <code>_meta { source:'live', model, latencyMs, warnings }</code>, writes <code>server/cache/&lt;slug&gt;.diagnosis.json</code>, and returns it to the browser.</p></li>
+    <li><div class="who">Browser · <span class="mono">liveCache.ts</span> → <span class="mono">screens/AiView.tsx</span></div><div class="t">Render</div><p>The result is stored; Screen 2 draws the seven panels from it and shows <b>Reasoning: Live · gpt-5</b>. If it came from the server cache the label reads <b>Server cache</b> with an amber banner. The rule counts on screen come from the bundle, not the model.</p></li>
+    <li><div class="who">Human · <span class="mono">components/ApprovalDialog.tsx</span></div><div class="t">The gate</div><p>The recovery button is disabled until an approver name and a reason are entered; only then is a logged action record shown. Nothing in this project executes a real action.</p></li>
+    <li><div class="who">Late evidence · <code>POST /api/diagnose/late-evidence</code></div><div class="t">"Inject late evidence"</div><p>The browser sends the same pack, the late event and the diagnosis currently on screen (block D). The server appends the late event, sends the prompt <i>plus</i> <code>prompts/late-evidence.md</code>, and computes <code>rank_before</code>, <code>rank_after</code> and <code>new_event</code> itself; only the explanatory sentences come from the model.</p></li>
+  </ol>
+</section>
+
+<!-- ============================================================ 3 -->
+<section id="payloads">
+  <h3>3 · Exactly what is sent</h3>
+  <p>Real examples from <code>@@SLUG@@</code>: <b>@@NPACK@@</b> pack events, of which <b>@@NRULE@@</b> are rule hits and <b>@@NCTX@@</b> are context. Long text is shortened here with "…" only for reading.</p>
+
+  <h4>A · Browser → your server &nbsp;<span class="mono" style="font-weight:400">POST /api/diagnose</span></h4>
+  <div class="codebox"><button class="copy" onclick="cp(this)">copy</button><pre>@@REQ_BROWSER@@</pre></div>
+  <p>Each event has: <code>event_id</code> (what the model must cite), <code>ts</code> (UTC), <code>source</code>, <code>component</code>, <code>severity</code> 1–4, <code>description</code> (the readable fact), <code>correlation_id</code> (the exchange id), <code>kind</code> (<code>rule_hit</code> or <code>context</code>), optional <code>rule_id</code>, and <code>raw_ref</code> pointing at the source file line.</p>
+
+  <h4>B · Your server → the model &nbsp;<span class="mono" style="font-weight:400">POST {FOUNDRY_ENDPOINT}/responses</span></h4>
+  <p class="cap">HTTP request body (headers: <code>api-key: ****</code>, <code>authorization: Bearer ****</code>; the endpoint is <code>https://&lt;resource&gt;.openai.azure.com/openai/v1</code>)</p>
+  <div class="codebox"><button class="copy" onclick="cp(this)">copy</button><pre>@@REQ_MODEL@@</pre></div>
+  <p class="cap">The <code>input</code> string, exactly as <code>buildInput()</code> assembles it (each list continues to the full set of events)</p>
+  <div class="codebox"><button class="copy" onclick="cp(this)">copy</button><pre>@@INPUT_TEXT@@</pre></div>
+  <div class="callout warn"><b>What is deliberately NOT sent:</b> the dashboard rows, the 147-row alert stream, the thousands of raw log lines, the screenshots, the real Excel data, and any API key or personal data. The model is given rule output and a bounded pack of records, nothing else.</div>
+
+  <h4>C · The model → your server (then to the browser)</h4>
+  <p class="cap">One JSON document (shown trimmed). The server then rebuilds <code>timeline</code>, forces <code>requires_approval</code>, and adds <code>_meta</code>.</p>
+  <div class="codebox"><button class="copy" onclick="cp(this)">copy</button><pre>@@ANSWER@@</pre></div>
+  <p>Last recorded latency for this scenario: <b>@@LATENCY@@</b>.</p>
+
+  <h4>D · Late evidence &nbsp;<span class="mono" style="font-weight:400">POST /api/diagnose/late-evidence</span></h4>
+  <div class="codebox"><button class="copy" onclick="cp(this)">copy</button><pre>@@LATE_BODY@@</pre></div>
+  <p>The server sends the same kind of request to the model with the late event and <code>previous_diagnosis</code> appended to the input and <code>late-evidence.md</code> appended to the instructions. It returns a full diagnosis plus <code>diff</code>.</p>
+</section>
+
+<!-- ============================================================ 4 -->
+<section id="prompt">
+  <h3>4 · The prompt, verbatim</h3>
+  <p>These two files are read from <code>prompts/</code> when the server starts and are the <code>instructions</code> the model receives. Edit them, restart the server, and behaviour changes. This page shows the current text.</p>
+  <details open><summary>prompts/analyst-system.md — the system prompt (every call)</summary>
+    <div class="codebox"><button class="copy" onclick="cp(this)">copy</button><pre>@@SYSTEM_PROMPT@@</pre></div>
+  </details>
+  <details><summary>prompts/late-evidence.md — appended for "Inject late evidence"</summary>
+    <div class="codebox"><button class="copy" onclick="cp(this)">copy</button><pre>@@LATE_PROMPT@@</pre></div>
+  </details>
+  <h4>Why each prompt rule exists</h4>
+  <table>
+    <tr><th style="width:34%">Rule</th><th>The failure or requirement behind it</th></tr>
+    <tr><td>Rules-on-top: you receive <code>rule_hits</code> and <code>context</code>; do not detect</td><td>The client already has 300–400+ rules. The AI must explain what they mean, never re-detect or replace them.</td></tr>
+    <tr><td>Every hypothesis needs supports <b>and</b> contradicts, each citing a real <code>event_id</code></td><td>An empty "contradicts" column looks like assertion, not analysis. Citations are checked by the server.</td></tr>
+    <tr><td>Hypotheses are rival explanations of the <b>same</b> incident; unrelated problems go to <code>ruled_out</code></td><td>First S5 run promoted an unrelated "Plant field missing" mapping error to a second hypothesis and proposed rolling back an unrelated change.</td></tr>
+    <tr><td>A change is a cause only if linked in time and component</td><td>Same failure: an approved change merely coincided with unrelated alerts.</td></tr>
+    <tr><td>First symptom includes precursors on the affected component or a shared dependency</td><td>First S5 run marked the first failing exchange, not the cache pod restart 35 minutes earlier.</td></tr>
+    <tr><td>Count only the incident's own flows and name the status</td><td>S3 reported 493 "stuck" exchanges, which was the in-progress count; the failed count was 279 (cumulative 318).</td></tr>
+    <tr><td>Cite each event on one side only; High confidence only when the deciding check is done</td><td>The model listed the same evidence as both support and contradiction, and called an untested assumption "High".</td></tr>
+    <tr><td>Absence is evidence</td><td>S2 (nothing arrives) and S4 (a half-flow that never starts) are only solvable by noticing what did not happen.</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ 5 -->
+<section id="pipeline">
+  <h3>5 · How the data is made (offline)</h3>
+  <p>Five commands, run in this order, deterministic (two runs give identical output). Each reads the previous step's files.</p>
+  <table>
+    <tr><th style="width:24%">Command</th><th style="width:26%">Reads → writes</th><th>What it does</th></tr>
+    <tr><td><code>python generator/generate.py</code></td><td><code>generator/scenarios.py</code> → <code>data/&lt;slug&gt;/*.ndjson|json|csv</code></td><td>Builds synthetic raw files in each source's own format from the declared scenario spec, with 60 minutes of baseline and each planted contradiction as a real record. MFT timestamps are written with no timezone offset on purpose.</td></tr>
+    <tr><td><code>python normaliser/normalise.py</code></td><td>raw files → <code>data/&lt;slug&gt;/normalised-events.json</code></td><td>Parses every format into one event list: UTC timestamps, MFT local time resolved, service aliases resolved, severity to 1–4, exchange ids threaded. Marks each event <code>rule_hit</code> (something a rule already fired) or <code>context</code>. Computes the explicit absence events (e.g. "inbound exchanges: 0, baseline 180").</td></tr>
+    <tr><td><code>python scripts/find_anchors.py</code></td><td>normalised events → <code>anchors.json</code></td><td>Finds the key event ids (first symptom, contradictions, decisive evidence, late event) so they are always kept.</td></tr>
+    <tr><td><code>python scripts/build_alert_feed.py</code></td><td>raw files → <code>app/src/data/&lt;slug&gt;/alert-feed.json</code></td><td>Screen 1 only: the 147-row alert stream and the Sonar dashboard block (KPI tiles, exchange rows, traces). The model never sees this.</td></tr>
+    <tr><td><code>python scripts/build_bundles.py</code></td><td>events + anchors + feed (+ <code>authoring/&lt;slug&gt;.json</code> if present) → <code>bundle.json</code> and <code>evidence-pack.json</code></td><td>Builds the <b>evidence pack</b> and validates. If an authoring file exists the scenario is <b>stored</b> (every cited id must resolve, every hypothesis needs contradicts); otherwise it is <b>ai-live</b> with <code>diagnosis: null</code>.</td></tr>
+  </table>
+  <h4>The evidence pack (what the model gets) — selection rules, all code</h4>
+  <ol>
+    <li><b>Rule hits:</b> every distinct one; identical repeats collapsed into one event that states the count and first/last time. The two standing-noise alerts are included so the analyst can dismiss them.</li>
+    <li><b>Anchors:</b> every key event id, individually and uncollapsed.</li>
+    <li><b>Computed summaries:</b> code-computed context (silence, heartbeat absence, stalled exchanges, "N failed with identical reason across M projects"). This is where absence is stated as a fact.</li>
+    <li><b>Changes, MFT rows, ticket updates:</b> all of them (there are few).</li>
+    <li><b>Relevant context:</b> remaining events in scope, sampled evenly until the pack holds roughly 120 to 300 events.</li>
+  </ol>
+  <p>Result for <code>@@SLUG@@</code>: <b>@@NPACK@@</b> events (<b>@@NRULE@@</b> rule hits + <b>@@NCTX@@</b> context), about <b>@@INCHARS@@</b> characters as JSON.</p>
+</section>
+
+<!-- ============================================================ 6 -->
+<section id="map">
+  <h3>6 · Code map</h3>
+  <table>
+    <tr><th style="width:30%">File</th><th>Responsibility</th></tr>
+    <tr><td class="mono">server/index.js</td><td>The only code that talks to the model. <code>callFoundry</code> (queue, 429 retry, timeout), <code>buildInput</code>, <code>validate</code>, <code>sanitise</code>, <code>analyse</code> (retries), <code>respond</code> (cache and fallback), the three routes.</td></tr>
+    <tr><td class="mono">prompts/analyst-system.md<br>prompts/late-evidence.md</td><td>The instructions sent to the model (section 4).</td></tr>
+    <tr><td class="mono">app/src/App.tsx</td><td>Scenario selection, the Screen 1 to Screen 2 transition, and the prefetch effect for AI-live scenarios.</td></tr>
+    <tr><td class="mono">app/src/lib/ai.ts</td><td>Two fetch functions to <code>/api/diagnose</code> and <code>/api/diagnose/late-evidence</code>; surfaces server errors verbatim.</td></tr>
+    <tr><td class="mono">app/src/lib/liveCache.ts</td><td>Module-level memo: one in-flight call per scenario, results kept across scenario switches.</td></tr>
+    <tr><td class="mono">app/src/lib/cache.ts · types.ts</td><td>Loads the bundles; the TypeScript shapes of events, bundle and diagnosis.</td></tr>
+    <tr><td class="mono">app/src/screens/AlertFloor.tsx</td><td>Screen 1: the Sonar dashboard reproduction (working filters, KQL box), HIPMON stream, L1 panel, bridge timer. Pure display of bundle data.</td></tr>
+    <tr><td class="mono">app/src/screens/AiView.tsx</td><td>Screen 2: chooses stored vs live vs server-cache, drives the late-evidence flow, draws the panels.</td></tr>
+    <tr><td class="mono">app/src/panels/*</td><td>Timeline, Hypotheses, RuledOut, Checks, BlastRadius, Recovery, IncidentHeader.</td></tr>
+    <tr><td class="mono">app/src/components/ApprovalDialog.tsx</td><td>The human gate: approver name + reason before the action record appears.</td></tr>
+    <tr><td class="mono">generator/ · normaliser/ · naming.py</td><td>Synthetic data and the alias map (the "three names for one thing" wrinkle).</td></tr>
+    <tr><td class="mono">scripts/build_bundles.py</td><td>Evidence pack, bundle assembly, citation validator for stored scenarios.</td></tr>
+    <tr><td class="mono">authoring/</td><td>Hand-written diagnosis JSON. Only <code>s5-transco-cache.json</code> is active; the old S1/S2 answers are archived in <code>authoring/unused/</code>.</td></tr>
+    <tr><td class="mono">server/cache/</td><td>Last successful live answer per scenario (<code>&lt;slug&gt;.diagnosis.json</code>, <code>&lt;slug&gt;.late.json</code>), shape <code>{ cachedAt, payload }</code>. Git-ignored.</td></tr>
+    <tr><td class="mono">data/ · Auto Alerts/</td><td>Generated raw data and evidence packs · the real Excel exports. Both git-ignored.</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ 7 -->
+<section id="who">
+  <h3>7 · Stored vs live vs code</h3>
+  <div class="grid2">
+    <div>
+      <h4>Per scenario, right now</h4>
+      <table><tr><th>Scenario</th><th>Reasoning comes from</th></tr>@@MODES@@</table>
+      <p style="font-size:13px;color:var(--grey)">Read from each <code>bundle.json</code> <code>meta.mode</code>. "Stored" = the hand-written file in <code>authoring/</code>; you can still press <i>Run live</i> on it.</p>
+    </div>
+    <div>
+      <h4>Per piece of what you see</h4>
+      <table>
+        <tr><th>Piece</th><th>Made by</th></tr>
+        <tr><td>Incidents, logs, dashboard numbers, alert stream</td><td><span class="chip code">code</span> generated by scripts</td></tr>
+        <tr><td>Evidence pack, timeline, counts ("6 of 412")</td><td><span class="chip code">code</span></td></tr>
+        <tr><td>Causes, evidence for/against, checks, recovery, ticket note</td><td><span class="chip llm">model</span> (or the stored file for S5)</td></tr>
+        <tr><td>Rank before/after in the late diff</td><td><span class="chip code">code</span></td></tr>
+        <tr><td>Approval</td><td><span class="chip human">a person</span></td></tr>
+      </table>
+    </div>
+  </div>
+  <p>On Screen 2 the label <b>Reasoning: Cached / Live · gpt-5 / Server cache</b> tells you which of the three you are looking at.</p>
+</section>
+
+<!-- ============================================================ 8 -->
+<section id="run">
+  <h3>8 · Run and debug locally</h3>
+  <table>
+    <tr><th style="width:24%">What</th><th>How</th></tr>
+    <tr><td>Start the server</td><td><code>cd server &amp;&amp; npm start</code> → <code>node --env-file=.env --use-system-ca index.js</code>, port <b>8787</b>. Check: <code>http://localhost:8787/api/health</code></td></tr>
+    <tr><td>Start the app</td><td><code>cd app &amp;&amp; npm run dev</code> → <b>http://localhost:5173</b></td></tr>
+    <tr><td><code>server/.env</code> keys</td><td><code>FOUNDRY_ENDPOINT</code> (the <code>…/openai/v1</code> base), <code>FOUNDRY_API_KEY</code>, <code>FOUNDRY_MODEL</code> (default <code>gpt-5</code>), <code>FOUNDRY_REASONING_EFFORT</code> (<code>low</code> here; unset = model default), optional <code>FOUNDRY_TIMEOUT_MS</code> (240000), <code>FOUNDRY_MAX_CONCURRENT</code> (2), <code>PORT</code> (8787)</td></tr>
+    <tr><td>Watch the payload in the browser</td><td>DevTools → Network → filter <code>diagnose</code> → click the request → Payload / Response.</td></tr>
+    <tr><td>Call the server yourself</td><td><code>node -e "const e=require('./data/@@SLUG@@/evidence-pack.json').events;fetch('http://localhost:8787/api/diagnose',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({slug:'@@SLUG@@',events:e})}).then(r=>r.json()).then(j=>console.log(JSON.stringify(j._meta),j.incident_summary))"</code> (run from the repo root)</td></tr>
+    <tr><td>Force a fresh live call</td><td>Delete <code>server/cache/&lt;slug&gt;.diagnosis.json</code> and reload; or press <i>Run live</i>.</td></tr>
+    <tr><td>Regenerate this page</td><td><code>python scripts/build_architecture_html.py</code> → <code>docs/architecture.html</code></td></tr>
+  </table>
+  <h4>What the errors mean</h4>
+  <table>
+    <tr><th style="width:30%">Message</th><th>Meaning and what to do</th></tr>
+    <tr><td><code>429 … rate limit exceeded</code></td><td>Too many model calls at once. The server already waits and retries twice; if it still fails it replays the saved answer. Avoid switching scenarios rapidly.</td></tr>
+    <tr><td><code>model output failed validation</code></td><td>After one retry the reply still lacked required fields. Run again; check <code>prompts/</code> if it repeats.</td></tr>
+    <tr><td><code>model response incomplete</code></td><td>The model ran out of output budget. Retry, or lower the reasoning effort.</td></tr>
+    <tr><td><code>FOUNDRY_ENDPOINT and FOUNDRY_API_KEY are not both set</code></td><td>Fix <code>server/.env</code> and restart the server (it reads the file only at start).</td></tr>
+    <tr><td>Amber "Replayed from last successful live run"</td><td>The live call failed; you are seeing the saved answer. The banner lists the failure reason.</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================ 9 -->
+<section id="guard">
+  <h3>9 · Guardrails, all in code</h3>
+  <table>
+    <tr><th style="width:32%">Guardrail</th><th>Where and why</th></tr>
+    <tr><td>Citations must exist in the pack</td><td><code>validate()</code> + <code>sanitise()</code>. One retry with the errors fed back; uncitable evidence is dropped, never invented.</td></tr>
+    <tr><td>Timeline rebuilt from the pack</td><td><code>sanitise()</code>. The model picks event ids; code supplies the time, source, component and text.</td></tr>
+    <tr><td>Approval forced on</td><td><code>sanitise()</code> sets <code>recovery.requires_approval = true</code> regardless of the reply. The UI adds the named-approver gate.</td></tr>
+    <tr><td>Rank change computed by code</td><td>Late-evidence route: <code>rank_before</code> from the previous diagnosis, <code>rank_after</code> from the new one, <code>new_event</code> from the input.</td></tr>
+    <tr><td>Grounding warnings</td><td>A blast-radius number appearing in no event, an event cited on both sides, more than one first symptom (earliest kept).</td></tr>
+    <tr><td>Bounded concurrency + 429 retry</td><td><code>acquire()/release()</code> around <code>callFoundry</code>; waits on <code>retry-after</code>.</td></tr>
+    <tr><td>Fallback, never fabrication</td><td><code>respond()</code> replays the last good answer with a visible label; if none exists it returns an error and the UI shows it.</td></tr>
+    <tr><td>Rule counts come from code</td><td><code>build_bundles.py</code> counts distinct rule ids in the pack; the UI never uses a number the model wrote.</td></tr>
+  </table>
+</section>
+
+</main>
+</div>
+<script>
+function cp(btn){
+  var t=btn.parentElement.querySelector('pre').innerText;
+  navigator.clipboard.writeText(t).then(function(){var o=btn.textContent;btn.textContent='copied';setTimeout(function(){btn.textContent=o},1200)});
+}
+</script>
+</body>
+</html>

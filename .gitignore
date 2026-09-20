@@ -14,3 +14,6 @@ __pycache__/
 # raw ops exports contain employee names / ticket text -- never commit
 /Auto Alerts/
 /server/cache/
+
+# generated architecture page (regenerate: python scripts/build_architecture_html.py)
+/docs/architecture.html

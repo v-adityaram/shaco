@@ -11,7 +11,7 @@ AI-assisted incident diagnosis for the HIP (Hybrid Integration Platform) ops est
 /naming.py     the HIP estate: projects, half-flows, processing groups, k8s/ELK aliases, owning teams, exchange catalogue
 /generator     generate.py (deterministic raw data), scenarios.py (declarative scenario facts), anchors_spec.py (anchor selectors)
 /normaliser    normalise.py + cmdb-aliases.json — parses the raw sources into one event list per scenario
-/authoring     hand-authored diagnosis + late-evidence per scenario (ONLY s1 and s2 are curated; s3-s5 run AI-live)
+/authoring     hand-authored diagnosis + late-evidence per scenario (ONLY s5 is curated; s1-s4 run AI-live; the retired s1/s2 answers are archived in authoring/unused/)
 /scripts       find_anchors.py, build_alert_feed.py, build_bundles.py (see below)
 /prompts       analyst-system.md, late-evidence.md — the analyst prompt contract
 /app           React + Tailwind frontend; app/src/data/<slug>/{alert-feed,bundle}.json are committed

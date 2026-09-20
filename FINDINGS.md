@@ -23,7 +23,7 @@ Then a second instruction reshaped the design: *only use a small part for showca
 | Screen 1 | Reproduction of the Sonar dashboard (KPI tiles, exchange table, traces) plus a HIPMON alert stream | The audience trusts the rest if the first screen is their own dashboard |
 | Data pipeline | Generator, normaliser, alert-feed and bundle builder rewritten | Deterministic, seeded, citation-validating |
 | Evidence pack | Code builds a 120–260 event pack per scenario from rule hits plus retrieved context | The model can't be handed thousands of raw lines, and "facts assembled by code" stays true |
-| AI split | S1 and S2 hand-authored (showcase and fallback); S3, S4, S5 live-AI only | Matches the instruction: only a small part is scripted |
+| AI split | **S5 hand-authored (the one stored scenario)**; S1 to S4 live-AI only (was S1 and S2 stored; changed in round 3) | Matches the instruction: only a small part is scripted, and one stored scenario is easier to explain than two |
 | Server | Citation validation with one retry, JSON-parse retry, timeline rebuilt from the pack, on-disk fallback of the last good live run | Live output must never be trusted blindly or fabricated |
 | Prompt | Rules-on-top framing, plus scoping rules added after a live failure (see §5) | See §5 |
 | Privacy | `/Auto Alerts/` git-ignored; generated data uses invented ids and no names | The exports contain employee names and ticket text |
@@ -107,3 +107,20 @@ S1 and S2 are a deliberate pair: the same business symptom ("deliveries not arri
 **New finding: rate limiting.** Firing three live calls at once produced a 429 "rate limit exceeded" from the model service on one of them; the server correctly replayed the saved fallback. In the room, do not switch between AI-only scenarios quickly, since each switch starts a live call.
 
 **Still true.** Two runs is a small sample. gpt-5 gives no way to fix the random seed, so some run-to-run variation remains; the server-side checks and the fallback exist for that reason.
+
+## 10. Round 3 — S5 is now the only stored scenario
+
+**Change.** S1 and S2 used to ship a hand-written diagnosis; S3 to S5 were live. It is now **S5 stored, S1 to S4 live**. The retired S1 and S2 answers are archived in `authoring/unused/`.
+
+**Why.** Two behaviours (two stored, three live) were harder to explain than one stored and four live, and the original reason for storing S1 and S2 was protection: they are the "never cut" pair, and the run sheet leads with them. That protection is still available as the saved fallback of the last live run.
+
+**What we tested before switching (S1 and S2 had never been run live).**
+| Scenario | Live result |
+| --- | --- |
+| S1 | Correct: payload growth first (Moderate), leak second (Low), first symptom the 05:10 heap alert, 82,900 quoted correctly, no warnings. Late evidence firmed it to High. |
+| S2 | Not confused with S1 (good), but it **hedges**: "the SAP hub stopped sending" ranked first and "the listener lost its connection" second, both Moderate. The stored answer had put the listener first. The ambiguity is real and is exactly what the late record resolves. |
+
+**Consequences to know.**
+- The two most important scenarios now depend on the live model (about 75 s per call, and run-to-run variation). Run each once before a demo so a saved fallback exists.
+- Because S2's first answer can hedge, its late-evidence closer can produce a **genuine ranking flip live**, which the stored answers could not.
+- With four live scenarios the model service rate-limits bursts, so the server now queues calls (two at a time) and retries a 429 after waiting instead of falling straight back to the saved answer.

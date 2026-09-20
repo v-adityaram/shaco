@@ -48,21 +48,52 @@ function parseJson(text) {
   return JSON.parse(cleaned)
 }
 
+// At most N model calls in flight: several live scenarios can be requested at once
+// (background prefetch), and the model service rate-limits bursts.
+const MAX_CONCURRENT = Number(process.env.FOUNDRY_MAX_CONCURRENT || 2)
+let inFlight = 0
+const waiting = []
+async function acquire() {
+  if (inFlight < MAX_CONCURRENT) {
+    inFlight++
+    return
+  }
+  await new Promise((resolve) => waiting.push(resolve))
+}
+function release() {
+  const next = waiting.shift()
+  if (next) next()
+  else inFlight--
+}
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+
 async function callFoundry(instructions, input) {
   requireApiKey()
   const body = { model: MODEL, instructions, input, text: { verbosity: 'medium' } }
   if (REASONING_EFFORT) body.reasoning = { effort: REASONING_EFFORT }
 
-  const resp = await fetch(`${FOUNDRY_ENDPOINT.replace(/\/$/, '')}/responses`, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      'api-key': FOUNDRY_API_KEY,
-      authorization: `Bearer ${FOUNDRY_API_KEY}`,
-    },
-    body: JSON.stringify(body),
-    signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
-  })
+  await acquire()
+  let resp
+  try {
+    for (let attempt = 0; ; attempt++) {
+      resp = await fetch(`${FOUNDRY_ENDPOINT.replace(/\/$/, '')}/responses`, {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          'api-key': FOUNDRY_API_KEY,
+          authorization: `Bearer ${FOUNDRY_API_KEY}`,
+        },
+        body: JSON.stringify(body),
+        signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+      })
+      if (resp.status !== 429 || attempt >= 2) break
+      const wait = Math.min(60, Number(resp.headers.get('retry-after')) || 20 * (attempt + 1))
+      console.warn(`rate limited (429); waiting ${wait}s then retrying (${attempt + 1}/2)`)
+      await sleep(wait * 1000)
+    }
+  } finally {
+    release()
+  }
   if (!resp.ok) {
     throw new Error(`Azure AI Foundry error ${resp.status}: ${await resp.text()}`)
   }

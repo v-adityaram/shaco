@@ -21,7 +21,7 @@ The client already runs 400+ monitoring rules (HIPMON, Sonar, Splunk, ELK) and t
 - **Input to the AI is rule output.** Every alert a rule already fired (`kind: rule_hit`, with its `rule_id`) plus the records an analyst would pull up around those alerts (`kind: context` — exchange logs, host metrics, lag samples, transfer records, change and vendor records, counts and baselines computed by code). The AI is never asked to find anomalies in raw streams.
 - **Where no rule fired, that is a finding.** S4's stalled exchange has no rule; the AI's job is to notice the *absence* in the context and say no rule covers it.
 - **Counts are code, not model.** "N of 412 rules fired" and "2 unrelated" come from the evidence pack, not from the AI.
-- **Only a showcase subset is hand-authored.** S1 and S2 (the never-cut pair) ship a cached diagnosis as showcase and fallback. **S3, S4, S5 have no cached answer at all — their diagnosis comes only from a live AI call**, and a successful live run is saved on the server as the fallback for the next failure. Nothing is fabricated to fill a gap.
+- **Only one scenario is stored.** S5 (the noise-versus-cause story) ships a hand-authored diagnosis as the showcase and safety net. **S1 to S4 have no stored answer at all: their diagnosis comes only from a live AI call**, and a successful live run is saved on the server as the fallback for the next failure. Nothing is fabricated to fill a gap.
 
 ### 0.1 What the real data says (this is the calibration for everything below)
 
@@ -118,7 +118,7 @@ These are what correlation keys on, so they have to be right or the timeline sil
 
 ## 3. Incident catalogue — five scenarios
 
-Five scenarios, each grounded in a real June–August incident family, each carrying a **planted contradiction** that populates the "evidence against" column. S1 and S2 are the pair that does the heavy lifting: the same business symptom — *"deliveries / ASNs are not reaching the warehouse or S4"* — with different causes and a different first check. All times are 2026-09-18 UTC. **S1 and S2 are the curated showcase pair; S3, S4 and S5 are AI-live only** (see §0.0).
+Five scenarios, each grounded in a real June–August incident family, each carrying a **planted contradiction** that populates the "evidence against" column. S1 and S2 are the pair that does the heavy lifting: the same business symptom — *"deliveries / ASNs are not reaching the warehouse or S4"* — with different causes and a different first check. All times are 2026-09-18 UTC. **S5 is the one stored (curated) scenario; S1 to S4 are AI-live only** (see §0.0). S1 and S2 remain the pair that proves reasoning, now shown live.
 
 ---
 
@@ -353,7 +353,7 @@ Proposed action stated plainly — in this estate almost always a **replay**, a 
 
 ### The closer — late evidence
 
-**Inject delayed log**, per scenario (a late Sonar batch, a delayed SFG trailer, a vendor ticket update). The new event slots into the timeline at its true position, the diagnosis is recomputed, and a diff panel explains what changed and why. In the shipped data the late record answers the discriminating check (S1: the 04:52 batch really was one 3.1x message; S2: SAP holds 214 queued IDocs and the listener's threads are blocked), so **confidence firms up and a rival hypothesis is closed out** rather than the ranking swapping — a swap is shown only when the evidence genuinely supports one, and the rank-before/after shown is derived by code.
+**Inject delayed log**, per scenario (a late Sonar batch, a delayed SFG trailer, a vendor ticket update). The new event slots into the timeline at its true position, the diagnosis is recomputed, and a diff panel explains what changed and why. The late record answers the discriminating check (S1: the 04:52 batch really was one 3.1x message; S2: SAP holds 214 queued IDocs and the listener's threads are blocked; S5: the pod was OOMKilled at its 2Gi limit and NotReady from 00:52 to 01:13). In the stored S5 answer **confidence firms up and a rival is closed out**. On the live scenarios the model decides: in testing S1 firmed up, and S2 can swing because its first answer hedges between a silent SAP hub and a hung listener. A swap is shown only when the evidence supports one.
 
 ### Scenario switcher
 
@@ -492,8 +492,8 @@ A real Kafka cluster proves Kafka works. The question on the table is whether th
 
 ### AI-first, with a fallback — not a cache-first demo
 
-- **S1, S2 (curated):** a hand-authored diagnosis ships in the bundle and is the default, so the main story never depends on a network call. A live toggle runs the real model on the same evidence.
-- **S3, S4, S5 (AI-live):** no cached answer exists. The live call starts in the background as soon as the scenario is on screen, so it is usually finished before the presenter clicks *Run AI correlation*; otherwise Screen 2 shows an honest loading state with elapsed time.
+- **S5 (curated):** a hand-authored diagnosis ships in the bundle and is the default, so the noise-versus-cause beat never depends on a network call. A live toggle runs the real model on the same evidence.
+- **S1 to S4 (AI-live):** no stored answer exists. The live call starts in the background as soon as the scenario is on screen, so it is usually finished before the presenter clicks *Run AI correlation*; otherwise Screen 2 shows an honest loading state with elapsed time.
 - **Fallback.** Every successful live result is written to `server/cache/` and replayed if a later call fails, with a visible "replayed from last successful live run" note. If there is neither a live answer nor a saved one, the screen says so — it never shows invented content.
 - **Guardrails on live output** (in the server, not the model): every cited `event_id` must exist in the pack (one automatic retry with the errors fed back, then uncitable items are dropped); the timeline is rebuilt from the pack; `requires_approval` is forced true; rank-before/after in the late-evidence diff is derived by code.
 - **Latency is the live risk.** gpt-5 with reasoning can take a minute or more on a 200-event pack. Mitigations: background prefetch, `FOUNDRY_REASONING_EFFORT` tunable in `server/.env`, and run one live pass in rehearsal so the saved fallback exists before the room does.
@@ -515,7 +515,7 @@ Principle: **the reasoning layer must work before any pixel is styled.** If the 
 - **Generator** — spot-check by hand: S1 lag climbing while every other group is zero; S2 inbound count actually zero and lag actually zero; S3 the YHIPDELVRY07 successes present; S4 row counts disagree and half-flow 2 absent; S5 the pod restart record present 35 minutes before the first error.
 - **Normaliser** — alias map, MFT no-offset time, severity, exchange-id threading.
 - **The prompt. This is the POC.** Expect 6–10 iterations. Failure modes in the order they usually appear: empty `contradicts`; unearned certainty; checks ordered by thoroughness; citations to non-existent event ids; S2 diagnosed as S1; S5 diagnosed as thirty separate problems.
-- **End-of-day gate.** Five valid JSON outputs, all citations resolving, S1 and S2 genuinely differing.
+- **End-of-day gate.** Five valid JSON outputs (S5 stored, S1 to S4 live), all citations resolving, S1 and S2 genuinely differing.
 
 ### Day 2 — the application
 
@@ -586,7 +586,7 @@ No slides until minute 10. Open on Screen 1, already live, before anyone has set
 
 | Risk | Mitigation |
 | --- | --- |
-| Prompt iteration overruns Day 1 | Hard gate. Cut to three scenarios (S1, S2, S5) rather than compressing Day 2. |
+| Prompt iteration overruns Day 1 | Hard gate. Cut to three scenarios (S1, S2, S5) rather than compressing Day 2; S5 is the stored one. |
 | Sonar dashboard reproduction eats Day 2 | Tiles and table first; traces panel last. A static-looking table beats an unfinished one. |
 | S1 and S2 produce the same diagnosis | Make the "no pile-up" evidence salient in normalised event text (inbound count 0, lag 0), not hinted in the prompt. |
 | S5 explodes into thirty hypotheses | Validation check 4; feed the model exchange-error strings grouped by identical `event.reason`. |
@@ -602,9 +602,9 @@ No slides until minute 10. Open on Screen 1, already live, before anyone has set
 3. Blast radius panel
 4. The collapse animation, down to a crossfade
 
-(The live path is no longer a cut line: S3–S5 exist only as live AI. If live is unusable, present S1 and S2 only.)
+(The live path is no longer a cut line: S1 to S4 exist only as live AI. If live is unusable, present S5, which is stored, plus the saved live runs.)
 
-**Never cut:** S1 and S2 as a pair, S5 as the noise story, the Contradicts column, the Ruled Out panel, the approval gate, the late-evidence closer.
+**Never cut:** S1 and S2 as a pair, S5 as the noise story (and the stored fallback), the Contradicts column, the Ruled Out panel, the approval gate, the late-evidence closer.
 
 ### Honest limitations to state rather than hide
 
