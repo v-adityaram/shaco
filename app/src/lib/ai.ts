@@ -4,6 +4,9 @@ import type { DiagnosisResult, LateEvidenceResult, NormalisedEvent } from './typ
  * Live path: calls the thin local server (see /server, proxied by Vite to :8787).
  * Non-2xx responses carry { error: string }; that text is surfaced verbatim.
  */
+// '/api' in dev; '/incident/api' when built with VITE_BASE=/incident/
+const API_BASE = `${(import.meta.env.BASE_URL || '/').replace(/\/$/, '')}/api`
+
 async function post<T>(url: string, body: unknown): Promise<T> {
   let res: Response
   try {
@@ -34,7 +37,7 @@ async function post<T>(url: string, body: unknown): Promise<T> {
 }
 
 export function fetchDiagnosis(slug: string, events: NormalisedEvent[]): Promise<DiagnosisResult> {
-  return post<DiagnosisResult>('/api/diagnose', { slug, events })
+  return post<DiagnosisResult>(`${API_BASE}/diagnose`, { slug, events })
 }
 
 export function fetchLateEvidence(
@@ -43,7 +46,7 @@ export function fetchLateEvidence(
   lateEvent: NormalisedEvent,
   previousDiagnosis: unknown,
 ): Promise<LateEvidenceResult> {
-  return post<LateEvidenceResult>('/api/diagnose/late-evidence', {
+  return post<LateEvidenceResult>(`${API_BASE}/diagnose/late-evidence`, {
     slug,
     events,
     lateEvent,

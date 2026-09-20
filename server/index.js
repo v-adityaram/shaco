@@ -22,7 +22,20 @@ const REASONING_EFFORT = process.env.FOUNDRY_REASONING_EFFORT || undefined
 const REQUEST_TIMEOUT_MS = Number(process.env.FOUNDRY_TIMEOUT_MS || 240000)
 
 const app = express()
-app.use(express.json({ limit: '10mb' }))
+app.use(express.json({ limit: process.env.MAX_BODY || '2mb' }))
+
+// Public-facing guards: only known scenarios, bounded input (each call costs model tokens).
+const ALLOWED_SLUGS = new Set(
+  (process.env.ALLOWED_SLUGS ||
+    's1-large-mapping-heap,s2-pi7-listener-hang,s3-vendor-release,s4-stalled-exchange,s5-transco-cache').split(','),
+)
+const MAX_EVENTS = Number(process.env.MAX_EVENTS || 600)
+function badRequest(res, slug, events) {
+  if (!ALLOWED_SLUGS.has(slug)) return res.status(400).json({ error: 'unknown scenario' }), true
+  if (!Array.isArray(events) || events.length === 0 || events.length > MAX_EVENTS)
+    return res.status(400).json({ error: `events must contain 1 to ${MAX_EVENTS} items` }), true
+  return false
+}
 
 function requireApiKey() {
   if (!FOUNDRY_ENDPOINT || !FOUNDRY_API_KEY) {
@@ -278,6 +291,7 @@ app.post('/api/diagnose', (req, res) => {
     res.status(400).json({ error: 'body must be { slug, events[] }' })
     return
   }
+  if (badRequest(res, slug, events)) return
   respond(res, slug, 'diagnosis', async () => {
     const { diag, warnings } = await analyse(ANALYST_SYSTEM, buildInput(events), events, `${slug}/diagnose`)
     return { payload: diag, warnings }
@@ -290,6 +304,7 @@ app.post('/api/diagnose/late-evidence', (req, res) => {
     res.status(400).json({ error: 'body must be { slug, events[], lateEvent, previousDiagnosis }' })
     return
   }
+  if (badRequest(res, slug, events)) return
   respond(res, slug, 'late', async () => {
     const all = [...events, lateEvent]
     const input =
@@ -326,7 +341,8 @@ app.get('/api/health', (_req, res) => {
 })
 
 const PORT = process.env.PORT || 8787
-app.listen(PORT, () => {
+const HOST = process.env.HOST || undefined // set HOST=127.0.0.1 behind nginx
+app.listen(PORT, HOST, () => {
   console.log(
     `Incident AI thin server listening on :${PORT} (live=${Boolean(FOUNDRY_ENDPOINT && FOUNDRY_API_KEY)}, model=${MODEL})`,
   )
