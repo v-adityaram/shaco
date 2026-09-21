@@ -15,5 +15,10 @@ __pycache__/
 /Auto Alerts/
 /server/cache/
 
+# redacted-but-still-real ticket text extracted from /Auto Alerts/ for the
+# live-mode demo -- names are stripped but subjects/close-notes are real
+# client text, so this stays local and gitignored like the source export
+/server/live-data/
+
 # generated architecture page (regenerate: python scripts/build_architecture_html.py)
 /docs/architecture.html

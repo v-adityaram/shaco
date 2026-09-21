@@ -1,5 +1,14 @@
 import type { ReactNode } from 'react'
-import type { ExchangeRow, ExchangeStatus, KpiBlock, SonarDashboard as SonarDashboardT, TraceLevel } from '../lib/types'
+import type {
+  ApplicationFailureRate,
+  CriticalFlowRow,
+  ExchangeRow,
+  ExchangeStatus,
+  KpiBlock,
+  SonarDashboard as SonarDashboardT,
+  TraceLevel,
+  ZoneFailureRate,
+} from '../lib/types'
 
 export type TransitionPhase = 'idle' | 'freezing' | 'collapsing'
 
@@ -323,6 +332,129 @@ export function SonarDashboardView({
             ))}
           </tbody>
         </table>
+      </Panel>
+    </div>
+  )
+}
+
+/* ------------------------------------------------------------------ Global Overview
+   ("Global Daily Flow Failure Report" in the real dashboard) -- a ranked
+   failure-rate table plus zone/application health tiles, all derived from
+   numbers already established on Screen 1 (see build_critical_flows() etc
+   in scripts/build_alert_feed.py). */
+
+/** Pale -> SONAR.red, non-linear so the top of the ranking pops the way the
+ * real report's conditional-formatting gradient does. */
+function failRateBg(pct: number) {
+  const t = Math.min(1, Math.sqrt(Math.max(0, pct) / 100))
+  const from = [253, 245, 246] // near-white with a faint red cast
+  const to = [224, 90, 117] // SONAR.red
+  const mix = from.map((c, i) => Math.round(c + (to[i] - c) * t))
+  return `rgb(${mix.join(',')})`
+}
+
+function healthTone(pct: number): Tone {
+  if (pct >= 8) return 'red'
+  if (pct >= 3) return 'orange'
+  return 'green'
+}
+
+function CriticalFlowsTable({ rows }: { rows: CriticalFlowRow[] }) {
+  return (
+    <table className="kb-table font-mono-tight w-full table-fixed text-[11px]">
+      <thead>
+        <tr>
+          <Th icon="str" className="w-[46%]">Exchange</Th>
+          <Th icon="num" className="w-[16%]">Total</Th>
+          <Th icon="num" className="w-[16%]">Failed</Th>
+          <Th icon="num" sort className="w-[22%]">Failed rate</Th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr key={r.exchange}>
+            <td className="kb-link truncate">{r.exchange}</td>
+            <td className="text-right tabular-nums">{r.total.toLocaleString('en-US')}</td>
+            <td className="text-right tabular-nums">{r.failed.toLocaleString('en-US')}</td>
+            <td className="p-0">
+              <div
+                className="px-2 py-1 text-right font-semibold text-black/80"
+                style={{ background: failRateBg(r.failedRate) }}
+              >
+                {r.failedRate.toFixed(2)}%
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
+}
+
+function ZoneTiles({ rates }: { rates: ZoneFailureRate[] }) {
+  const cols: [string, (r: ZoneFailureRate) => number][] = [
+    ['current time range', (r) => r.currentPct],
+    ['current time range - 1d', (r) => r.oneDayPct],
+    ['current time range - 1w', (r) => r.oneWeekPct],
+  ]
+  return (
+    <div className="grid grid-cols-1 gap-1.5 sm:grid-cols-3">
+      {rates.map((r) =>
+        cols.map(([label, get]) => {
+          const v = get(r)
+          return (
+            <div
+              key={`${r.zone}-${label}`}
+              className="rounded-[4px] px-3 py-2.5 text-white shadow-sm"
+              style={{ background: SONAR[healthTone(v)] }}
+            >
+              <div className="text-[10.5px] font-medium tracking-wide text-white/85">
+                {r.zone} - {label}
+              </div>
+              <div className="mt-1 text-[11px] font-medium text-white/90">Failure rate</div>
+              <div className="text-xl leading-tight font-bold tabular-nums">{v.toFixed(2)}%</div>
+            </div>
+          )
+        }),
+      )}
+    </div>
+  )
+}
+
+function ApplicationTiles({ rates }: { rates: ApplicationFailureRate[] }) {
+  return (
+    <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-5">
+      {rates.map((a) => (
+        <div
+          key={a.application}
+          className="rounded-[4px] px-3 py-2.5 text-white shadow-sm"
+          style={{ background: SONAR[healthTone(a.pct)] }}
+        >
+          <div className="text-[10.5px] font-medium tracking-wide text-white/85">{a.application}</div>
+          <div className="mt-1 text-[11px] font-medium text-white/90">Failure rate</div>
+          <div className="text-xl leading-tight font-bold tabular-nums">{a.pct.toFixed(2)}%</div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+export function GlobalOverviewView({ dashboard }: { dashboard: SonarDashboardT }) {
+  const { criticalFlows, failureRateByZone, failureRateByApplication } = dashboard
+  return (
+    <div className="space-y-3">
+      <Panel title="Critical Flows" docs={`top ${criticalFlows.length} of the day's ranked flows`}>
+        <CriticalFlowsTable rows={criticalFlows} />
+      </Panel>
+      <Panel title="Failure Rate by Zone" docs="">
+        <div className="p-2">
+          <ZoneTiles rates={failureRateByZone} />
+        </div>
+      </Panel>
+      <Panel title="Failure Rate by Application" docs="">
+        <div className="p-2">
+          <ApplicationTiles rates={failureRateByApplication} />
+        </div>
       </Panel>
     </div>
   )

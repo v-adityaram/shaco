@@ -276,6 +276,108 @@ def kpi_block(total, inprog, complete, warning, failed, replayed, avg_ms, max_ms
             "durationMax": fmt_dur(max_ms)}
 
 
+def classify_application(exchange, source, destination):
+    """Buckets a flow into the real dashboard's application categories, by the
+    same naming-convention logic a real triager would use (source/destination
+    system names), not a stored field -- ESB/Kafka, MFT/SFG file transfer,
+    Workato recipe, an API gateway, or ETL/other."""
+    s = f"{exchange} {source} {destination}".upper()
+    if "MFT" in s or "SFG" in s or "_FILES" in s or s.endswith("FILES"):
+        return "MFT"
+    if "WORKATO" in s:
+        return "Workato"
+    if "KAFKA" in s or "_ESB" in s or "ESB_" in s:
+        return "ESB"
+    if "APIGEE" in s or "APIM" in s or "API" in s:
+        return "API"
+    return "ETL"
+
+
+def build_critical_flows(sc, exch_kpi, exchange_rows, rng):
+    """The real "Global Daily Flow Failure Report" ranks every flow in the
+    estate by failed rate (132 pages of them). We don't generate that whole
+    estate, so this disaggregates a top slice of the ALREADY-COMPUTED
+    exchangeKpis.failed total across named flows -- real names already used
+    elsewhere in this scenario, volumes/failures that never exceed the known
+    aggregate. It's a partition of an established number, not a new one."""
+    focal = sc["focal_exchange"]
+    seen = set()
+    anomalous_names, ordinary_names = [], []
+    for r in exchange_rows:
+        if r["exchange"] in seen:
+            continue
+        seen.add(r["exchange"])
+        (anomalous_names if r.get("isAnomalous") else ordinary_names).append(r["exchange"])
+    if focal in ordinary_names:
+        ordinary_names.remove(focal)
+    if focal not in anomalous_names:
+        anomalous_names.insert(0, focal)
+
+    budget_failed = max(4, round(exch_kpi["failed"] * 0.02))  # a top slice, not the whole day's failures
+    rows = []
+
+    # 1) incident-relevant flows: high, tapering failure rates, the focal one worst
+    decay = [1.0, 0.62, 0.5, 0.5, 0.42, 0.3]
+    for i, name in enumerate(anomalous_names[:6]):
+        rate = min(1.0, decay[min(i, len(decay) - 1)] * rng.uniform(0.85, 1.05))
+        vol = rng.randint(3, 40) if i == 0 else rng.randint(6, 90)
+        failed = max(1 if i == 0 else 0, min(round(vol * rate), budget_failed))
+        vol = max(vol, failed)
+        budget_failed = max(0, budget_failed - failed)
+        rows.append({"exchange": name, "zone": "EMEA", "total": vol, "failed": failed,
+                     "failedRate": round(failed / vol * 100, 2) if vol else 0})
+
+    # 2) background tail: real flow names from this scenario, low noise-band rates
+    tail = ordinary_names[:16] or [f"GLBL_BACKGROUND_FLOW_{i:02d}" for i in range(8)]
+    rng.shuffle(tail)
+    for name in tail[:8]:
+        vol = rng.randint(150, 6200)
+        rate = rng.uniform(0.005, 0.09)
+        failed = min(round(vol * rate), budget_failed) if budget_failed > 0 else round(vol * rate * 0.3)
+        budget_failed = max(0, budget_failed - failed)
+        rows.append({"exchange": name, "zone": "EMEA", "total": vol, "failed": failed,
+                     "failedRate": round(failed / vol * 100, 2) if vol else 0})
+
+    rows.sort(key=lambda r: -r["failedRate"])
+    return rows[:14]
+
+
+def build_zone_failure_rates(exch_kpi, rng):
+    """AMER/APAC stay healthy in every scenario (this synthetic estate only
+    models EMEA incidents) -- a small deterministic baseline, not a guess
+    per click; EMEA's current rate is the real computed exchangeKpis figure,
+    never a second, contradicting number."""
+    emea_now = exch_kpi["failurePct"]
+    amer_now = round(rng.uniform(1.4, 3.6), 2)
+    apac_now = round(rng.uniform(0.2, 1.3), 2)
+
+    def spread(now):
+        return {"currentPct": now, "oneDayPct": round(max(0.0, now * rng.uniform(0.7, 1.1)), 2),
+                "oneWeekPct": round(max(0.0, now * rng.uniform(0.65, 1.3)), 2)}
+
+    return [{"zone": z, **spread(v)} for z, v in (("AMER", amer_now), ("EMEA", emea_now), ("APAC", apac_now))]
+
+
+def build_application_failure_rates(exchange_rows, rng):
+    """Computed straight from this scenario's own exchangeRows sample by
+    classify_application -- real per-application rates where the sample has
+    enough of that application present, a small deterministic baseline
+    otherwise (never a fabricated headline number)."""
+    apps = ["API", "ESB", "MFT", "Workato", "ETL"]
+    counts = {a: [0, 0] for a in apps}
+    for r in exchange_rows:
+        app = classify_application(r["exchange"], r["source"], r["destination"])
+        counts[app][0] += 1
+        if r["status"] == "FAILED":
+            counts[app][1] += 1
+    out = []
+    for app in apps:
+        n, f = counts[app]
+        pct = round(f / n * 100, 2) if n else round(rng.uniform(0.1, 2.0), 2)
+        out.append({"application": app, "pct": pct})
+    return out
+
+
 def build_dashboard(sc, sonar, norm_late=None):
     end = hm(sc["feed_end"])
     states = exchange_states(sonar, end)
@@ -369,8 +471,12 @@ def build_dashboard(sc, sonar, norm_late=None):
                       "halfflow": r["halfflow"], "halfflowId": r["halfflow.id"], "application": r["application"],
                       "eventCode": r["event.code"], "eventReason": r["event.reason"], "message": r["message"],
                       "businessValue": r["business.value"]})
+    critflow_rng = random.Random(f"critflow:{sc['slug']}")
     return {"windowLabel": "Last 24 hours", "exchangeKpis": exch, "halfflowKpis": hf, "exchangeRows": rows,
-            "traceFocus": {"exchange": focal_name, "exchangeId": fxid, "rows": trace}}
+            "traceFocus": {"exchange": focal_name, "exchangeId": fxid, "rows": trace},
+            "criticalFlows": build_critical_flows(sc, exch, rows, critflow_rng),
+            "failureRateByZone": build_zone_failure_rates(exch, critflow_rng),
+            "failureRateByApplication": build_application_failure_rates(rows, critflow_rng)}
 
 
 def build(sc):

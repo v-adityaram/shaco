@@ -5,10 +5,13 @@ import { SCENARIO_LABELS, getAllScenarios, getScenarioBundle, scenarioSlugs } fr
 import { ensureDiagnosis } from './lib/liveCache'
 import { AiView } from './screens/AiView'
 import { AlertFloor } from './screens/AlertFloor'
+import { LiveFloor } from './screens/LiveFloor'
 
 type Phase = 'today' | 'freezing' | 'collapsing' | 'ai'
+type AppMode = 'scenarios' | 'live'
 
 export default function App() {
+  const [appMode, setAppMode] = useState<AppMode>('scenarios')
   const [activeSlug, setActiveSlug] = useState(scenarioSlugs[0])
   const [phase, setPhase] = useState<Phase>('today')
   const timers = useRef<number[]>([])
@@ -70,6 +73,25 @@ export default function App() {
     )
   }
 
+  if (appMode === 'live') {
+    return (
+      <div className="min-h-svh bg-slate-100 dark:bg-slate-950">
+        <div className="fixed top-3 right-3 z-50">
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
+        </div>
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 pt-3">
+          <button
+            onClick={() => setAppMode('scenarios')}
+            className="text-[11px] text-slate-500 underline decoration-dotted hover:text-slate-800 dark:hover:text-slate-300"
+          >
+            ← back to scenarios
+          </button>
+        </div>
+        <LiveFloor />
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-svh bg-slate-100 dark:bg-slate-950">
       {phase === 'ai' && (
@@ -90,6 +112,13 @@ export default function App() {
             onRunCorrelation={runCorrelation}
             controls={
               <>
+                <button
+                  onClick={() => setAppMode('live')}
+                  title="Replay a real 48h window of June 2026 HIP incidents (redacted), live"
+                  className="h-7 rounded border border-rose-500/60 bg-rose-950/40 px-2 text-[11px] font-medium text-rose-300 hover:bg-rose-900/60"
+                >
+                  Live (real data) →
+                </button>
                 <select
                   value={activeSlug}
                   disabled={phase !== 'today'}

@@ -161,12 +161,40 @@ export interface TraceRow {
   businessValue: string
 }
 
+export type Zone = 'AMER' | 'EMEA' | 'APAC'
+export type FlowApplication = 'API' | 'ESB' | 'MFT' | 'Workato' | 'ETL'
+
+/** One row of the real "Global Daily Flow Failure Report" -- ranked by failed rate,
+ * a subset of the day's flows (the real dashboard is 132 pages deep; this is the top slice). */
+export interface CriticalFlowRow {
+  exchange: string
+  zone: Zone
+  total: number
+  failed: number
+  failedRate: number
+}
+
+export interface ZoneFailureRate {
+  zone: Zone
+  currentPct: number
+  oneDayPct: number
+  oneWeekPct: number
+}
+
+export interface ApplicationFailureRate {
+  application: FlowApplication
+  pct: number
+}
+
 export interface SonarDashboard {
   windowLabel: string
   exchangeKpis: KpiBlock
   halfflowKpis: KpiBlock
   exchangeRows: ExchangeRow[]
   traceFocus: { exchange: string; exchangeId: string; rows: TraceRow[] }
+  criticalFlows: CriticalFlowRow[]
+  failureRateByZone: ZoneFailureRate[]
+  failureRateByApplication: ApplicationFailureRate[]
 }
 
 export interface ScenarioMeta {

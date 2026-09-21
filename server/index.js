@@ -27,8 +27,11 @@ app.use(express.json({ limit: process.env.MAX_BODY || '2mb' }))
 // Public-facing guards: only known scenarios, bounded input (each call costs model tokens).
 const ALLOWED_SLUGS = new Set(
   (process.env.ALLOWED_SLUGS ||
-    's1-large-mapping-heap,s2-pi7-listener-hang,s3-vendor-release,s4-stalled-exchange,s5-transco-cache').split(','),
+    's1-large-mapping-heap,s2-pi7-listener-hang,s3-vendor-release,s4-stalled-exchange,s5-transco-cache,live-june-2026')
+    .split(','),
 )
+
+const LIVE_DATA_DIR = join(__dirname, 'live-data')
 const MAX_EVENTS = Number(process.env.MAX_EVENTS || 600)
 function badRequest(res, slug, events) {
   if (!ALLOWED_SLUGS.has(slug)) return res.status(400).json({ error: 'unknown scenario' }), true
@@ -334,6 +337,25 @@ app.post('/api/diagnose/late-evidence', (req, res) => {
     }
     return { payload: diag, warnings }
   })
+})
+
+// Serves the redacted, real June-2026 incident window (see
+// scripts/extract_live_incidents.py) for Live mode. The file itself is
+// gitignored -- names are stripped, but subjects/close-notes are real
+// client ticket text, same privacy rule as /Auto Alerts/.
+app.get('/api/live-window', (_req, res) => {
+  const p = join(LIVE_DATA_DIR, 'june-window.json')
+  if (!existsSync(p)) {
+    res.status(404).json({
+      error: 'No live window extracted. Run: python scripts/extract_live_incidents.py',
+    })
+    return
+  }
+  try {
+    res.json(JSON.parse(readFileSync(p, 'utf-8')))
+  } catch (err) {
+    res.status(500).json({ error: String(err) })
+  }
 })
 
 app.get('/api/health', (_req, res) => {

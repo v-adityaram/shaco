@@ -6079,7 +6079,149 @@
           "businessValue": "PL04"
         }
       ]
-    }
+    },
+    "criticalFlows": [
+      {
+        "exchange": "EURO_COMMON_IDOC_SAPNE_YHIPDELVRY07",
+        "zone": "EMEA",
+        "total": 22,
+        "failed": 22,
+        "failedRate": 100.0
+      },
+      {
+        "exchange": "EURO_COMMON_IDOC_SAPNE_YLCD01",
+        "zone": "EMEA",
+        "total": 38,
+        "failed": 23,
+        "failedRate": 60.53
+      },
+      {
+        "exchange": "EURO_COMMON_IDOC_SAPUK_YHIP-COND-A04",
+        "zone": "EMEA",
+        "total": 43,
+        "failed": 21,
+        "failedRate": 48.84
+      },
+      {
+        "exchange": "EURO_COMMON_IDOC_SAPNE_YHIP-BOMMAT04",
+        "zone": "EMEA",
+        "total": 35,
+        "failed": 16,
+        "failedRate": 45.71
+      },
+      {
+        "exchange": "EURO_COMMON_IDOC_SAPIT_YHIP-COND-A04",
+        "zone": "EMEA",
+        "total": 86,
+        "failed": 37,
+        "failedRate": 43.02
+      },
+      {
+        "exchange": "EURO_COMMON_IDOC_SAPCE_YHIP-COND-A04",
+        "zone": "EMEA",
+        "total": 45,
+        "failed": 12,
+        "failedRate": 26.67
+      },
+      {
+        "exchange": "EURO_0006_ProcessOutHandlingUnit_to_SAPCE",
+        "zone": "EMEA",
+        "total": 4174,
+        "failed": 246,
+        "failedRate": 5.89
+      },
+      {
+        "exchange": "EURO_0005_ProcessOutAck_to_SAPCE",
+        "zone": "EMEA",
+        "total": 1173,
+        "failed": 55,
+        "failedRate": 4.69
+      },
+      {
+        "exchange": "EMEA_SAPCE_PI7_IDOC_DELVRY07_TO_MANH",
+        "zone": "EMEA",
+        "total": 458,
+        "failed": 11,
+        "failedRate": 2.4
+      },
+      {
+        "exchange": "EMEA_FOM_TRAM_SAPTR_CONFIG_PROD_HIER",
+        "zone": "EMEA",
+        "total": 3149,
+        "failed": 68,
+        "failedRate": 2.16
+      },
+      {
+        "exchange": "GLBL_FUTURMASTER_FORECAST",
+        "zone": "EMEA",
+        "total": 3120,
+        "failed": 53,
+        "failedRate": 1.7
+      },
+      {
+        "exchange": "EMEA_SAPIT_RETURNS_IN",
+        "zone": "EMEA",
+        "total": 4010,
+        "failed": 51,
+        "failedRate": 1.27
+      },
+      {
+        "exchange": "EMEA_KEPLERNG_SALESORDER_OUT",
+        "zone": "EMEA",
+        "total": 2374,
+        "failed": 16,
+        "failedRate": 0.67
+      },
+      {
+        "exchange": "EURO_COMMON_IDOC_SAPIT_YLCD01",
+        "zone": "EMEA",
+        "total": 2488,
+        "failed": 11,
+        "failedRate": 0.44
+      }
+    ],
+    "failureRateByZone": [
+      {
+        "zone": "AMER",
+        "currentPct": 3.49,
+        "oneDayPct": 3.27,
+        "oneWeekPct": 3.61
+      },
+      {
+        "zone": "EMEA",
+        "currentPct": 2.5,
+        "oneDayPct": 2.17,
+        "oneWeekPct": 3.19
+      },
+      {
+        "zone": "APAC",
+        "currentPct": 1.17,
+        "oneDayPct": 1.23,
+        "oneWeekPct": 1.26
+      }
+    ],
+    "failureRateByApplication": [
+      {
+        "application": "API",
+        "pct": 12.5
+      },
+      {
+        "application": "ESB",
+        "pct": 0.3
+      },
+      {
+        "application": "MFT",
+        "pct": 0.38
+      },
+      {
+        "application": "Workato",
+        "pct": 0.45
+      },
+      {
+        "application": "ETL",
+        "pct": 68.75
+      }
+    ]
   },
   "diagnosis": null,
   "lateEvidence": {

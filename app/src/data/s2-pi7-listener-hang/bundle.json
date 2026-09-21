@@ -5028,7 +5028,114 @@
           "businessValue": "DE07"
         }
       ]
-    }
+    },
+    "criticalFlows": [
+      {
+        "exchange": "EMEA_SAPCE_PI7_IDOC_DELVRY07_TO_MANH",
+        "zone": "EMEA",
+        "total": 27,
+        "failed": 27,
+        "failedRate": 100.0
+      },
+      {
+        "exchange": "EMEA_KEPLERNG_SALESORDER_OUT",
+        "zone": "EMEA",
+        "total": 767,
+        "failed": 60,
+        "failedRate": 7.82
+      },
+      {
+        "exchange": "EMEA_SAPIT_INVOICE_OUT",
+        "zone": "EMEA",
+        "total": 5873,
+        "failed": 358,
+        "failedRate": 6.1
+      },
+      {
+        "exchange": "EMEA_SAPIT_DELIVERY_STATUS",
+        "zone": "EMEA",
+        "total": 6072,
+        "failed": 151,
+        "failedRate": 2.49
+      },
+      {
+        "exchange": "EMEA_KEPLERNG_RETURNS_IN",
+        "zone": "EMEA",
+        "total": 1003,
+        "failed": 18,
+        "failedRate": 1.79
+      },
+      {
+        "exchange": "EMEA_AMAZON_STOCK_FEED",
+        "zone": "EMEA",
+        "total": 3817,
+        "failed": 58,
+        "failedRate": 1.52
+      },
+      {
+        "exchange": "EURO_0005_ProcessOutAck_to_SAPCE",
+        "zone": "EMEA",
+        "total": 4410,
+        "failed": 41,
+        "failedRate": 0.93
+      },
+      {
+        "exchange": "EMEA_SAPIT_PI7_IDOC_DELVRY07_TO_MANH",
+        "zone": "EMEA",
+        "total": 1594,
+        "failed": 10,
+        "failedRate": 0.63
+      },
+      {
+        "exchange": "EMEA_MANH_SHIPMENT_CONFIRM",
+        "zone": "EMEA",
+        "total": 6165,
+        "failed": 11,
+        "failedRate": 0.18
+      }
+    ],
+    "failureRateByZone": [
+      {
+        "zone": "AMER",
+        "currentPct": 2.79,
+        "oneDayPct": 2.16,
+        "oneWeekPct": 2.36
+      },
+      {
+        "zone": "EMEA",
+        "currentPct": 2.28,
+        "oneDayPct": 2.47,
+        "oneWeekPct": 2.93
+      },
+      {
+        "zone": "APAC",
+        "currentPct": 1.25,
+        "oneDayPct": 1.24,
+        "oneWeekPct": 1.25
+      }
+    ],
+    "failureRateByApplication": [
+      {
+        "application": "API",
+        "pct": 0.0
+      },
+      {
+        "application": "ESB",
+        "pct": 0.94
+      },
+      {
+        "application": "MFT",
+        "pct": 0.47
+      },
+      {
+        "application": "Workato",
+        "pct": 0.55
+      },
+      {
+        "application": "ETL",
+        "pct": 5.0
+      }
+    ]
   },
   "diagnosis": null,
   "lateEvidence": {

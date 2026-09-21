@@ -6112,7 +6112,142 @@
           "businessValue": "PL04"
         }
       ]
-    }
+    },
+    "criticalFlows": [
+      {
+        "exchange": "EMEA_SAPIT_SALESORDER",
+        "zone": "EMEA",
+        "total": 37,
+        "failed": 31,
+        "failedRate": 83.78
+      },
+      {
+        "exchange": "EMEA_KEPLERNG_INVOICE_OUT",
+        "zone": "EMEA",
+        "total": 56,
+        "failed": 36,
+        "failedRate": 64.29
+      },
+      {
+        "exchange": "EMEA_AMAZON_STOCK_FEED",
+        "zone": "EMEA",
+        "total": 59,
+        "failed": 28,
+        "failedRate": 47.46
+      },
+      {
+        "exchange": "EURO_0006_ProcessOutHandlingUnit_to_SAPCE",
+        "zone": "EMEA",
+        "total": 12,
+        "failed": 5,
+        "failedRate": 41.67
+      },
+      {
+        "exchange": "EMEA_AMAZON_RETURN_NOTIFY",
+        "zone": "EMEA",
+        "total": 31,
+        "failed": 12,
+        "failedRate": 38.71
+      },
+      {
+        "exchange": "EMEA_SAPNE_PI7_IDOC_DELVRY07_TO_MANH",
+        "zone": "EMEA",
+        "total": 3635,
+        "failed": 123,
+        "failedRate": 3.38
+      },
+      {
+        "exchange": "EMEA_KEPLERNG_CUSTOMER_SYNC",
+        "zone": "EMEA",
+        "total": 963,
+        "failed": 29,
+        "failedRate": 3.01
+      },
+      {
+        "exchange": "EMEA_SAPIT_DELIVERY_STATUS",
+        "zone": "EMEA",
+        "total": 5850,
+        "failed": 146,
+        "failedRate": 2.5
+      },
+      {
+        "exchange": "EMEA_KEPLERNG_PRICE_LIST",
+        "zone": "EMEA",
+        "total": 2213,
+        "failed": 54,
+        "failedRate": 2.44
+      },
+      {
+        "exchange": "EURO_COMMON_IDOC_SAPIT_YHIP-BOMMAT04",
+        "zone": "EMEA",
+        "total": 830,
+        "failed": 19,
+        "failedRate": 2.29
+      },
+      {
+        "exchange": "EMEA_KEPLERNG_SHIPMENT_OUT",
+        "zone": "EMEA",
+        "total": 3405,
+        "failed": 76,
+        "failedRate": 2.23
+      },
+      {
+        "exchange": "EMEA_SAPIT_RETURNS_IN",
+        "zone": "EMEA",
+        "total": 3932,
+        "failed": 54,
+        "failedRate": 1.37
+      },
+      {
+        "exchange": "EURO_0005_ProcessOutAck_to_SAPCE",
+        "zone": "EMEA",
+        "total": 5060,
+        "failed": 63,
+        "failedRate": 1.25
+      }
+    ],
+    "failureRateByZone": [
+      {
+        "zone": "AMER",
+        "currentPct": 2.99,
+        "oneDayPct": 3.02,
+        "oneWeekPct": 3.61
+      },
+      {
+        "zone": "EMEA",
+        "currentPct": 2.42,
+        "oneDayPct": 1.96,
+        "oneWeekPct": 1.91
+      },
+      {
+        "zone": "APAC",
+        "currentPct": 1.18,
+        "oneDayPct": 1.09,
+        "oneWeekPct": 1.48
+      }
+    ],
+    "failureRateByApplication": [
+      {
+        "application": "API",
+        "pct": 53.57
+      },
+      {
+        "application": "ESB",
+        "pct": 1.09
+      },
+      {
+        "application": "MFT",
+        "pct": 1.71
+      },
+      {
+        "application": "Workato",
+        "pct": 1.99
+      },
+      {
+        "application": "ETL",
+        "pct": 58.33
+      }
+    ]
   },
   "diagnosis": {
     "incident_summary": "From 00:55 UTC, unrelated EMEA flows (sales orders, invoices, price lists, returns across four projects) failed with the same 'Connection refused' to the shared hip-fwk-transco-cache; that pod's memory had climbed to 93% and it was killed and restarted at 00:20, and it was Ready again at 01:13:41.",

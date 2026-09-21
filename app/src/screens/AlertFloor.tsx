@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from 'react'
 import { ALERT_GRID, ALERT_RULE_CELL, AlertRow } from '../components/AlertRow'
 import { BridgeTimer } from '../components/BridgeTimer'
-import { SonarDashboardView, type TransitionPhase } from '../components/SonarDashboard'
+import { GlobalOverviewView, SonarDashboardView, type TransitionPhase } from '../components/SonarDashboard'
 import type { AlertRow as AlertRowT, ScenarioMeta, SonarDashboard } from '../lib/types'
 
 const CHANNELS = [
@@ -186,7 +186,10 @@ function KibanaChrome({
     <div className="space-y-1.5">
       <div className="flex items-center gap-2">
         <span className="text-[12px]">
-          <span className="kb-link">Dashboards</span> <span className="kb-muted">/</span> <span className="font-semibold">Full Levels</span>
+          <span className="kb-link">Dashboards</span> <span className="kb-muted">/</span>{' '}
+          <span className="font-semibold">
+            {tab === 'Global Overview' ? 'Global Daily Flow Failure Report' : 'Full Levels'}
+          </span>
         </span>
         <span className="ml-auto flex items-center gap-1.5">
           <a className="kb-link mr-2 text-[11px]" href="#sonar-concepts" onClick={(e) => e.preventDefault()}>
@@ -393,7 +396,15 @@ export function AlertFloor({
             tab={tab}
             onTab={setTab}
           />
-          {tab !== 'Full Levels' ? (
+          {tab === 'Global Overview' ? (
+            dashboard ? (
+              <GlobalOverviewView dashboard={dashboard} />
+            ) : (
+              <div className="rounded border border-red-400 bg-red-500/10 p-3 text-[12px] text-red-700 dark:text-red-300">
+                This scenario bundle has no <code>dashboard</code> block — the Global Overview cannot be rendered.
+              </div>
+            )
+          ) : tab !== 'Full Levels' ? (
             <div className="kb-panel kb-bd grid h-64 place-items-center rounded-[4px] border text-center shadow-sm">
               <div>
                 <div className="text-[13px] font-semibold">{tab}</div>
