@@ -4,7 +4,8 @@ mode, redacting every person-identifying field and converting absolute
 timestamps into an offset (seconds since the window start) so the
 frontend can replay them anchored to "now" instead of the real date.
 
-Input:  C:\\Users\\GenAIHYDRPUSR18\\Desktop\\Auto\\Auto Alerts\\June-2026 HIP OPS Incident Inflow Analysis.xlsx
+Input:  Auto Alerts/June-2026 HIP OPS Incident Inflow Analysis.xlsx in this repo (git-ignored);
+        override the path with the HIP_JUNE_XLSX environment variable.
 Output: server/live-data/june-window.json  (gitignored -- redacted but
         still-real client ticket text, same privacy rule as /Auto Alerts/)
 
@@ -20,8 +21,12 @@ import sys
 
 import pandas as pd
 
-SRC = r"C:\Users\GenAIHYDRPUSR18\Desktop\Auto\Auto Alerts\June-2026 HIP OPS Incident Inflow Analysis.xlsx"
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Override with HIP_JUNE_XLSX; the default is the git-ignored /Auto Alerts/ folder in this repo.
+SRC = os.environ.get(
+    "HIP_JUNE_XLSX",
+    os.path.join(REPO_ROOT, "Auto Alerts", "June-2026 HIP OPS Incident Inflow Analysis.xlsx"),
+)
 OUT_DIR = os.path.join(REPO_ROOT, "server", "live-data")
 OUT_PATH = os.path.join(OUT_DIR, "june-window.json")
 

@@ -22,3 +22,6 @@ __pycache__/
 
 # generated architecture page (regenerate: python scripts/build_architecture_html.py)
 /docs/architecture.html
+
+# synthetic (pseudonymised) copies of the demo data: generated locally, copied to the VM out of band
+/synthetic-data/
