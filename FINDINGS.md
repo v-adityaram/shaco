@@ -124,3 +124,41 @@ S1 and S2 are a deliberate pair: the same business symptom ("deliveries not arri
 - The two most important scenarios now depend on the live model (about 75 s per call, and run-to-run variation). Run each once before a demo so a saved fallback exists.
 - Because S2's first answer can hedge, its late-evidence closer can produce a **genuine ranking flip live**, which the stored answers could not.
 - With four live scenarios the model service rate-limits bursts, so the server now queues calls (two at a time) and retries a 429 after waiting instead of falling straight back to the saved answer.
+
+## 11. Round 4 — Live mode (real June replay), Global Overview panel, first production deploy
+
+Session of 2026-09-21. Two feature additions, then a real deployment onto a shared VM. Everything here is pushed to `hip-real-data-ai-first` (currently at `6ea74ab`) except the one open item at the end.
+
+### What we built
+
+**Live mode** (`app/src/screens/LiveFloor.tsx`, `app/src/lib/liveIncidents.ts`, `scripts/extract_live_incidents.py`, `server/index.js`'s `/api/live-window`). Replays a real 48h window (June 9–11, chosen for containing two real linked incident clusters) of the actual June 2026 HIP incident export, redacted and re-anchored to "now" so it plays out live on a simulated clock (240× by default) instead of on the real June date.
+
+- **Redaction is at extraction time, not display time.** `extract_live_incidents.py` drops `Caller`/`Assigned to`/`Updated by`/`Resolved by` entirely before the file ever gets written; nothing downstream can leak a name because the name is never in the data.
+- **No raw telemetry exists for real incidents** — the June export is ServiceNow ticket data only (subject, description, classification, close notes, timestamps). Live mode's AI evidence is built from that ticket text directly; we did not fabricate synthetic logs to sit behind it. This is a real, disclosed constraint, not a bug.
+- **Incident selection.** Users can tick individual incidents, "select linked cluster" (follows the real `parent_incident` field — confirmed this is genuine ServiceNow triage data, not something we invented: e.g. three separately-auto-raised `Global Daily Flow Failure Report` tickets for three different country exchanges, hand-linked by a real triager to one parent), or leave nothing ticked to send everything arrived so far. This required moving off the shared `ensureDiagnosis`/`useLiveState` cache (keyed only by scenario slug, so it can't be forced to re-run against a different hand-picked event subset) to a locally-managed, always-rerunnable call in the screen itself.
+
+**Global Overview panel** (`SonarDashboardView` → new `GlobalOverviewView` in `app/src/components/SonarDashboard.tsx`, generation in `scripts/build_alert_feed.py`). Reproduces the real "Global Daily Flow Failure Report" — a Critical Flows table ranked by failure rate (red-gradient shaded, same as the real one) plus Failure Rate by Zone/Application tiles.
+
+- Only built for S1–S5 (synthetic), not Live mode — the real Failure Report needs raw exchange-level pass/fail *volume* (how many times did this exchange run today, how many failed), which the ticket export doesn't have. Checked the export's other sheets (`Platform`, `By Team`, `By Day`, `Classification`, `1 Year Trends`) first to be sure; none of them have it either. Didn't fabricate a fake version for Live mode.
+- Every number in the panel is a **disaggregation of the already-computed `exchangeKpis` totals** (`build_critical_flows()` etc.), never a second, contradicting figure — same principle as the rest of the pipeline ("counts are computed by code, not stated by the model"), just applied to a finer partition of a count that already existed.
+
+### Deploying to the shared VM (RapidBuildFactory, 104.211.224.38)
+
+First real deployment of this app, onto a box that already runs two other live projects (`telecom-assistant`, `GAF Customer Service AI`) behind one nginx reverse proxy, landing page at `/home/`. Incident Response AI already had a slot prepared: nginx `location /incident/` (alias to `/var/www/incident-ai/`, basic-auth protected) and `location /incident/api/` (proxy to `127.0.0.1:8002`), plus a `incident-ai.service` systemd unit — someone had set this up in advance, just never deployed code to it.
+
+**What worked:**
+- The earlier "harden for public use" pass on `server/index.js` (rate limiting, concurrency cap, request-size cap, `ALLOWED_SLUGS` whitelist) meant zero server code changes were needed just to go public — it was already safe to expose.
+- `VITE_BASE=/incident/ npm run build` produces a correctly-relocated build with no other changes, because `app/src/lib/ai.ts` already computes its API base from `import.meta.env.BASE_URL` rather than a hardcoded `/api`.
+- `/api/live-window` reads its file fresh on every request (not cached at server startup), so running the extraction script never requires a service restart — only actual `server/index.js` changes do.
+- Retrofitting a non-git deployment directory into a real checkout is safe with `git init && git remote add origin ... && git fetch && git checkout -f -b <branch> origin/<branch>` — it only overwrites paths git actually tracks, so secrets/real-data/`node_modules` (never tracked) are untouched by construction, no `.gitignore` awareness needed before the fact.
+
+**What didn't work / gotchas for next time:**
+- The deployment directory was **not a git repo** — someone had `scp`/`rsync`'d files there directly rather than cloning. `git pull` is meaningless until you `git init` + add the remote + fetch first; wasted a round-trip discovering this.
+- `node`/`npm` are **not on the VM's system `PATH`** — the systemd service runs a self-contained Node at `/home/azureuser/incident-ai/node/bin/node`. Needs `export PATH="/home/azureuser/incident-ai/node/bin:$PATH"` before any npm command, every session.
+- Fresh checkout means no `node_modules` (gitignored, obviously) — `npm run build` fails on `tsc: not found` until `npm install` runs first. Easy to forget when the source tree looks otherwise complete.
+- **Port 22 (SSH) is closed at the network level** on this VM (Azure NSG, near-certainly) — confirmed by direct-connection timeout both from outside and from the user's own machine. The only working remote shell is Azure's own web console (Serial Console / Run Command), which is not SSH and doesn't support `scp`. This fully blocked transferring the real June Excel export onto the VM — **Live mode's data extraction is not done on production**, only the feature/code is deployed there (confirmed: it correctly shows "no live window extracted" rather than crashing or faking data).
+- Classic Windows `scp` + drive-letter gotcha: `scp` parses `C:\Users\...` as `host:path` and tries to resolve "C" as a hostname. Fix is `cd` into the folder first so the local argument has no leading drive-letter colon.
+- Several relay round-trips were wasted on **terminal confusion** — commands meant for the user's local PowerShell landing in the VM's browser-console tab instead (same-looking shell prompt style, easy to lose track of which window has focus). Worth having the user run a throwaway sanity command (`pwd` / `dir`) before any multi-step sequence to confirm which shell is active.
+- **Considered and explicitly rejected:** pushing the real Excel export to GitHub so the VM could `git pull` it. Even on a private repo this would permanently embed real employee/ticket data in git history — directly contradicts this project's own stated privacy rule (§7 above, and `.gitignore`).
+
+**Open item for next session:** Live mode's real data is still not set up on the production VM. Two viable, undone paths: (a) open NSG port 22 inbound, scoped to the operator's IP only, then `scp` normally; (b) stage the Excel behind a short-lived private link (OneDrive/SharePoint share, or an Azure Blob SAS URL) and `curl`/`wget` it from *inside* the VM's web console, which does have working outbound internet (confirmed — `git clone`, `apt install` all worked fine from there). Neither was executed; the user paused here rather than choose.
