@@ -162,3 +162,48 @@ First real deployment of this app, onto a box that already runs two other live p
 - **Considered and explicitly rejected:** pushing the real Excel export to GitHub so the VM could `git pull` it. Even on a private repo this would permanently embed real employee/ticket data in git history — directly contradicts this project's own stated privacy rule (§7 above, and `.gitignore`).
 
 **Open item for next session:** Live mode's real data is still not set up on the production VM. Two viable, undone paths: (a) open NSG port 22 inbound, scoped to the operator's IP only, then `scp` normally; (b) stage the Excel behind a short-lived private link (OneDrive/SharePoint share, or an Azure Blob SAS URL) and `curl`/`wget` it from *inside* the VM's web console, which does have working outbound internet (confirmed — `git clone`, `apt install` all worked fine from there). Neither was executed; the user paused here rather than choose.
+
+## 12. Round 5 — Live data on the VM, and synthetic data for every page
+
+Session of 2026-09-22. Closed the Round 4 open item (Live mode had no data on the shared VM), verified Live mode end to end, then built synthetic copies of the data behind every screen so the demo can run without production names.
+
+### What we did
+
+1. **Live mode data went onto the VM.** Ran `scripts/extract_live_incidents.py` locally and copied only the redacted `june-window.json` (138 incidents, 48 h window) to `server/live-data/` on the VM. The raw exports stay out of git (unchanged rule). The extractor's input path was hard-coded to another machine; it now defaults to the git-ignored `Auto Alerts/` folder and can be overridden with `HIP_JUNE_XLSX`.
+2. **Verified Live mode end to end** against the deployed site, using the same steps as the screen: fetch the window, take the real linked cluster (55 incidents, capped at 40 sent), convert to events, call `/api/diagnose`.
+3. **Built synthetic data for every page** (`scripts/synthesize_all.py`, output in git-ignored `synthetic-data/`): both files for each scenario S1-S5, the authored diagnoses, the alias table and the Live window, 15 source files in total. Also staged the folder on the VM and wrote a runbook to switch the demo over: `docs/VM-SYNTHETIC-DATA.md`.
+4. **Consistent authorship.** The commit history of this repo was rewritten so every commit carries one author identity (messages, file contents and dates are unchanged; hashes changed) and force-pushed; the pre-rewrite history was kept as local bundle backups.
+
+### What worked
+
+- **Live mode works.** Two runs on the real linked cluster returned HTTP 200 in 56 s and 63 s with `warnings: []`, a full structured answer (summary, 19-event timeline, ranked hypotheses with supporting and contradicting incident numbers, ruled-out causes, checks, blast radius, recovery) and no fabricated data. Both runs proposed a SAP-side configuration or RFC-destination cause for the same recurring IDoc error.
+- **The synthetic build is checkable.** Every run compares each synthetic file with its original: same keys, same numbers, same list lengths (PASS on all 15); no whole production identifier survives; event ids are unique; the S5 diagnosis still cites the same 16 events; the real data files are byte-identical before and after (hash-checked).
+- **One salted mapping across all files** means a production name becomes the same synthetic name everywhere, so citations, timelines, dashboards and the Live window still line up. 2,528 identifiers were replaced.
+
+### What didn't work first time, and the fix
+
+| Problem | Cause | Fix |
+| --- | --- | --- |
+| A person's e-mail address was still in the Live window | Redaction is per **column**; names and addresses can also sit inside free-text description and close-note fields | Content-level scrubbing: e-mails, phone numbers, sign-off and greeting names, mail headers, "SURNAME Firstname - ..." subjects |
+| Name rules silently matched nothing (twice) | A stray backspace character replaced `\b` in the regex text when patching, so the pattern could never match | Fixed, and the script now refuses to run if it contains control characters |
+| Two different 4-digit ids could map to the same fake id | Hash-only mapping over a small space collides (about 300 ids in 10,000 values) | One-to-one digit mapping with re-hashing on collision |
+| Fields the app depends on were renamed (`status` COMPLETE became a nonsense word; the scenario `slug` changed) | The scrubber treated every string alike | Vocabulary fields (`slug`, `status`, `level`, `kind`, `severity`, `mode`, `file`, `eventCode`, `objectName`) are kept verbatim; `source` is kept on event and alert rows only |
+| `application` held real deployment names on some rows and generic types (API, ESB, MFT) on others | One field, two meanings | Keep only the generic types, scrub the rest |
+| Internal component names survived as standalone words, inside hyphenated words, in CamelCase and in dictionary keys | The identifier rule consumed a hyphenated token before the name rule could run | Configured names are replaced anywhere inside a token (but not inside longer lowercase words), including keys; the list lives in a git-excluded file, never in a tracked script |
+| Vendor words on the keep list protected real project names | Two vendor names were kept so prose would read naturally, but they also shielded identifiers built from them | Removed from the keep list (standalone prose is untouched by the scrubber anyway) |
+| Mixed-case job names and SAP system ids passed through | Patterns only covered upper-case or separated tokens | Added rules for letters-plus-digits tokens and standalone SAP ids |
+
+### Decisions worth remembering
+
+- **Slugs never change.** They are routing keys and the server's allow-list.
+- **The synthetic folder is never committed** (`/synthetic-data/` is now in `.gitignore`); it is copied to the VM out of band. The private list of internal names and the random salt stay on the generating machine.
+- **Live mode and the scenarios switch differently.** The server reads the live window on every request (file copy only); scenarios are compiled into the web build (copy, then rebuild). The runbook has both.
+- **Rejected again:** committing the real exports or the real live window to git, even privately.
+
+### Known limitations (not fixed)
+
+- **Free-text personal names are removed by rules**, so a name in an unusual position could remain. Skim the synthetic Live window before showing it outside the team.
+- **Live answers are plausible, not proven.** Nobody has compared the model's Live diagnosis with what the team concluded on those real tickets. Two runs gave 3 and then 2 hypotheses, so wording and count vary.
+- **Not covered by the synthetic set:** `naming.py`, `generator/`, the prompts, the docs and the study-guide PDF still contain production examples.
+- **Only the API path was tested.** The Live screen itself (clicking through, ticking incidents, the simulated clock) has not been exercised in a browser on the VM since the deploy.
+- **The VM is not switched yet.** It still serves the real data; `docs/VM-SYNTHETIC-DATA.md` lists the steps.
