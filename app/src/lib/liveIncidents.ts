@@ -119,25 +119,51 @@ export function toNormalisedEvent(inc: RawLiveIncident, anchorTs: Date): Normali
  * mounts and advances `speed`x faster than real time, replaying the real window's
  * relative timing (not the real June dates -- see extract_live_incidents.py).
  * Loops back to the start once the whole window has played out.
+ *
+ * `paused` freezes the clock in place (used while an AI call is in flight -- see
+ * useArrivedIncidents) rather than stopping it: real time that passes while paused
+ * is not counted, so playback resumes exactly where it left off instead of jumping
+ * forward to "catch up".
  */
-export function useLivePlayback(windowSeconds: number, speed: number) {
+export function useLivePlayback(windowSeconds: number, speed: number, paused = false) {
   const [elapsedSimSec, setElapsedSimSec] = useState(0)
   const startedAtRef = useRef<number>(Date.now())
+  const baseSimSecRef = useRef<number>(0)
 
   useEffect(() => {
     startedAtRef.current = Date.now()
+    baseSimSecRef.current = 0
+    setElapsedSimSec(0)
+  }, [windowSeconds, speed])
+
+  useEffect(() => {
+    if (paused) return
+    startedAtRef.current = Date.now()
     const id = window.setInterval(() => {
       const realElapsedSec = (Date.now() - startedAtRef.current) / 1000
-      setElapsedSimSec((realElapsedSec * speed) % Math.max(windowSeconds, 1))
+      setElapsedSimSec((baseSimSecRef.current + realElapsedSec * speed) % Math.max(windowSeconds, 1))
     }, 500)
-    return () => window.clearInterval(id)
-  }, [windowSeconds, speed])
+    return () => {
+      window.clearInterval(id)
+      const realElapsedSec = (Date.now() - startedAtRef.current) / 1000
+      baseSimSecRef.current = (baseSimSecRef.current + realElapsedSec * speed) % Math.max(windowSeconds, 1)
+    }
+  }, [windowSeconds, speed, paused])
 
   return elapsedSimSec
 }
 
-export function useArrivedIncidents(win: LiveWindow | null, speed: number) {
-  const elapsedSimSec = useLivePlayback(win?.window_seconds ?? 1, speed)
+/**
+ * `paused` (pass `diagStatus === 'loading'`) freezes which incidents count as
+ * "arrived" for the duration of an AI call. Without this, new incidents keep
+ * streaming in underneath an in-progress analysis -- the feed keeps growing and
+ * re-sorting while the user is looking at it, shoving already-visible (and
+ * possibly ticked) cards out of view. The call itself already only sees a fixed
+ * snapshot taken at click time; freezing the display just makes what's on screen
+ * match that snapshot until the call finishes.
+ */
+export function useArrivedIncidents(win: LiveWindow | null, speed: number, paused = false) {
+  const elapsedSimSec = useLivePlayback(win?.window_seconds ?? 1, speed, paused)
   const anchorTs = useMemo(() => new Date(), [win])
 
   const arrived = useMemo(() => {

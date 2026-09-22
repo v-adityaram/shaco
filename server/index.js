@@ -117,7 +117,7 @@ async function callFoundry(instructions, input) {
   if (data.status === 'incomplete') {
     throw new Error(`model response incomplete (${data.incomplete_details?.reason || 'unknown'})`)
   }
-  return parseJson(extractOutputText(data))
+  return { diag: parseJson(extractOutputText(data)), usage: data.usage || null }
 }
 
 // ---------------------------------------------------------------------------
@@ -212,27 +212,55 @@ function sanitise(diag, byId) {
   return warnings
 }
 
+// Accumulates Azure's per-call token usage across however many Foundry calls one
+// diagnosis takes (up to 3: initial, JSON-repair retry, validation retry) so the
+// UI can show one honest total rather than just the last call's numbers.
+function makeUsageTracker() {
+  const totals = { input_tokens: 0, output_tokens: 0, reasoning_tokens: 0, total_tokens: 0 }
+  let calls = 0
+  let any = false
+  return {
+    add(usage) {
+      calls++
+      if (!usage) return
+      any = true
+      totals.input_tokens += usage.input_tokens || 0
+      totals.output_tokens += usage.output_tokens || 0
+      totals.reasoning_tokens += usage.output_tokens_details?.reasoning_tokens || 0
+      totals.total_tokens += usage.total_tokens || 0
+    },
+    result: () => ({ usage: any ? totals : null, calls }),
+  }
+}
+
 async function analyse(instructions, input, events, label) {
   const byId = new Map(events.map((e) => [e.event_id, e]))
   const ids = new Set(byId.keys())
+  const tracker = makeUsageTracker()
   let diag
   try {
-    diag = await callFoundry(instructions, input)
+    const r = await callFoundry(instructions, input)
+    diag = r.diag
+    tracker.add(r.usage)
   } catch (err) {
     if (!(err instanceof SyntaxError)) throw err
     console.warn(`[${label}] model returned invalid JSON (${err.message}); retrying once`)
-    diag = await callFoundry(
+    const r = await callFoundry(
       instructions,
       `${input}\n\nYour previous answer was not valid JSON (${err.message}). Return the complete answer again as strictly valid JSON only.`,
     )
+    diag = r.diag
+    tracker.add(r.usage)
   }
   let errors = validate(diag, ids)
   if (errors.length) {
     console.warn(`[${label}] first attempt failed validation: ${errors.slice(0, 5).join('; ')}`)
-    diag = await callFoundry(
+    const r = await callFoundry(
       instructions,
       `${input}\n\nYour previous answer failed validation with these errors -- fix them and return the complete JSON again:\n- ${errors.join('\n- ')}`,
     )
+    diag = r.diag
+    tracker.add(r.usage)
     errors = validate(diag, ids)
   }
   const fatal = errors.filter((e) => !e.includes('cites unknown event_id') && !e.includes('contradicts must be'))
@@ -241,7 +269,7 @@ async function analyse(instructions, input, events, label) {
   for (const h of diag.hypotheses) {
     if (h.contradicts.length === 0) warnings.push(`rank ${h.rank} has no contradicting evidence (model could not cite any)`)
   }
-  return { diag, warnings }
+  return { diag, warnings, ...tracker.result() }
 }
 
 // ---------------------------------------------------------------------------
@@ -270,8 +298,8 @@ function loadCache(slug, kind) {
 async function respond(res, slug, kind, run) {
   const started = Date.now()
   try {
-    const { payload, warnings } = await run()
-    payload._meta = { source: 'live', model: MODEL, latencyMs: Date.now() - started, warnings }
+    const { payload, warnings, usage, calls } = await run()
+    payload._meta = { source: 'live', model: MODEL, latencyMs: Date.now() - started, warnings, usage: usage || undefined, calls }
     saveCache(slug, kind, payload)
     res.json(payload)
   } catch (err) {
@@ -296,8 +324,8 @@ app.post('/api/diagnose', (req, res) => {
   }
   if (badRequest(res, slug, events)) return
   respond(res, slug, 'diagnosis', async () => {
-    const { diag, warnings } = await analyse(ANALYST_SYSTEM, buildInput(events), events, `${slug}/diagnose`)
-    return { payload: diag, warnings }
+    const { diag, warnings, usage, calls } = await analyse(ANALYST_SYSTEM, buildInput(events), events, `${slug}/diagnose`)
+    return { payload: diag, warnings, usage, calls }
   })
 })
 
@@ -313,7 +341,7 @@ app.post('/api/diagnose/late-evidence', (req, res) => {
     const input =
       `${buildInput(all)}\n\nlate_event (arrived after your original diagnosis; event_id ${lateEvent.event_id}):\n` +
       `${JSON.stringify(lateEvent)}\n\nprevious_diagnosis:\n${JSON.stringify(previousDiagnosis)}`
-    const { diag, warnings } = await analyse(
+    const { diag, warnings, usage, calls } = await analyse(
       `${ANALYST_SYSTEM}\n\n---\n\n${LATE_EVIDENCE_INSTRUCTIONS}`,
       input,
       all,
@@ -335,7 +363,7 @@ app.post('/api/diagnose/late-evidence', (req, res) => {
       rank_after: diag.hypotheses.map((h) => ({ cause: h.cause, rank: h.rank })),
       what_changed: Array.isArray(modelDiff.what_changed) ? modelDiff.what_changed : [],
     }
-    return { payload: diag, warnings }
+    return { payload: diag, warnings, usage, calls }
   })
 })
 

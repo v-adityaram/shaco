@@ -10,7 +10,7 @@ import {
   type LiveWindow,
   type RawLiveIncident,
 } from '../lib/liveIncidents'
-import type { DiagnosisResult, NormalisedEvent, ScenarioMeta } from '../lib/types'
+import type { DiagnosisMeta, DiagnosisResult, NormalisedEvent, ScenarioMeta } from '../lib/types'
 import { BlastRadius } from '../panels/BlastRadius'
 import { Checks } from '../panels/Checks'
 import { Hypotheses } from '../panels/Hypotheses'
@@ -36,6 +36,55 @@ function formatAgo(simSecondsAgo: number): string {
   if (m < 60) return `${m}m ago`
   const h = Math.floor(m / 60)
   return `${h}h ${m % 60}m ago`
+}
+
+/** How much the last AI call actually cost, in time and tokens -- from the server's _meta. */
+function AiCallStats({ meta }: { meta?: DiagnosisMeta }) {
+  if (!meta) return null
+  const stat = (label: string, value: string) => (
+    <div className="flex flex-col">
+      <span className="text-[9.5px] tracking-wide text-slate-400 uppercase dark:text-slate-500">{label}</span>
+      <span className="font-mono-tight text-[12px] text-slate-700 dark:text-slate-300">{value}</span>
+    </div>
+  )
+  return (
+    <div className="mb-2 rounded-md border border-slate-200 bg-white/60 p-2 dark:border-slate-700/60 dark:bg-slate-900/40">
+      <div className="mb-1 flex items-center justify-between">
+        <span className="text-[10px] font-semibold tracking-wide text-slate-500 uppercase dark:text-slate-400">
+          AI call
+        </span>
+        <span
+          className={`text-[10px] ${meta.source === 'live' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}
+        >
+          {meta.source === 'live' ? 'live' : 'fallback (server cache)'}
+        </span>
+      </div>
+      <div className="grid grid-cols-3 gap-x-2 gap-y-1.5">
+        {stat('model', meta.model ?? '—')}
+        {stat('time', meta.latencyMs != null ? `${(meta.latencyMs / 1000).toFixed(1)}s` : '—')}
+        {stat('calls', meta.calls != null ? String(meta.calls) : '—')}
+        {meta.usage ? (
+          <>
+            {stat('input tok', meta.usage.input_tokens.toLocaleString())}
+            {stat('output tok', meta.usage.output_tokens.toLocaleString())}
+            {stat('total tok', meta.usage.total_tokens.toLocaleString())}
+          </>
+        ) : (
+          <div className="col-span-2 text-[10.5px] text-slate-400">token usage unavailable (fallback answer)</div>
+        )}
+      </div>
+      {meta.usage && meta.usage.reasoning_tokens > 0 && (
+        <div className="mt-1 text-[10px] text-slate-400 dark:text-slate-500">
+          of which {meta.usage.reasoning_tokens.toLocaleString()} reasoning tokens
+        </div>
+      )}
+      {meta.warnings && meta.warnings.length > 0 && (
+        <div className="mt-1 text-[10px] text-amber-600 dark:text-amber-400">
+          {meta.warnings.length} grounding warning{meta.warnings.length > 1 ? 's' : ''}
+        </div>
+      )}
+    </div>
+  )
 }
 
 function IncidentCard({
@@ -120,7 +169,9 @@ export function LiveFloor() {
     if (elapsedTimer.current) window.clearInterval(elapsedTimer.current)
   }, [])
 
-  const { arrived, elapsedSimSec, anchorTs } = useArrivedIncidents(win, SPEED)
+  // Freeze the feed while a call is in flight -- otherwise incidents keep streaming
+  // in underneath the analysis and shove already-visible/ticked cards out of view.
+  const { arrived, elapsedSimSec, anchorTs } = useArrivedIncidents(win, SPEED, diagStatus === 'loading')
 
   // real duplicate clusters, as-linked in the source ServiceNow data itself
   const clusterIds = useMemo(() => {
@@ -267,6 +318,7 @@ export function LiveFloor() {
           >
             {runLabel}
           </button>
+          {diagResult && <AiCallStats meta={diagResult._meta} />}
           <div className="max-h-[65vh] space-y-2 overflow-y-auto pr-1">
             {[...arrived].reverse().map((inc) => (
               <IncidentCard

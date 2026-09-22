@@ -223,12 +223,22 @@ export interface ScenarioBundle {
   noiseRulesFired: number
 }
 
+export interface DiagnosisUsage {
+  input_tokens: number
+  output_tokens: number
+  reasoning_tokens: number
+  total_tokens: number
+}
+
 export interface DiagnosisMeta {
   source: 'live' | 'server-cache'
   cachedAt?: string
   model?: string
   latencyMs?: number
   warnings?: string[]
+  /** Summed across every Foundry call this diagnosis took (retries included). Live calls only. */
+  usage?: DiagnosisUsage
+  calls?: number
 }
 
 /** Response of POST /api/diagnose. */
