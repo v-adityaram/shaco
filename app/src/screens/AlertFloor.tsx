@@ -32,7 +32,7 @@ const L1_BY_SLUG: Record<string, L1Case> = {
       { text: 'Replay of stuck ASN exchanges (KB0041802) — re-queued, still INPROGRESS' },
       { text: 'Escalated to L2' },
     ],
-    staleRef: 'KB0038219 · Restart EMEA_SAPS4_ASN_OUT_02_ESB (half-flow renamed, no longer resolves)',
+    staleRef: 'KB0038219 · Restart EMEA_MOPUNE4_POBIKU_OUT_02_ESB (half-flow renamed, no longer resolves)',
   },
   's2-pi7-listener-hang': {
     query: 'no deliveries SAP to Manhattan replay',
@@ -40,7 +40,7 @@ const L1_BY_SLUG: Record<string, L1Case> = {
       { text: 'Replay attempted (KB0041802) — no effect', tone: 'warn' },
       { text: 'Escalated to L2' },
     ],
-    staleRef: 'KB0036950 · Restart AN_COMMON_PI7IDOCListner_01 (half-flow renamed, no longer resolves)',
+    staleRef: 'KB0036950 · Restart AN_COMMON_PI7Migafu_01 (half-flow renamed, no longer resolves)',
   },
   's3-vendor-release': {
     query: 'IDoc out failed ConfigForDocSending',
@@ -48,7 +48,7 @@ const L1_BY_SLUG: Record<string, L1Case> = {
       { text: 'Replay of 3 failed IDocs (KB0041802) — failed again, same error', tone: 'warn' },
       { text: 'Escalated to L2' },
     ],
-    staleRef: 'KB0037715 · Restart EURO_COMMON_IDOC_SAPCE_01 (half-flow renamed, no longer resolves)',
+    staleRef: 'KB0037715 · Restart EURO_COMMON_IDOC_DEFUTE_01 (half-flow renamed, no longer resolves)',
   },
   's4-stalled-exchange': {
     query: 'file INPROGRESS database locked FKF not generated',
@@ -56,7 +56,7 @@ const L1_BY_SLUG: Record<string, L1Case> = {
       { text: 'Checked SFG transfer (KB0049334) — status SUCCESS, nothing to repush' },
       { text: 'Escalated to L2' },
     ],
-    staleRef: 'KB0035102 · Repush GLBL_OPSF_ANAPLAN_BPM_to_FM_01 (half-flow renamed, no longer resolves)',
+    staleRef: 'KB0035102 · Repush GLBL_BESAVU_LUVIFE_KEPIRI_to_FM_01 (half-flow renamed, no longer resolves)',
   },
   's5-transco-cache': {
     query: 'Connection refused transco-cache TranscoInvoke',
@@ -64,7 +64,7 @@ const L1_BY_SLUG: Record<string, L1Case> = {
       { text: 'Replay succeeded (x6, KB0041802) — failures recur on other half-flows', tone: 'warn' },
       { text: 'Escalated to L2' },
     ],
-    staleRef: 'KB0034481 · Restart EMEA_SAPIT_SALESORDER_01_ESB (half-flow renamed, no longer resolves)',
+    staleRef: 'KB0034481 · Restart EMEA_KARIGA_BODIMI_01_ESB (half-flow renamed, no longer resolves)',
   },
 }
 
