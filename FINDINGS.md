@@ -283,3 +283,47 @@ The **"minimal" variant** changes only subject, details and close_notes, and onl
 - **Which Live-window variant to actually use is undecided.** Both are staged; a decision is pending.
 - **Only the "full" variant's data has been checked this thoroughly.** The "minimal" variant has not had the same live, end-to-end verification (an actual /api/diagnose call) that the "full" one did in Round 5.
 - **Not covered by any of this:** naming.py, generator/, the prompts, the docs and the study-guide PDF still contain production examples, by design (documented "real basis" for the scenarios) -- not touched here.
+
+## 15. Round 8 - Live mode's feed-jumping bug, and AI call observability
+
+Session of 2026-09-23. A real usage report ("the left side abruptly closes when AI correlation runs") led to a reproduced, root-caused, fixed and verified UI bug, plus a small observability feature added on the same pass.
+
+### The bug, and how it was actually diagnosed
+
+Reported: while running AI correlation in Live mode, the incident feed on the left visually "expands and abruptly closes". Rather than guess, this was reproduced against the real deployed site with a headless browser (Playwright), measuring the feed panel's scrollHeight second by second across an actual live call:
+
+```
++1s  scrollHeight=440
++2s  scrollHeight=562   (a new incident arrived)
++6s  scrollHeight=724   (another arrived)
++16s scrollHeight=846   (another arrived)
+```
+
+Root cause: Live mode's simulated clock (`useLivePlayback`, 240x real time) keeps running regardless of whether an AI call is in flight. The call itself already works from a fixed snapshot of ticked incidents taken at click time -- but the on-screen feed kept growing and re-sorting underneath it while the user waited, pushing already-visible (and possibly ticked) cards out of view. That is what read as the panel "expanding then abruptly closing".
+
+### The fix
+
+`useLivePlayback`/`useArrivedIncidents` (`app/src/lib/liveIncidents.ts`) now take a `paused` flag; `LiveFloor` passes `diagStatus === 'loading'`. The clock freezes in place rather than stopping -- real time that elapses while paused is not counted, so playback resumes exactly where it left off once the call finishes, instead of jumping forward to "catch up" on however long the call took.
+
+Verified against the deployed site, same method as the original repro:
+- **During a live call:** scrollHeight and the top card stayed byte-identical for the full 20 seconds measured (previously it changed every few seconds).
+- **After the call finished:** the feed resumed and grew again (440px -> 724px within 6 seconds) -- confirms it picks back up rather than staying stuck frozen.
+
+### AI call observability (added on the same pass)
+
+Requested alongside the bug report: visibility into how much a live call actually costs, in time and tokens.
+
+- **Backend** (`server/index.js`): `callFoundry` now returns Azure's `usage` object (input/output/reasoning/total tokens) alongside the parsed diagnosis. `analyse()` accumulates usage across however many Foundry calls one diagnosis takes (initial call, JSON-repair retry, validation retry -- up to 3), via a small tracker, and returns the totals plus a call count. Both routes (`/api/diagnose`, `/api/diagnose/late-evidence`) thread this through `respond()` into `_meta.usage` / `_meta.calls`.
+- **Frontend**: `DiagnosisMeta` gained `usage`/`calls`; Live mode's left column shows a compact "AI call" panel once a result exists: model, elapsed time, call count, input/output/total tokens, reasoning-token count when nonzero, and the grounding-warning count.
+- **Verified live**, one real call: `gpt-5, 62.1s, 2 calls (one validation retry), 5,396 input / 5,533 output / 10,929 total tokens, 1,728 of them reasoning, 1 grounding warning`. Confirms the retry counter and token totals are real numbers off a real call, not placeholders.
+
+### Decisions worth remembering
+
+- **Reproduce UI bugs in a real browser against the real deployment before proposing a fix.** A headless Playwright session against the live site (with the demo's own basic-auth credentials) caught the exact mechanism in one pass, rather than guessing from a screenshot description.
+- **Pausing state should freeze, not stop.** The chosen implementation banks elapsed real time into a base offset rather than resetting the clock, so pausing during a slow model call doesn't cause a jump-forward once it resumes -- worth the same care anywhere else a simulated/live clock exists in this app.
+- **Token usage is worth carrying end to end, not just latency.** `latencyMs` already existed in `_meta`; extending the same path to include `usage`/`calls` was a small addition once the plumbing existed, and it makes retries (a real cost and reliability signal) visible instead of silent.
+
+### Known limitations (not fixed)
+
+- **The observability panel is Live-mode-only for now.** The S1-S5 scenario view (`AiView.tsx`) uses the same `_meta` shape (so the data is already there for it, live scenarios included) but has no equivalent stats panel yet.
+- **Token usage is only available for live calls.** A server-cache fallback answer has no fresh `usage` to show, and the panel says so rather than showing stale or zero numbers.
