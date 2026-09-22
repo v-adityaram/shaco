@@ -15,10 +15,13 @@ __pycache__/
 /Auto Alerts/
 /server/cache/
 
-# redacted-but-still-real ticket text extracted from /Auto Alerts/ for the
-# live-mode demo -- names are stripped but subjects/close-notes are real
-# client text, so this stays local and gitignored like the source export
-/server/live-data/
+# server/live-data/ holds whatever window the live-mode demo currently serves. If it's
+# ever regenerated from the real export (extract_live_incidents.py), that output is
+# redacted-but-still-real client ticket text and must stay local -- so the folder is
+# gitignored by default. The one exception below is the fully-scrubbed, team-reviewed
+# synthetic window, which is safe to commit and is what a fresh checkout ships with.
+/server/live-data/*
+!/server/live-data/june-window.json
 
 # generated architecture page (regenerate: python scripts/build_architecture_html.py)
 /docs/architecture.html
