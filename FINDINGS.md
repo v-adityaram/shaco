@@ -207,3 +207,28 @@ Session of 2026-09-22. Closed the Round 4 open item (Live mode had no data on th
 - **Not covered by the synthetic set:** `naming.py`, `generator/`, the prompts, the docs and the study-guide PDF still contain production examples.
 - **Only the API path was tested.** The Live screen itself (clicking through, ticking incidents, the simulated clock) has not been exercised in a browser on the VM since the deploy.
 - **The VM is not switched yet.** It still serves the real data; `docs/VM-SYNTHETIC-DATA.md` lists the steps.
+
+## 13. Round 6 — A 2-slide problem/solution pitch, verified against the real export
+
+Session of 2026-09-22. Built a standalone "problem statement / solution" pitch for stakeholders who won't read the full plan, and re-verified the headline numbers directly against the raw export rather than trusting the earlier write-up.
+
+### What we did
+
+1. **A 2-slide artifact, "The Diagnosis Gap"** (`docs/diagnosis-gap-deck.html`, published as a Claude Artifact). Slide 1 states the problem (detection works, diagnosis doesn't) with one worked real example (the June PI7 listener-hang incident) and three headline stats. Slide 2 states the solution (AI layer on top of the existing rules, never replacing them) with the layer-stack diagram, the four-step output, and proof points already built (synthetic scenarios, Live mode, the VM deployment). Iterated through many rounds of copy and layout feedback.
+2. **Re-verified the client stats independently.** Found the real 3-month export at `C:\Users\<user>\Desktop\Auto\Auto Alerts\` (three separate monthly `.xlsx` files, June/July/August — not the same file the extractor already reads from the repo's gitignored `Auto Alerts/`), loaded all three `RawData` sheets with pandas, and recomputed the stats from scratch instead of re-quoting `BRIEFING.md`: 3,118 total rows, 1,272 (40.8% -> "41%") flagged `Auto`, median resolve time for auto-raised incidents 6.64h ("6.6h"), 390 (12.5%) linked duplicates. All four matched the existing write-up exactly.
+3. **Exported an offline copy.** `scripts` folder gained a one-off `python-pptx` build (not checked in as a script, run once) producing `The Diagnosis Gap.pptx` at the repo root — two slides, no embedded images, 33KB.
+
+### What worked
+
+- **The real export settles ambiguity fast.** Rather than guess whether a number was accurate, loading the actual `RawData` sheet and recomputing it took under a minute and gave an exact match, which is a better answer than either blindly trusting or blindly doubting the prior write-up.
+- **`python-pptx` is available in this environment** and produces small, image-free files well under any attachment limit without needing further compression — a `.pptx` is already a zip container, so re-zipping it would only add overhead.
+
+### What didn't work first time, and the fix
+
+- **A slide section silently disappeared, twice, and it was not a caching problem.** Root cause: `.strip` (the stat-tile row) had `overflow:hidden` (for rounded corners) and was a *direct* child of a shrinking flex column (`.slide`, which has `overflow-y:auto` for tall content). Per the flexbox spec, giving a flex item `overflow` other than `visible` collapses its automatic minimum size to `0`, so when a slide's content is taller than the viewport, that item is exactly the one the browser will crush to nothing while sibling items with normal content-based minimums survive. Two dead ends before finding it: assumed stale cache (a hard refresh didn't fix it) and rebuilt the tile row from CSS grid to flexbox (didn't fix it either, because the same pitfall applies to any overflow-hidden flex item). Fix: `.slide > *{flex-shrink:0;}` — every top-level section of a slide now keeps its natural size and the slide scrolls instead of crushing something invisible. Worth remembering for any future flex layout that mixes `overflow-y:auto` on the container with `overflow:hidden` on a direct child.
+- **An earlier, different vanishing-content bug** (the headline disappearing in a two-column grid) turned out to be unrelated: an oversized `clamp()` font size computed against a narrow embedded panel's viewport width. Fixed separately by capping the clamp lower and simplifying that slide to a single column.
+
+### Left alone
+
+- **A stale interactive rebase was found sitting in `.git/rebase-merge`**, dated 2026-09-18, targeting `main` at three early commits ("Implement Incident Response AI POC...", "Add light/dark theme toggle...", "Wire the live-call path to Azure AI Foundry"). Current `HEAD` is a normal, non-detached checkout of `hip-real-data-ai-first` and matches `origin`, so this looks like an abandoned rebase from several days ago that never blocked this branch's work. Left untouched rather than aborted or continued — not this session's history to rewrite, and `git rebase --abort` on someone else's in-progress cleanup could lose work. Whoever owns the `main`-branch rebase should resolve it directly.
+- **`b42b7d23-057a-46ad-881f-5f1c45d9476c.zip`**, an untracked zip of the `synthetic-data/` folder sitting in the repo root, was left out of this commit. It's a packaged copy of an already-gitignored folder (presumably for out-of-band transfer, same as the VM staging process in Round 5) and committing it would just duplicate `synthetic-data/` inside git history against that folder's own gitignore rule.

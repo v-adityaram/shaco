@@ -1,0 +1,520 @@
+<title>The Diagnosis Gap</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800;900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#EFF2F1;
+    --panel:#FFFFFF;
+    --panel-2:#F5F7F6;
+    --line:rgba(10,26,24,0.14);
+    --line-strong:rgba(10,26,24,0.24);
+    --text:#10201E;
+    --text-dim:#566866;
+    --alarm:#C8431C;
+    --alarm-soft:rgba(200,67,28,0.09);
+    --alarm-line:rgba(200,67,28,0.4);
+    --calm:#0E8577;
+    --calm-soft:rgba(14,133,119,0.09);
+    --calm-line:rgba(14,133,119,0.4);
+    --chip-bg:#FFFFFF;
+    --shadow:0 1px 2px rgba(10,26,24,0.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0A0D0F;
+      --panel:#12181B;
+      --panel-2:#161D20;
+      --line:rgba(232,238,240,0.10);
+      --line-strong:rgba(232,238,240,0.20);
+      --text:#E8EEF0;
+      --text-dim:#8FA0A2;
+      --alarm:#FF6A45;
+      --alarm-soft:rgba(255,106,69,0.14);
+      --alarm-line:rgba(255,106,69,0.5);
+      --calm:#35D6C4;
+      --calm-soft:rgba(53,214,196,0.14);
+      --calm-line:rgba(53,214,196,0.5);
+      --chip-bg:#171F22;
+      --shadow:0 1px 2px rgba(0,0,0,0.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0A0D0F;
+    --panel:#12181B;
+    --panel-2:#161D20;
+    --line:rgba(232,238,240,0.10);
+    --line-strong:rgba(232,238,240,0.20);
+    --text:#E8EEF0;
+    --text-dim:#8FA0A2;
+    --alarm:#FF6A45;
+    --alarm-soft:rgba(255,106,69,0.14);
+    --alarm-line:rgba(255,106,69,0.5);
+    --calm:#35D6C4;
+    --calm-soft:rgba(53,214,196,0.14);
+    --calm-line:rgba(53,214,196,0.5);
+    --chip-bg:#171F22;
+    --shadow:0 1px 2px rgba(0,0,0,0.4);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Source Serif 4', Georgia, 'Times New Roman', serif;
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+  ::selection{background:var(--calm-soft); color:var(--text);}
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    font-size:0.7rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+  }
+
+  h1,h2{
+    font-family:'Big Shoulders Display', 'Arial Narrow', sans-serif;
+    text-transform:none;
+    text-wrap:balance;
+    margin:0;
+  }
+
+  .deck{
+    height:100%;
+    width:100%;
+    display:flex;
+    overflow-x:auto;
+    overflow-y:hidden;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    -webkit-overflow-scrolling:touch;
+  }
+  @media (prefers-reduced-motion: reduce){
+    .deck{scroll-behavior:auto;}
+  }
+  .slide{
+    flex:0 0 100%;
+    width:100%;
+    height:100%;
+    scroll-snap-align:start;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:clamp(20px,3.4vh,44px) clamp(20px,4.2vw,64px) clamp(56px,7vh,84px);
+    gap:clamp(14px,2vh,22px);
+  }
+  .slide > *{
+    flex-shrink:0;
+  }
+
+  .slide-top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .slide-top .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.1em;
+    color:var(--text-dim);
+  }
+
+  .hero{
+    display:grid;
+    grid-template-columns:minmax(0,1.55fr) minmax(240px,1fr);
+    gap:clamp(20px,4vw,48px);
+    align-items:start;
+  }
+  @media (max-width:760px){
+    .hero{grid-template-columns:1fr;}
+  }
+
+  h1{
+    font-size:clamp(2.1rem,2.4vw + 1.2rem,3.8rem);
+    font-weight:800;
+    line-height:1.04;
+    letter-spacing:-0.01em;
+  }
+  .accent{color:var(--accent);}
+
+  .lede{
+    max-width:62ch;
+    font-size:clamp(0.98rem,0.5vw + 0.85rem,1.12rem);
+    line-height:1.55;
+    color:var(--text);
+    margin-top:clamp(10px,1.6vh,16px);
+  }
+  .lede em{
+    font-style:italic;
+    color:var(--text-dim);
+  }
+
+  /* stat / proof strip */
+  .strip{
+    display:flex;
+    flex-wrap:wrap;
+    border:1px solid var(--line);
+    border-radius:2px;
+    overflow:hidden;
+    background:var(--panel);
+  }
+  .stat{
+    flex:1 1 160px;
+    background:var(--panel);
+    padding:14px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    min-height:96px;
+    border-top:1px solid var(--line);
+  }
+  .stat:first-child{border-top:none;}
+  @media (min-width:600px){
+    .stat{border-top:none;}
+    .stat + .stat{border-left:1px solid var(--line);}
+  }
+  .stat .num{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:800;
+    font-size:clamp(1.5rem,1.6vw + 1rem,2.15rem);
+    line-height:1;
+    color:var(--accent);
+    font-variant-numeric:tabular-nums;
+  }
+  .stat .label{
+    font-size:0.78rem;
+    line-height:1.35;
+    color:var(--text-dim);
+    font-family:'IBM Plex Mono', monospace;
+    letter-spacing:0.01em;
+  }
+
+  .thesis{
+    padding-top:clamp(10px,1.6vh,18px);
+    border-top:1px solid var(--line);
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .thesis .line{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:700;
+    font-size:clamp(1.05rem,1vw + 0.75rem,1.5rem);
+    color:var(--text);
+  }
+  .thesis .meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--text-dim);
+    white-space:nowrap;
+  }
+
+  /* -------- slide 1 visual: one worked example, in three beats -------- */
+  .example{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:stretch;
+    gap:0;
+    border:1px solid var(--alarm-line);
+    border-radius:3px;
+    overflow:hidden;
+    background:var(--panel);
+  }
+  .example .step{
+    flex:1 1 180px;
+    padding:14px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+  }
+  .example .step + .step{
+    border-top:1px solid var(--line);
+  }
+  @media (min-width:600px){
+    .example .step + .step{
+      border-top:none;
+      border-left:1px solid var(--line);
+    }
+  }
+  .example .step-t{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.06em;
+    color:var(--alarm);
+  }
+  .example .step-d{
+    font-size:0.92rem;
+    line-height:1.4;
+    color:var(--text);
+  }
+
+  /* -------- slide 2 visual: layer stack -------- */
+  .stack-wrap{
+    max-width:460px;
+  }
+  .stack{
+    display:flex;
+    flex-direction:column-reverse;
+    gap:8px;
+  }
+  .stack .band{
+    border:1px solid var(--line-strong);
+    border-radius:3px;
+    padding:12px 14px;
+    background:var(--panel);
+  }
+  .stack .band .band-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+  }
+  .stack .band .band-title{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    margin-top:2px;
+  }
+  .stack .band.new{
+    background:var(--calm-soft);
+    border-color:var(--calm-line);
+  }
+  .stack .band.new .band-label{color:var(--calm);}
+  .stack .funnel{
+    margin-top:4px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--text-dim);
+    text-align:center;
+  }
+
+  /* nav */
+  .deck-nav{
+    position:fixed;
+    left:50%;
+    bottom:clamp(14px, calc(2vh + env(safe-area-inset-bottom, 0px)), 22px);
+    transform:translateX(-50%);
+    display:flex;
+    gap:6px;
+    background:var(--panel);
+    border:1px solid var(--line-strong);
+    border-radius:999px;
+    padding:5px;
+    box-shadow:var(--shadow);
+    z-index:5;
+  }
+  .nav-dot{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    letter-spacing:0.04em;
+    border:none;
+    background:transparent;
+    color:var(--text-dim);
+    padding:7px 13px;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  .nav-dot:hover{color:var(--text);}
+  .nav-dot[aria-current="true"]{
+    background:var(--panel-2);
+    color:var(--text);
+  }
+  .nav-dot:focus-visible, .nav-arrow:focus-visible, .chip:focus-visible{
+    outline:2px solid var(--calm);
+    outline-offset:2px;
+  }
+
+  .nav-arrow{
+    position:fixed;
+    top:50%;
+    transform:translateY(-50%);
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid var(--line-strong);
+    background:var(--panel);
+    color:var(--text);
+    font-size:1.15rem;
+    line-height:1;
+    cursor:pointer;
+    z-index:5;
+    box-shadow:var(--shadow);
+  }
+  .nav-arrow.prev{left:clamp(8px,1.6vw,20px);}
+  .nav-arrow.next{right:clamp(8px,1.6vw,20px);}
+  .nav-arrow[hidden]{display:none;}
+
+  @media (max-width:520px){
+    .nav-arrow{display:none;}
+  }
+</style>
+
+<div class="deck" id="deck">
+
+  <section class="slide slide-problem" style="--accent:var(--alarm); --accent-line:var(--alarm-line);" data-slide="1">
+    <div class="slide-top">
+      <span class="eyebrow">HIP Ops &middot; Incident Response AI</span>
+      <span class="tag">01 / 02 &mdash; Problem</span>
+    </div>
+
+    <div>
+      <h1>Detection is solved.<br>Diagnosis still takes <span class="accent">hours</span>.</h1>
+      <p class="lede">HIP's monitoring rules already catch what breaks. What they can't do is turn a wall of correct alerts into one agreed cause while the bridge call is running &mdash; here's what that looked like once:</p>
+    </div>
+
+    <div class="example">
+      <div class="step">
+        <span class="step-t">00:00 &mdash; silence</span>
+        <span class="step-d">SAP listener hangs. Nothing arrives. No threshold crosses, so no rule fires.</span>
+      </div>
+      <div class="step">
+        <span class="step-t">+60 min &mdash; one alert</span>
+        <span class="step-d">The only rule watching finally fires &mdash; SAP-to-warehouse deliveries have already stopped.</span>
+      </div>
+      <div class="step">
+        <span class="step-t">next &mdash; the fix fails</span>
+        <span class="step-d">Standard playbook: replay. It does nothing &mdash; the listener itself never came back.</span>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div class="stat"><span class="num">3,118</span><span class="label">incidents logged, Jun&ndash;Aug 2026</span></div>
+      <div class="stat"><span class="num">41%</span><span class="label">raised automatically &mdash; detection is not the gap</span></div>
+      <div class="stat"><span class="num">6.6h</span><span class="label">median time a ticket stays open before it's resolved</span></div>
+    </div>
+
+    <div class="thesis">
+      <span class="line">Rules answer <em>what</em> is wrong. Nobody has automated <em>why</em>.</span>
+      <span class="meta">Data: synthesized from the 3-month HIP incident export, Jun&ndash;Aug 2026</span>
+    </div>
+  </section>
+
+  <section class="slide slide-solution" style="--accent:var(--calm); --accent-line:var(--calm-line);" data-slide="2">
+    <div class="slide-top">
+      <span class="eyebrow">HIP Ops &middot; Incident Response AI</span>
+      <span class="tag">02 / 02 &mdash; Solution</span>
+    </div>
+
+    <div class="hero">
+      <div>
+        <h1>Your rules are the <span style="color:var(--text-dim)">sensors</span>.<br>This is the <span class="accent">analyst</span>.</h1>
+        <p class="lede">An AI layer reads what the rules already found, plus the logs and records around them &mdash; it never replaces a rule and never re-detects. It turns the alert wall into one ranked, evidence-cited answer, before the bridge call starts.</p>
+      </div>
+
+      <div class="stack-wrap">
+        <div class="stack" aria-hidden="true">
+          <div class="band">
+            <div class="band-label">Base &middot; unchanged</div>
+            <div class="band-title">Production estate</div>
+          </div>
+          <div class="band">
+            <div class="band-label">Input &middot; unchanged</div>
+            <div class="band-title">Detection rules</div>
+          </div>
+          <div class="band new">
+            <div class="band-label">New</div>
+            <div class="band-title">AI correlation layer</div>
+          </div>
+          <div class="funnel">40+ alerts, one shift &rarr; 1 ranked answer, evidence cited</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strip">
+      <div class="stat"><span class="num">5</span><span class="label">synthetic scenarios, built from the client's own error strings and naming</span></div>
+      <div class="stat"><span class="num">138</span><span class="label">real June 2026 incidents replayed live in Live mode, redacted</span></div>
+      <div class="stat"><span class="num">1</span><span class="label">approval gate &mdash; no recovery action runs without a named sign-off</span></div>
+      <div class="stat"><span class="num">27</span><span class="label">real Critical/Major incidents with written root causes, ready to test against</span></div>
+      <div class="stat"><span class="num">Live</span><span class="label">deployed now on Azure AI Foundry (gpt-5), running on a shared VM</span></div>
+    </div>
+
+    <div>
+      <span class="eyebrow">How the answer gets built</span>
+      <div class="example" style="margin-top:10px;">
+        <div class="step">
+          <span class="step-t">first</span>
+          <span class="step-d">Code lines up exactly what happened, straight from the logs. No guessing yet.</span>
+        </div>
+        <div class="step">
+          <span class="step-t">then</span>
+          <span class="step-d">The AI suggests likely causes, each with reasons for it and reasons against it.</span>
+        </div>
+        <div class="step">
+          <span class="step-t">next</span>
+          <span class="step-d">It lists what to check first &mdash; easiest and most telling checks at the top.</span>
+        </div>
+        <div class="step">
+          <span class="step-t">last</span>
+          <span class="step-d">It proposes a fix. Nothing runs until a person approves it.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="thesis">
+      <span class="meta">Data: synthesized from the 3-month HIP incident export, Jun&ndash;Aug 2026</span>
+    </div>
+  </section>
+
+</div>
+
+<nav class="deck-nav" aria-label="Slides">
+  <button class="nav-dot" id="dot-1" aria-current="true">01 Problem</button>
+  <button class="nav-dot" id="dot-2">02 Solution</button>
+</nav>
+<button class="nav-arrow prev" id="arrow-prev" aria-label="Previous slide" hidden>&lsaquo;</button>
+<button class="nav-arrow next" id="arrow-next" aria-label="Next slide">&rsaquo;</button>
+
+<script>
+(function(){
+  var deck = document.getElementById('deck');
+  var slides = Array.prototype.slice.call(deck.querySelectorAll('.slide'));
+  var dots = [document.getElementById('dot-1'), document.getElementById('dot-2')];
+  var prev = document.getElementById('arrow-prev');
+  var next = document.getElementById('arrow-next');
+  var current = 0;
+
+  function goTo(i){
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    current = i;
+    slides[i].scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', inline: 'start', block: 'nearest'});
+    dots.forEach(function(d, idx){ d.setAttribute('aria-current', String(idx === i)); });
+    prev.hidden = (i === 0);
+    next.hidden = (i === slides.length - 1);
+  }
+
+  dots[0].addEventListener('click', function(){ goTo(0); });
+  dots[1].addEventListener('click', function(){ goTo(1); });
+  prev.addEventListener('click', function(){ goTo(current - 1); });
+  next.addEventListener('click', function(){ goTo(current + 1); });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'ArrowRight'){ goTo(current + 1); }
+    if(e.key === 'ArrowLeft'){ goTo(current - 1); }
+  });
+
+  var raf = null;
+  deck.addEventListener('scroll', function(){
+    if(raf) return;
+    raf = requestAnimationFrame(function(){
+      raf = null;
+      var idx = Math.round(deck.scrollLeft / deck.clientWidth);
+      if(idx !== current){
+        current = idx;
+        dots.forEach(function(d, i2){ d.setAttribute('aria-current', String(i2 === idx)); });
+        prev.hidden = (idx === 0);
+        next.hidden = (idx === slides.length - 1);
+      }
+    });
+  });
+})();
+</script>
