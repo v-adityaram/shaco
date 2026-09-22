@@ -1,11 +1,14 @@
 # Running the demo on synthetic data (VM runbook)
 
-The demo can run on **synthetic data**: the same shape, timing and relationships as the real
-scenarios and the Live window, with every production name replaced. This note is what to run on the
-demo VM to switch to it, check it, and switch back.
+The demo runs on **synthetic data** by default: the same shape, timing and relationships as the real
+scenarios and the Live window, with every production name replaced. As of the "Switch S1-S5 and Live
+mode to fully synthetic data" commit, this is what a fresh `git clone` and deploy already ships --
+the steps below are for redeploying, for regenerating the synthetic set from a newer real export, and
+for the rare case of switching back to real data for a specific check.
 
-The synthetic files are **not in git**. They are generated locally and copied to the VM out of band
-(see "Where the files come from").
+The `synthetic-data/` working folder itself (the intermediate output of the generator scripts) is
+**not in git** -- only the two places the app actually reads from (`app/src/data/` and
+`server/live-data/june-window.json`) are committed.
 
 ## Where the files come from
 
@@ -55,9 +58,17 @@ done
 cd app
 [ -d node_modules ] || npm install                   # a fresh checkout has no node_modules
 VITE_BASE=/incident/ npm run build
-cp -r dist/. /var/www/incident-ai/
+rsync -a --delete dist/. /var/www/incident-ai/    # mirror, don't overlay -- see note below
 cd ..
 ```
+
+**Always mirror, never `cp -r` over the web root.** Vite fingerprints every build's JS/CSS with a
+content hash, so each build produces new filenames and never deletes the previous build's files.
+`cp -r` only adds files, so an old bundle -- potentially built before a scrub fix -- stays on disk
+and reachable at its old URL even after `index.html` stops linking to it. `rsync -a --delete` (or
+`rm -rf` the target first) removes anything not in the new `dist/`. This bit us once: two prior
+builds' JS bundles sat live in `/var/www/incident-ai/assets/` for about a day after the intended fix,
+including one built before the last hardcoded name was scrubbed.
 
 The API server does not need a restart (it only reads the live window file). Restart it only if
 `server/index.js` itself changed in the `git pull`:
@@ -76,6 +87,10 @@ curl -s http://127.0.0.1:8002/api/live-window | python3 -c "import sys,json; d=j
 # no production names left in what the browser downloads (should print nothing).
 # Replace <COMPANY> with the real company name; do not commit the actual string.
 grep -rli "<COMPANY>" /var/www/incident-ai || true
+
+# only the current build's files should exist (matches what index.html references)
+cat /var/www/incident-ai/index.html | grep -o 'assets/[^"]*'
+ls /var/www/incident-ai/assets/
 ```
 
 Then open the app in a browser and click through each scenario plus Live mode. Names should read as
@@ -88,7 +103,7 @@ export PATH="$HOME/incident-ai/node/bin:$PATH"
 cd ~/incident-ai
 git checkout -- app/src/data                          # tracked scenario files return to the committed ones
 cp backups/real-data-<STAMP>/june-window.json server/live-data/june-window.json   # if you had one
-cd app && VITE_BASE=/incident/ npm run build && cp -r dist/. /var/www/incident-ai/
+cd app && VITE_BASE=/incident/ npm run build && rsync -a --delete dist/. /var/www/incident-ai/
 ```
 
 ## Things worth knowing
