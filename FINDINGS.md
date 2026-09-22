@@ -232,3 +232,54 @@ Session of 2026-09-22. Built a standalone "problem statement / solution" pitch f
 
 - **A stale interactive rebase was found sitting in `.git/rebase-merge`**, dated 2026-09-18, targeting `main` at three early commits ("Implement Incident Response AI POC...", "Add light/dark theme toggle...", "Wire the live-call path to Azure AI Foundry"). Current `HEAD` is a normal, non-detached checkout of `hip-real-data-ai-first` and matches `origin`, so this looks like an abandoned rebase from several days ago that never blocked this branch's work. Left untouched rather than aborted or continued — not this session's history to rewrite, and `git rebase --abort` on someone else's in-progress cleanup could lose work. Whoever owns the `main`-branch rebase should resolve it directly.
 - **`b42b7d23-057a-46ad-881f-5f1c45d9476c.zip`**, an untracked zip of the `synthetic-data/` folder sitting in the repo root, was left out of this commit. It's a packaged copy of an already-gitignored folder (presumably for out-of-band transfer, same as the VM staging process in Round 5) and committing it would just duplicate `synthetic-data/` inside git history against that folder's own gitignore rule.
+
+## 14. Round 7 - S1-S5 and Live mode became the committed default, a hardcoded leak, and two Live-window variants
+
+Session of 2026-09-22/23. After Round 5 built a working synthetic set and a manual VM switch, this round made synthetic data the repo's actual default, found and fixed two more leaks the earlier work missed, and built a second, more conservative Live-window variant pending a decision on which one to actually use.
+
+### What we did
+
+1. **Promoted the synthetic set to the tracked default.** app/src/data/<slug>/{bundle,alert-feed}.json for all five scenarios and server/live-data/june-window.json now ship pseudonymised on a fresh git clone -- no separate switch step needed any more. .gitignore keeps server/live-data/ ignored by default (so a real extraction is never committed by accident) with one explicit exception for this one, fully-synthetic, tracked file.
+2. **The team gave their own "already synthetic" export** (three months, June/July/August, same 32-column ServiceNow layout) with their own partial masking: keep the first 3 and last 2-3 characters of a name/email and replace the middle with XXX (still recognisable -- see the finding below). Checked it and found their masking was not sufficient on its own -- see below.
+3. **Rebuilt the Live window from the team's file** (scripts/build_team_synthetic_window.py) with our own scrub applied on top, since the team's masking alone still left the client's e-mail domain and enough of each name to be recognisable, and left identifiers like Configuration Item and incident numbers completely unmasked. Same 138 incidents, same June 9-11 window, same 55-incident linked cluster as every earlier version of this data -- confirms it's the same underlying real export, just re-masked by the team.
+4. **Found a hardcoded leak by reading the deployed page, not just the data files.** app/src/screens/AlertFloor.tsx's "stale runbook reference" panel had five real half-flow names written directly into the React source (EMEA_SAPS4_ASN_OUT_02_ESB, AN_COMMON_PI7IDOCListner_01, EURO_COMMON_IDOC_SAPCE_01, GLBL_OPSF_ANAPLAN_BPM_to_FM_01, EMEA_SAPIT_SALESORDER_01_ESB) -- static presentation data outside the JSON pipeline, so synthesize_all.py never touched it. Replaced with the same salted mapping used everywhere else.
+5. **Found stale build files serving the old, unfixed content.** Publishing used cp -r dist/. /var/www/incident-ai/, which only adds files. Vite content-hashes every build's JS/CSS filename and never deletes the previous build's files, so two earlier bundles -- one from before any scrubbing at all, one from before item 4's fix -- were still sitting on the VM at their old URLs (behind the login, but reachable) after index.html stopped linking to them. Fixed by mirroring instead (rsync -a --delete) and updated the runbook so every future deploy does this.
+6. **Built a second, lighter-touch Live-window variant** (scripts/build_team_minimal_scrub_window.py) after being asked to minimise how much of the team's data we alter, given they already did their own pass. It changes only e-mails, phone numbers, personal names in free text, and the company name/internal domain -- see the finding below -- and leaves every other field (including the team's own XXX masking) exactly as they provided it. A switch script (scripts/switch_live_window.sh full|minimal|status) flips which one the server reads; no restart needed. Both variants are staged on the VM; **which one is actually used is not decided yet** -- the "full" version stays active until then.
+
+### A worse leak in the team's own file than the one already found
+
+Building the minimal variant surfaced this: the team's file contains the company's real **internal domain, completely unmasked**, in the alert-monitoring Details field of at least 17 of the 138 incidents in the June 9-11 window alone -- pattern IEM<hostname>.EMEA.<COMPANY>.INTRA -- plus one Subject line naming the company directly ("Clients without brand in SFCC (<COMPANY> Partnershop Peru)"). Their XXX masking was applied to names, emails and some identifiers, but not to this. Both the "full" and "minimal" variants now replace the company name wherever it appears, including inside a hostname -- this is treated as non-negotiable regardless of how conservative the variant is meant to be.
+
+### Exactly what changed, field by field, from the team's file (for the "full" variant, currently active)
+
+Verified by comparing every one of the 138 rows against the team's file directly (not against our earlier version).
+
+| Field | Changed vs the team's file | Note |
+| --- | --- | --- |
+| it_organization, zone, priority, state, team, close_code, subclose_code, classification_keyword, environment, reassignment_count, reopen_count | No | Passed through exactly as given |
+| number (incident id) | Yes, 138/138 | Team's file leaves these fully unmasked |
+| details | Yes, 138/138 | HTML stripped either way; identifiers inside re-scrubbed |
+| subject | Yes, 109/138 | |
+| close_notes | Yes, 116/138 | |
+| service | Yes, 136/138 | |
+| configuration_item | Yes, 133/138 | |
+| assignment_group | Yes, 135/138 | Only 3-4 distinct real values (generic support-tier labels like "Tech L1/L2/L3"); arguably didn't need re-scrubbing -- flagged, not yet reverted |
+| sub_classification | Yes, 42/138 | |
+| parent_incident | Yes, 50/138 (only rows that have one) | |
+
+Columns never included in the output at all, same as every earlier version: Caller, Assigned to, Updated by, Resolved by, Auto, Opened Date, Opened Hour, BP, Role.
+
+The **"minimal" variant** changes only subject, details and close_notes, and only to remove e-mails, phone numbers, personal names and the company name/domain -- every other field, including the team's own partial masking on service/configuration_item/assignment_group/sub_classification, is untouched.
+
+### Decisions worth remembering
+
+- **Anything in app/src ships to the browser, same as the JSON data does.** The scrubbing pipeline only ever covered JSON; static/presentation strings in .tsx files need the same check. Worth grepping app/src for identifier-shaped literals whenever new scenario narrative is added.
+- **Mirror the web root on publish, never overlay-copy it.** rsync -a --delete, not cp -r -- content-hashed build filenames mean old files never get cleaned up otherwise.
+- **assignment_group didn't need the same treatment as free text.** It's a small, generic, non-identifying set of values, more like status/priority (which the pipeline already protects) than like subject/details. A candidate for reverting to the team's own values if less alteration is wanted.
+- **The company's own "synthetic" export is not safe to use as-is.** Their masking pattern (XXX in the middle of a value) is reversible in effect (leaves a recognisable e-mail domain and name fragments) and was not applied consistently (the internal domain and one subject line were missed entirely). Any future "already anonymised" file from the team should be checked the same way before use, not trusted at face value.
+
+### Known limitations (not fixed)
+
+- **Which Live-window variant to actually use is undecided.** Both are staged; a decision is pending.
+- **Only the "full" variant's data has been checked this thoroughly.** The "minimal" variant has not had the same live, end-to-end verification (an actual /api/diagnose call) that the "full" one did in Round 5.
+- **Not covered by any of this:** naming.py, generator/, the prompts, the docs and the study-guide PDF still contain production examples, by design (documented "real basis" for the scenarios) -- not touched here.
