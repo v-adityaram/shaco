@@ -28,3 +28,7 @@ __pycache__/
 
 # synthetic (pseudonymised) copies of the demo data: generated locally, copied to the VM out of band
 /synthetic-data/
+
+# Local video editing assets, dependencies, and rendered exports
+/.video-edit/
+/video-output/

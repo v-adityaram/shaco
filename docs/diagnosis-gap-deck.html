@@ -372,25 +372,31 @@
       <p class="lede">HIP's monitoring rules already catch what breaks. What they can't do is turn a wall of correct alerts into one agreed cause while the bridge call is running &mdash; here's what that looked like once:</p>
     </div>
 
-    <div class="example">
-      <div class="step">
-        <span class="step-t">00:00 &mdash; silence</span>
-        <span class="step-d">SAP listener hangs. Nothing arrives. No threshold crosses, so no rule fires.</span>
-      </div>
-      <div class="step">
-        <span class="step-t">+60 min &mdash; one alert</span>
-        <span class="step-d">The only rule watching finally fires &mdash; SAP-to-warehouse deliveries have already stopped.</span>
-      </div>
-      <div class="step">
-        <span class="step-t">next &mdash; the fix fails</span>
-        <span class="step-d">Standard playbook: replay. It does nothing &mdash; the listener itself never came back.</span>
+    <div>
+      <span class="eyebrow">One real incident</span>
+      <div class="example" style="margin-top:10px;">
+        <div class="step">
+          <span class="step-t">00:00 &mdash; silence</span>
+          <span class="step-d">SAP listener hangs. Nothing arrives. No threshold crosses, so no rule fires.</span>
+        </div>
+        <div class="step">
+          <span class="step-t">+60 min &mdash; one alert</span>
+          <span class="step-d">The only rule watching finally fires &mdash; SAP-to-warehouse deliveries have already stopped.</span>
+        </div>
+        <div class="step">
+          <span class="step-t">next &mdash; the fix fails</span>
+          <span class="step-d">Standard playbook: replay. It does nothing &mdash; the listener itself never came back.</span>
+        </div>
       </div>
     </div>
 
-    <div class="strip">
-      <div class="stat"><span class="num">3,118</span><span class="label">incidents logged, Jun&ndash;Aug 2026</span></div>
-      <div class="stat"><span class="num">41%</span><span class="label">raised automatically &mdash; detection is not the gap</span></div>
-      <div class="stat"><span class="num">6.6h</span><span class="label">median time a ticket stays open before it's resolved</span></div>
+    <div>
+      <span class="eyebrow">The cost of the gap, at scale</span>
+      <div class="strip" style="margin-top:10px;">
+        <div class="stat"><span class="num">3,118</span><span class="label">incidents logged, Jun&ndash;Aug 2026</span></div>
+        <div class="stat"><span class="num">41%</span><span class="label">raised automatically &mdash; detection is not the gap</span></div>
+        <div class="stat"><span class="num">6.6h</span><span class="label">median time a ticket stays open before it's resolved</span></div>
+      </div>
     </div>
 
     <div class="thesis">
@@ -430,12 +436,15 @@
       </div>
     </div>
 
-    <div class="strip">
-      <div class="stat"><span class="num">5</span><span class="label">synthetic scenarios, built from the client's own error strings and naming</span></div>
-      <div class="stat"><span class="num">138</span><span class="label">real June 2026 incidents replayed live in Live mode, redacted</span></div>
-      <div class="stat"><span class="num">1</span><span class="label">approval gate &mdash; no recovery action runs without a named sign-off</span></div>
-      <div class="stat"><span class="num">27</span><span class="label">real Critical/Major incidents with written root causes, ready to test against</span></div>
-      <div class="stat"><span class="num">Live</span><span class="label">deployed now on Azure AI Foundry (gpt-5), running on a shared VM</span></div>
+    <div>
+      <span class="eyebrow">What's already proven</span>
+      <div class="strip" style="margin-top:10px;">
+        <div class="stat"><span class="num">5</span><span class="label">synthetic scenarios, built from the client's own error strings and naming</span></div>
+        <div class="stat"><span class="num">138</span><span class="label">real June 2026 incidents replayed live in Live mode, redacted</span></div>
+        <div class="stat"><span class="num">1</span><span class="label">approval gate &mdash; no recovery action runs without a named sign-off</span></div>
+        <div class="stat"><span class="num">27</span><span class="label">real Critical/Major incidents with written root causes, ready to test against</span></div>
+        <div class="stat"><span class="num">Live</span><span class="label">deployed now on Azure AI Foundry (gpt-5), running on a shared VM</span></div>
+      </div>
     </div>
 
     <div>
